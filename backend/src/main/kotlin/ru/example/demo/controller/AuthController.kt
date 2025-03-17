@@ -22,7 +22,7 @@ class AuthController(
             userId = user.id,
             token = user.token,
             companyId = user.company.id,
-            )
+        )
     }
 
     @PostMapping("/manager/sign-up")
@@ -47,7 +47,7 @@ class AuthController(
 
     @PostMapping("/generate-invite")
     fun generateInvite(@RequestHeader("Authorization") userToken: String): InviteResponse {
-            val url = authService.generateInvite(userToken)
+        val url = authService.generateInvite(userToken)
         return InviteResponse(
             url = url,
         )

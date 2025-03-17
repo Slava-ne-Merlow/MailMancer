@@ -31,7 +31,7 @@ class AuthService(
             throw EntityAlreadyExistsException("Почта ${request.email} занята")
         }
         userRepository.findByLogin(request.headLogin).ifPresent {
-            throw EntityAlreadyExistsException("Логин ${request.headName} занят")
+            throw EntityAlreadyExistsException("Логин ${request.headLogin} занят")
         }
 
         val token = tokenService.generateToken()
@@ -100,7 +100,6 @@ class AuthService(
 
         return savedUser
     }
-
 
     @Transactional
     fun generateInvite(userToken: String): String {
