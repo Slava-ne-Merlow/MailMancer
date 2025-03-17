@@ -1,12 +1,20 @@
 spring:
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
   application:
     name: demo
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/postgres # сюда нужно вписать url для вашей базы
+    url: jdbc:postgresql://localhost:5432/postgres
     username: myuser
     password: mypassword
   jpa:
+
     show-sql: true
     hibernate:
         ddl-auto: none
+
+
