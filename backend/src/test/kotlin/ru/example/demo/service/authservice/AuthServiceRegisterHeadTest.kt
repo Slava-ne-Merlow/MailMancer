@@ -55,8 +55,8 @@ class AuthServiceRegisterHeadTest {
 
         every { userRepository.save(any()) } answers { firstArg() }
         every { userCompanyRepository.save(any()) } answers { firstArg() }
-        every { userRepository.findByLogin(any()) } answers { Optional.empty() }
-        every { userCompanyRepository.findByEmail(any()) } answers { Optional.empty() }
+        every { userRepository.findByLogin(any()) } answers { null }
+        every { userCompanyRepository.findByEmail(any()) } answers { null }
         every { tokenService.generateToken() } returns "token"
 
         val savedUser = authService.registerHead(request).toUser()
@@ -83,7 +83,7 @@ class AuthServiceRegisterHeadTest {
             password = "123456"
         )
 
-        every { userCompanyRepository.findByEmail(any()) } answers { Optional.of(oldCompany.toEntity()) }
+        every { userCompanyRepository.findByEmail(any()) } answers { oldCompany.toEntity() }
 
         val exception = shouldThrow<EntityAlreadyExistsException> {
             authService.registerHead(request)
@@ -116,8 +116,8 @@ class AuthServiceRegisterHeadTest {
             company = oldCompany,
             token = "token"
         )
-        every { userCompanyRepository.findByEmail(any()) } answers { Optional.empty() }
-        every { userRepository.findByLogin(any()) } answers { Optional.of(oldHead.toEntity()) }
+        every { userCompanyRepository.findByEmail(any()) } answers { null }
+        every { userRepository.findByLogin(any()) } answers { oldHead.toEntity() }
 
         val exception = shouldThrow<EntityAlreadyExistsException> {
             authService.registerHead(request)
