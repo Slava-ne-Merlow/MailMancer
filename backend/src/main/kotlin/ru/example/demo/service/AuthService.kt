@@ -27,10 +27,10 @@ class AuthService(
 ) {
     @Transactional
     fun registerHead(request: RegisterHeadRequest): UserEntity {
-        userCompanyRepository.findByEmail(request.email).ifPresent {
+        userCompanyRepository.findByEmail(request.email)?.let {
             throw EntityAlreadyExistsException("Почта ${request.email} занята")
         }
-        userRepository.findByLogin(request.headLogin).ifPresent {
+        userRepository.findByLogin(request.headLogin)?.let {
             throw EntityAlreadyExistsException("Логин ${request.headLogin} занят")
         }
 
@@ -59,11 +59,10 @@ class AuthService(
 
     @Transactional
     fun registerManager(request: RegisterManagerRequest): UserEntity {
-        val invite = inviteRepository.findByToken(request.inviteToken).getOrElse {
-            throw NotFoundException("Приглашение недействительно")
-        }
+        val invite = inviteRepository.findByToken(request.inviteToken)
+            ?: throw NotFoundException("Приглашение недействительно")
 
-        userRepository.findByLogin(request.managerLogin).ifPresent {
+        userRepository.findByLogin(request.managerLogin)?.let {
             throw EntityAlreadyExistsException("Логин ${request.managerLogin} занят")
         }
 
@@ -89,9 +88,9 @@ class AuthService(
 
     @Transactional
     fun loginUser(request: LoginUserRequest): UserEntity {
-        val user = userRepository.findByLogin(request.login).getOrElse {
-            throw NotFoundException("Такого пользователя не существует")
-        }
+        val user = userRepository.findByLogin(request.login)
+            ?: throw NotFoundException("Такого пользователя не существует")
+
         user.checkPassword(request.password)
 
         user.token = tokenService.generateToken()
@@ -104,9 +103,9 @@ class AuthService(
     @Transactional
     fun generateInvite(userToken: String): String {
 
-        val user = userRepository.findByToken(userToken).getOrElse {
-            throw UnauthorizedException("Недействителен токен авторизации")
-        }
+        val user = userRepository.findByToken(userToken)
+            ?: throw UnauthorizedException("Недействителен токен авторизации")
+
 
         val company = user.company
 
