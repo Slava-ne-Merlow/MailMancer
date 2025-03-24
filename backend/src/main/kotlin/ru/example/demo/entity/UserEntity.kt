@@ -48,9 +48,7 @@ data class UserEntity(
         )
     }
 
-    fun checkPassword(userPassword: String) {
-        if (password != userPassword) {
-            throw UnauthorizedException("Неверный логи или пароль")
-        }
+    fun checkPassword(userPassword: String) : Boolean {
+        return password != userPassword
     }
 }
