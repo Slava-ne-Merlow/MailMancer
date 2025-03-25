@@ -21,4 +21,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Execute Gradle build
+        run: cd backend && ./gradlew build
+
+      - name: Execute Gradle test
+        run: cd backend && ./gradlew test
+
+      - name: Execute Gradle check
         run: cd backend && ./gradlew check
