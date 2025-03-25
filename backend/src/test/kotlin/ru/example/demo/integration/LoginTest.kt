@@ -17,8 +17,8 @@ import ru.example.demo.exception.type.UnauthorizedException
 
 class LoginTest : AbstractServiceTest() {
 
-    lateinit var savedCompany: UserCompanyEntity
     lateinit var savedUser: UserEntity
+    lateinit var savedCompany: UserCompanyEntity
 
     @BeforeEach
     fun init() {
