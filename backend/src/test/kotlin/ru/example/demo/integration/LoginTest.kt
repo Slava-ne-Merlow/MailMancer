@@ -22,6 +22,7 @@ class LoginTest : AbstractServiceTest() {
 
     @BeforeEach
     fun init() {
+        inviteRepository.deleteAll()
         userRepository.deleteAll()
         userCompanyRepository.deleteAll()
 
