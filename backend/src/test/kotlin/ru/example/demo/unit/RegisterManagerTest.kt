@@ -22,9 +22,9 @@ class RegisterManagerTest : AbstractUnitTest() {
     @Test
     fun `успешная регистрация`() {
         val request = RegisterManagerRequest(
-            managerName = "Name",
-            managerLogin = "login",
-            managerPassword = "password",
+            name = "Name",
+            login = "login",
+            password = "password",
             inviteToken = "token"
         )
 
@@ -40,16 +40,16 @@ class RegisterManagerTest : AbstractUnitTest() {
         )
 
         val user = User(
-            login = request.managerLogin,
-            name = request.managerName,
-            password = request.managerPassword,
+            login = request.login,
+            name = request.name,
+            password = request.password,
             role = UserRoles.MANAGER,
             company = company,
             token = "token"
         )
 
         every { inviteRepository.findByToken("token") } answers { invite.toEntity() }
-        every { userRepository.findByLogin(request.managerLogin) } answers { null }
+        every { userRepository.findByLogin(request.login) } answers { null }
         every { tokenService.generateToken() } answers { "token" }
         every { userRepository.save(any()) } answers { firstArg() }
 
@@ -61,11 +61,11 @@ class RegisterManagerTest : AbstractUnitTest() {
     }
 
     @Test
-    fun `регистрация, но приглашения не существует`() {
+    fun `ошибка если приглашение не найдено`() {
         val request = RegisterManagerRequest(
-            managerName = "Name",
-            managerLogin = "login",
-            managerPassword = "password",
+            name = "Name",
+            login = "login",
+            password = "password",
             inviteToken = "token"
         )
 
@@ -80,11 +80,11 @@ class RegisterManagerTest : AbstractUnitTest() {
     }
 
     @Test
-    fun `регистрация, но login уже занят `() {
+    fun `ошибка если логин занят`() {
         val request = RegisterManagerRequest(
-            managerName = "Name",
-            managerLogin = "login",
-            managerPassword = "password",
+            name = "Name",
+            login = "login",
+            password = "password",
             inviteToken = "token"
         )
 
@@ -100,33 +100,33 @@ class RegisterManagerTest : AbstractUnitTest() {
         )
 
         val oldUser = User(
-            login = request.managerLogin,
-            name = request.managerName,
-            password = request.managerPassword,
+            login = request.login,
+            name = request.name,
+            password = request.password,
             role = UserRoles.MANAGER,
             company = company,
             token = "token"
         )
 
         every { inviteRepository.findByToken("token") } answers { invite.toEntity() }
-        every { userRepository.findByLogin(request.managerLogin) } answers { oldUser.toEntity() }
+        every { userRepository.findByLogin(request.login) } answers { oldUser.toEntity() }
 
 
         val exception = shouldThrow<EntityAlreadyExistsException> {
             authService.registerManager(request)
         }
 
-        exception.message should startWith("Логин ${request.managerLogin} занят")
+        exception.message should startWith("Логин ${request.login} занят")
 
 
     }
 
     @Test
-    fun `регистрация, но приглашение истекло`() {
+    fun `ошибка если прглашение истекло`() {
         val request = RegisterManagerRequest(
-            managerName = "Name",
-            managerLogin = "login",
-            managerPassword = "password",
+            name = "Name",
+            login = "login",
+            password = "password",
             inviteToken = "token"
         )
 
@@ -144,7 +144,7 @@ class RegisterManagerTest : AbstractUnitTest() {
 
 
         every { inviteRepository.findByToken("token") } answers { invite.toEntity() }
-        every { userRepository.findByLogin(request.managerLogin) } answers { null }
+        every { userRepository.findByLogin(request.login) } answers { null }
 
 
         val exception = shouldThrow<ExpiredTokenException> {

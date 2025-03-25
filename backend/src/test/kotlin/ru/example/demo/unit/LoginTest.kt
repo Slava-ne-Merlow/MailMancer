@@ -52,7 +52,7 @@ class LoginTest : AbstractUnitTest() {
     }
 
     @Test
-    fun `авторизация, но неверный логин`(){
+    fun `ошибка если логин не найден`() {
         val request = LoginUserRequest(
             login = "неверный логин",
             password = "123456",
@@ -69,10 +69,10 @@ class LoginTest : AbstractUnitTest() {
     }
 
     @Test
-    fun `авторизация, но неверный пароль`(){
+    fun `ошибка если пароль неаерный`() {
         val request = LoginUserRequest(
             login = "login",
-            password = "неверный пароль",
+            password = "non_correct_password",
         )
 
         val company = UserCompany(

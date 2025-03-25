@@ -62,8 +62,8 @@ class AuthService(
         val invite = inviteRepository.findByToken(request.inviteToken)
             ?: throw NotFoundException("Приглашение недействительно")
 
-        userRepository.findByLogin(request.managerLogin)?.let {
-            throw EntityAlreadyExistsException("Логин ${request.managerLogin} занят")
+        userRepository.findByLogin(request.login)?.let {
+            throw EntityAlreadyExistsException("Логин ${request.login} занят")
         }
 
         if (invite.checkToken()) {
@@ -75,9 +75,9 @@ class AuthService(
 
 
         val newUser = UserEntity(
-            login = request.managerLogin,
-            name = request.managerName,
-            password = request.managerPassword,
+            login = request.login,
+            name = request.name,
+            password = request.password,
             role = UserRoles.MANAGER,
             company = company,
             token = token

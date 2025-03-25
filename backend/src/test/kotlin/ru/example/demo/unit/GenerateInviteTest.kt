@@ -8,7 +8,6 @@ import io.mockk.every
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import ru.example.demo.dto.enums.UserRoles
-import ru.example.demo.dto.model.Invite
 import ru.example.demo.dto.model.User
 import ru.example.demo.dto.model.UserCompany
 import ru.example.demo.exception.type.UnauthorizedException
@@ -16,7 +15,7 @@ import ru.example.demo.exception.type.UnauthorizedException
 
 class GenerateInviteTest : AbstractUnitTest() {
     @Test
-    fun `генерация приглашения`() {
+    fun `успешное создание приглашения`() {
         val userToken = "token"
 
         val company = UserCompany(
@@ -34,10 +33,6 @@ class GenerateInviteTest : AbstractUnitTest() {
             token = "token"
         )
 
-        val invite = Invite(
-            token = "token",
-            company = company,
-        )
 
         every { userRepository.findByToken(userToken) } answers { user.toEntity() }
         every { tokenService.generateToken() } returns "token"
@@ -54,7 +49,7 @@ class GenerateInviteTest : AbstractUnitTest() {
     }
 
     @Test
-    fun `генерация приглашения, но авторизация недействительна`() {
+    fun `ошибка если токен приглашения истёк`() {
         val userToken = "token"
 
         every { userRepository.findByToken(userToken) } answers { null }

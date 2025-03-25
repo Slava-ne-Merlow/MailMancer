@@ -60,7 +60,7 @@ class RegisterHeadTest : AbstractUnitTest() {
     }
 
     @Test
-    fun `регистрация, но email компании уже занят`() {
+    fun `ошибка если почта компании уже занята`() {
         val request = RegisterHeadRequest(
             headLogin = "admin",
             headName = "Name",
@@ -85,7 +85,7 @@ class RegisterHeadTest : AbstractUnitTest() {
     }
 
     @Test
-    fun `регистрация, но login уже занят`() {
+    fun `шибка если логин уже занят`() {
         val request = RegisterHeadRequest(
             headLogin = "admin",
             headName = "Name",
