@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/changes/001_create_user_companies.sql
+  - include:
+      file: db/changelog/changes/002_create_users.sql
+  - include:
+      file: db/changelog/changes/003_create_orders.sql
+  - include:
+      file: db/changelog/changes/004_create_carrier_companies.sql
+  - include:
+      file: db/changelog/changes/005_create_carrier_representative.sql
+  - include:
+      file: db/changelog/changes/006_create_invites.sql
+  - include:
+      file: db/changelog/changes/007_create_users_orders.sql
+  - include:
+      file: db/changelog/changes/008_create_order_recipients.sql
