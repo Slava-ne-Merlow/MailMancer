@@ -10,12 +10,12 @@ import ru.example.demo.entity.InviteEntity
 import ru.example.demo.entity.UserCompanyEntity
 import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.type.EntityAlreadyExistsException
+import ru.example.demo.exception.type.ExpiredTokenException
 import ru.example.demo.exception.type.NotFoundException
 import ru.example.demo.exception.type.UnauthorizedException
 import ru.example.demo.repository.InviteRepository
 import ru.example.demo.repository.UserCompanyRepository
 import ru.example.demo.repository.UserRepository
-import kotlin.jvm.optionals.getOrElse
 
 
 @Service
@@ -27,10 +27,10 @@ class AuthService(
 ) {
     @Transactional
     fun registerHead(request: RegisterHeadRequest): UserEntity {
-        userCompanyRepository.findByEmail(request.email).ifPresent {
+        userCompanyRepository.findByEmail(request.email)?.let {
             throw EntityAlreadyExistsException("Почта ${request.email} занята")
         }
-        userRepository.findByLogin(request.headLogin).ifPresent {
+        userRepository.findByLogin(request.headLogin)?.let {
             throw EntityAlreadyExistsException("Логин ${request.headLogin} занят")
         }
 
@@ -59,24 +59,25 @@ class AuthService(
 
     @Transactional
     fun registerManager(request: RegisterManagerRequest): UserEntity {
-        val invite = inviteRepository.findByToken(request.inviteToken).getOrElse {
-            throw NotFoundException("Приглашение недействительно")
+        val invite = inviteRepository.findByToken(request.inviteToken)
+            ?: throw NotFoundException("Приглашение недействительно")
+
+        userRepository.findByLogin(request.login)?.let {
+            throw EntityAlreadyExistsException("Логин ${request.login} занят")
         }
 
-        userRepository.findByLogin(request.managerLogin).ifPresent {
-            throw EntityAlreadyExistsException("Логин ${request.managerLogin} занят")
+        if (invite.checkToken()) {
+            throw ExpiredTokenException("Приглашение истекло")
         }
-
-        invite.checkToken()
 
         val company = invite.company
         val token = tokenService.generateToken()
 
 
         val newUser = UserEntity(
-            login = request.managerLogin,
-            name = request.managerName,
-            password = request.managerPassword,
+            login = request.login,
+            name = request.name,
+            password = request.password,
             role = UserRoles.MANAGER,
             company = company,
             token = token
@@ -89,10 +90,12 @@ class AuthService(
 
     @Transactional
     fun loginUser(request: LoginUserRequest): UserEntity {
-        val user = userRepository.findByLogin(request.login).getOrElse {
-            throw NotFoundException("Такого пользователя не существует")
+        val user = userRepository.findByLogin(request.login)
+            ?: throw NotFoundException("Логина ${request.login} не существует")
+
+        if (user.checkPassword(request.password)) {
+            throw UnauthorizedException("Неверный логин или пароль")
         }
-        user.checkPassword(request.password)
 
         user.token = tokenService.generateToken()
 
@@ -104,9 +107,8 @@ class AuthService(
     @Transactional
     fun generateInvite(userToken: String): String {
 
-        val user = userRepository.findByToken(userToken).getOrElse {
-            throw UnauthorizedException("Недействителен токен авторизации")
-        }
+        val user = userRepository.findByToken(userToken)
+            ?: throw UnauthorizedException("Недействителен токен авторизации")
 
         val company = user.company
 
@@ -116,6 +118,7 @@ class AuthService(
             company = company,
             token = token
         )
+
         val savedInvite = inviteRepository.save(invite)
 
 //        Пока localhost:8080 потом разберусь, как лучше сделать

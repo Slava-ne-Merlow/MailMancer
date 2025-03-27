@@ -1,9 +1,9 @@
-package ru.example.demo.service.authservice
+package ru.example.demo.unit
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
 import io.mockk.every
-import io.mockk.mockk
+import io.mockk.verify
 import org.junit.jupiter.api.Test
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.string.startWith
@@ -12,23 +12,11 @@ import ru.example.demo.dto.model.User
 import ru.example.demo.dto.model.UserCompany
 import ru.example.demo.dto.request.RegisterHeadRequest
 import ru.example.demo.exception.type.EntityAlreadyExistsException
-import ru.example.demo.repository.InviteRepository
-import ru.example.demo.repository.UserCompanyRepository
-import ru.example.demo.repository.UserRepository
-import ru.example.demo.service.AuthService
-import ru.example.demo.service.TokenService
-import java.util.*
 
 
-class AuthServiceRegisterHeadTest {
-    private val userRepository = mockk<UserRepository>()
-    private val userCompanyRepository = mockk<UserCompanyRepository>()
-    private val inviteRepository = mockk<InviteRepository>()
-    private val tokenService = mockk<TokenService>()
-    private val authService = AuthService(userRepository, userCompanyRepository, inviteRepository, tokenService)
-
+class RegisterHeadTest : AbstractUnitTest() {
     @Test
-    fun `когда head успешно регистрируется, должны появиться новая компания и пользователь`() {
+    fun `успешная регистрация`() {
         val request = RegisterHeadRequest(
             headLogin = "admin",
             headName = "Name",
@@ -44,6 +32,7 @@ class AuthServiceRegisterHeadTest {
             password = request.emailPassword
         )
 
+
         val newHead = User(
             login = request.headLogin,
             name = request.headName,
@@ -55,11 +44,15 @@ class AuthServiceRegisterHeadTest {
 
         every { userRepository.save(any()) } answers { firstArg() }
         every { userCompanyRepository.save(any()) } answers { firstArg() }
-        every { userRepository.findByLogin(any()) } answers { Optional.empty() }
-        every { userCompanyRepository.findByEmail(any()) } answers { Optional.empty() }
+        every { userRepository.findByLogin(any()) } answers { null }
+        every { userCompanyRepository.findByEmail(any()) } answers { null }
         every { tokenService.generateToken() } returns "token"
 
         val savedUser = authService.registerHead(request).toUser()
+
+        verify(exactly = 1) { userCompanyRepository.save(any()) }
+        verify(exactly = 1) { userRepository.save(any()) }
+        verify(exactly = 1) { tokenService.generateToken() }
 
         savedUser shouldBe newHead
         savedUser.company shouldBe newCompany
@@ -67,7 +60,7 @@ class AuthServiceRegisterHeadTest {
     }
 
     @Test
-    fun `когда head регистрируется, email компании уже занят`() {
+    fun `ошибка если почта компании уже занята`() {
         val request = RegisterHeadRequest(
             headLogin = "admin",
             headName = "Name",
@@ -83,16 +76,16 @@ class AuthServiceRegisterHeadTest {
             password = "123456"
         )
 
-        every { userCompanyRepository.findByEmail(any()) } answers { Optional.of(oldCompany.toEntity()) }
+        every { userCompanyRepository.findByEmail(any()) } answers { oldCompany.toEntity() }
 
         val exception = shouldThrow<EntityAlreadyExistsException> {
             authService.registerHead(request)
         }
-        exception.message should startWith("Почта email@example.com занята")
+        exception.message should startWith("Почта ${request.email} занята")
     }
 
     @Test
-    fun `когда head регистрируется, login пользователя уже занят`() {
+    fun `шибка если логин уже занят`() {
         val request = RegisterHeadRequest(
             headLogin = "admin",
             headName = "Name",
@@ -116,13 +109,12 @@ class AuthServiceRegisterHeadTest {
             company = oldCompany,
             token = "token"
         )
-        every { userCompanyRepository.findByEmail(any()) } answers { Optional.empty() }
-        every { userRepository.findByLogin(any()) } answers { Optional.of(oldHead.toEntity()) }
+        every { userCompanyRepository.findByEmail(any()) } answers { null }
+        every { userRepository.findByLogin(any()) } answers { oldHead.toEntity() }
 
         val exception = shouldThrow<EntityAlreadyExistsException> {
             authService.registerHead(request)
         }
-        exception.message should startWith("Логин admin занят")
+        exception.message should startWith("Логин ${request.headLogin} занят")
     }
-
 }

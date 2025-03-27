@@ -4,7 +4,6 @@ package ru.example.demo.entity
 import jakarta.persistence.*
 import ru.example.demo.dto.enums.UserRoles
 import ru.example.demo.dto.model.User
-import ru.example.demo.exception.type.UnauthorizedException
 
 @Entity
 @Table(name = "users")
@@ -35,7 +34,7 @@ data class UserEntity(
 
     ) {
 
-    fun toUser(companyId: Long? = null): User {
+    fun toUser(): User {
 
         return User(
             login = login,
@@ -48,9 +47,7 @@ data class UserEntity(
         )
     }
 
-    fun checkPassword(userPassword: String) {
-        if (password != userPassword) {
-            throw UnauthorizedException("Неверный логи или пароль")
-        }
+    fun checkPassword(userPassword: String) : Boolean {
+        return password != userPassword
     }
 }

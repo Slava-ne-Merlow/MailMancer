@@ -1,7 +1,7 @@
 package ru.example.demo.entity
 
 import jakarta.persistence.*
-import ru.example.demo.exception.type.ExpiredTokenException
+import ru.example.demo.dto.model.Invite
 import java.time.LocalDateTime
 import java.time.Duration
 
@@ -20,9 +20,13 @@ class InviteEntity(
 
     val createdAt: LocalDateTime = LocalDateTime.now()
 ) {
-    fun checkToken() {
-        if (Duration.between(createdAt, LocalDateTime.now()).toHours() > 24) {
-            throw ExpiredTokenException("Приглашение истекло")
-        }
+    fun checkToken() : Boolean {
+        return Duration.between(createdAt, LocalDateTime.now()).toHours() > 24
     }
+
+    fun toInvite() = Invite(
+        token = token,
+        company = company.toUserCompany(),
+        createdAt = createdAt
+    )
 }
