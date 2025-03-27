@@ -11,7 +11,6 @@ class DemoApplicationTests {
 
 	@Test
 	fun contextLoads() {
-		TODO()
 	}
 
 }
