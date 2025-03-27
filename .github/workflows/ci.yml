@@ -3,6 +3,8 @@ on:
     branches:
       - main
   push:
+    branches:
+      - main
 
 jobs:
   gradle:
