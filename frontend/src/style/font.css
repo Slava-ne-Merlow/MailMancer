@@ -1,0 +1,23 @@
+body {
+    font-family: 'Mont', sans-serif;
+}
+@font-face {
+    font-family: 'Mont';
+    src: url('../assets/fonts/MontRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Mont';
+    src: url('../assets/fonts/MontBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Montserrat Alternates';
+    src: url('../assets/fonts/MontserratAlternatesBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
