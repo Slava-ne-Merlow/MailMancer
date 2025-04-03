@@ -1,0 +1,39 @@
+
+services:
+  backend:
+    image: mailmancer-backend
+    build:
+      context: ./backend
+    depends_on:
+        - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydatabase
+      SPRING_DATASOURCE_USERNAME: service_user_application
+      SPRING_DATASOURCE_PASSWORD: service_user_password
+    ports:
+      - "8080:8080"
+  frontend:
+    image: mailmancer-frontend
+    build:
+      context: ./frontend
+
+    environment:
+      BACKEND_HOST: backend
+      BACKEND_PORT: 8080
+    ports:
+      - "3000:80"
+
+    depends_on:
+      - backend
+  db:
+    image: postgres:16.0
+
+    environment:
+      POSTGRES_DB: mydatabase
+      POSTGRES_USER: service_user_application
+      POSTGRES_PASSWORD: service_user_password
+
+    volumes:
+      - db-data:/var/lib/postgresql/data
+volumes:
+  db-data:

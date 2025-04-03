@@ -3,9 +3,11 @@ spring:
     name: MailMancer
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://production.host:5432/postgres
+    url: jdbc:postgresql://localhost:5432/mydatabase
     username: service_user_application
     password: service_user_password
+  liquibase:
+    url: ${spring.datasource.url}
   jpa:
     show-sql: true
     hibernate:

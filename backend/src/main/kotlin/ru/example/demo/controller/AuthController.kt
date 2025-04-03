@@ -9,7 +9,7 @@ import ru.example.demo.dto.request.RegisterManagerRequest
 import ru.example.demo.dto.response.AuthResponse
 import ru.example.demo.dto.response.InviteResponse
 
-
+@CrossOrigin(origins = ["http://Localhost:3000"])
 @RestController
 @RequestMapping("/api/v1")
 class AuthController(
@@ -17,6 +17,10 @@ class AuthController(
 ) {
     @PostMapping("/head/sign-up")
     fun registerHead(@RequestBody request: RegisterHeadRequest): AuthResponse {
+
+        println("Зарос пришёл")
+        println(request)
+
         val user = authService.registerHead(request)
         return AuthResponse(
             userId = user.id,
