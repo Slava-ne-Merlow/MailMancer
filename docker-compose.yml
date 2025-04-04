@@ -7,6 +7,7 @@ services:
     depends_on:
         - db
     environment:
+      SPRING_PROFILES_ACTIVE: prod
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydatabase
       SPRING_DATASOURCE_USERNAME: service_user_application
       SPRING_DATASOURCE_PASSWORD: service_user_password

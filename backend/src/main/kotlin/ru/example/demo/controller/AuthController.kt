@@ -17,10 +17,6 @@ class AuthController(
 ) {
     @PostMapping("/head/sign-up")
     fun registerHead(@RequestBody request: RegisterHeadRequest): AuthResponse {
-
-        println("Зарос пришёл")
-        println(request)
-
         val user = authService.registerHead(request)
         return AuthResponse(
             userId = user.id,
