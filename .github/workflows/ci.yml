@@ -30,3 +30,6 @@ jobs:
 
       - name: Execute Gradle check
         run: cd backend && ./gradlew check
+
+      - name: Execute docker-compose build
+        run: docker-compose up --build
