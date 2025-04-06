@@ -2,8 +2,8 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import userStore from "../../store/UserStore";
 import { motion } from "framer-motion";
-
-const RegisterHeadForm = ({ style }) => {
+import style from "./RegisterHeadFrom.module.css";
+const RegisterHeadForm = () => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         fullName: "",
@@ -70,7 +70,6 @@ const RegisterHeadForm = ({ style }) => {
                 return;
             }
 
-            // Если успешно — сохраняем пользователя и переходим на главную страницу
             userStore.setUser(data.userId, data.companyId, data.token);
             navigate("/home");
             return true;

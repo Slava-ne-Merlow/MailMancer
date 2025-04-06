@@ -1,17 +1,14 @@
 .registrationForm {
+    transform: scale(1.1);
     background-color: #ffffff;
     display: flex;
     flex-direction: row;
     justify-content: center;
-    width: 100vw;
-    height: 100vh;
     align-items: center;
-
 }
 
 .div {
     background-color: #ffffff;
-    height: 832px;
     position: relative;
     width: 1280px;
 }
@@ -29,6 +26,7 @@
 }
 
 .firstStep {
+
     .group {
         height: 39px;
         left: 465px;
@@ -86,6 +84,7 @@
         position: absolute;
         top: 233px;
         width: 338px;
+
     }
     .companyInformation {
         color: #000000;
@@ -166,7 +165,7 @@
     width: 94px;
     position: absolute;
     top: 36px;
-    left: 0; /* Фиксируем начальную точку */
+    left: 0;
 }
 
 .firstInput {
@@ -224,7 +223,6 @@
     display: inline-block;
     cursor: pointer;
 }
-
 .customCheckbox input {
     opacity: 0;
     position: absolute;
@@ -251,6 +249,14 @@
     left: 524px;
     position: absolute;
     top: 509px;
+}
+.firstStep .agreeInput1 {
+    align-items: flex-start;
+    display: inline-flex;
+    gap: 4px;
+    left: 524px;
+    position: absolute;
+    top: 444px;
 }
 
 
@@ -314,10 +320,10 @@
 
 
 .error {
-    color: red; /* Цвет текста ошибки */
-    font-size: 10px; /* Размер шрифта для ошибок */
-    margin-top: 3px; /* Отступ сверху от поля ввода */
-    font-weight: bold; /* Чтобы ошибка была более заметной */
+    color: red;
+    font-size: 10px;
+    margin-top: 3px;
+    font-weight: bold;
 }
 
 

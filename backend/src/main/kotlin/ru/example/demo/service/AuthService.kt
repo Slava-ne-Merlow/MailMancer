@@ -122,7 +122,7 @@ class AuthService(
         val savedInvite = inviteRepository.save(invite)
 
 //        Пока localhost:8080 потом разберусь, как лучше сделать
-        return "https://localhost:8080/manager/sign-up?token=${savedInvite.token}"
+        return "https://localhost:3000/register?token=${savedInvite.token}"
     }
 
 }
