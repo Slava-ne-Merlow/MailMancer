@@ -25,6 +25,30 @@
     top: 160px;
 }
 
+.redirect {
+    align-items: flex-start;
+    display: inline-flex;
+    gap: 4px;
+    left: 560px;
+    position: absolute;
+    top: 596px;
+}
+
+.redirectLLabel {
+    color: transparent;
+    font-size: 10px;
+    font-weight: 600;
+    height: 11px;
+    letter-spacing: 0;
+    line-height: normal;
+    margin-top: 3px;
+    position: relative;
+    white-space: nowrap;
+    width: 184px;
+}
+
+
+
 .firstStep {
 
     .group {
@@ -215,7 +239,7 @@
     border-radius: 5px;
     height: 24px;
     position: relative;
-    width: 252px;
+    width: 247px;
 }
 
 .customCheckbox {
@@ -249,14 +273,6 @@
     left: 524px;
     position: absolute;
     top: 509px;
-}
-.firstStep .agreeInput1 {
-    align-items: flex-start;
-    display: inline-flex;
-    gap: 4px;
-    left: 524px;
-    position: absolute;
-    top: 444px;
 }
 
 
@@ -327,5 +343,13 @@
 }
 
 
+.link {
+    text-decoration: none;
+    color: #000000;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
 
 

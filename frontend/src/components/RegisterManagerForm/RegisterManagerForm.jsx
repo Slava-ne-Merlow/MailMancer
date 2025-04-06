@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {motion} from "framer-motion";
 import style from "./RegisterManagerForm.module.css";
 import userStore  from "../../store/UserStore";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const RegisterManagerForm = ({ token }) => {
     const [step, setStep] = useState(1);
@@ -152,7 +152,7 @@ const RegisterManagerForm = ({ token }) => {
     return (
         <div className={style.registrationForm}>
             <div className={style.div}>
-                <div className={style.header}>Registration Form</div>
+                <div className={style.header}>Create an Account</div>
                 <div className={`${step === 1 ? style.firstStep : style.secondStep }`}>
                     <div className={style.group}>
                         <div className={style.securityCheckup}>Security <br/> Checkup</div>
@@ -192,7 +192,7 @@ const RegisterManagerForm = ({ token }) => {
                             {errors.login && <p className={style.error}>{errors.login}</p>}
                         </div>
 
-                        <div className={style.agreeInput1}>
+                        <div className={style.agreeInput}>
                             <label className={style.customCheckbox}>
                                 <input
                                     type="checkbox"
@@ -207,7 +207,9 @@ const RegisterManagerForm = ({ token }) => {
 
                             <p className={style.agreeLabel}>
                                 <span style={{color: "#aaaaaa"}}>Please agree to the </span>
-                                <span style={{color: "#000000"}}>terms of service</span>
+                                <Link to="#" className={style.link}>
+                                    <span>terms of service</span>
+                                </Link>
                                 <span style={{color: "#aaaaaa"}}>.</span>
                             </p>
                         </div>

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import  userStore  from "../../store/UserStore";
 import { motion } from "framer-motion";
 import style from "./RegisterHeadFrom.module.css";
@@ -196,7 +196,7 @@ const RegisterHeadForm = () => {
     return (
         <div className={style.registrationForm}>
             <div className={style.div}>
-                <div className={style.header}>Registration Form</div>
+                <div className={style.header}>Create an Account</div>
                 <div className={`${step === 1 ? style.firstStep : step === 2 ? style.secondStep : style.thirdStep}`}>
                     <div className={style.group}>
                         <div className={style.companyInformation}>Company <br/> Information</div>
@@ -247,7 +247,6 @@ const RegisterHeadForm = () => {
                                 value={formData.password}
                                 onChange={handleChange}
                                 onFocus={() => clearError('password')}
-
                             />
                             {errors.password && <p className={style.error}>{errors.password}</p>}
                         </div>
@@ -267,7 +266,9 @@ const RegisterHeadForm = () => {
 
                             <p className={style.agreeLabel}>
                                 <span style={{color: "#aaaaaa"}}>Please agree to the </span>
-                                <span style={{color: "#000000"}}>terms of service</span>
+                                <Link to="#" className={style.link}>
+                                    <span>terms of service</span>
+                                </Link>
                                 <span style={{color: "#aaaaaa"}}>.</span>
                             </p>
                         </div>
@@ -399,6 +400,14 @@ const RegisterHeadForm = () => {
                         </button>
                     </div>
                 }
+                <div className={style.redirect}>
+                    <p className={style.redirectLLabel}>
+                        <span style={{color: "#aaaaaa"}}>Already have an account? </span>
+                        <Link to="/login" className={style.link} style={{fontFamily: "Montserrat Alternates"}}>
+                            <span>Login</span>
+                        </Link>
+                    </p>
+                </div>
             </div>
         </div>
     );

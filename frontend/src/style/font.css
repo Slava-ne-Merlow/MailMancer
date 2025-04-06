@@ -1,5 +1,7 @@
 body {
     font-family: 'Mont', sans-serif;
+    background-color: #f5f6fa;
+;
 }
 @font-face {
     font-family: 'Mont';
@@ -20,4 +22,10 @@ body {
     src: url('../assets/fonts/MontserratAlternatesBold.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
+}
+#root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    position: fixed;
 }

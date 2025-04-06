@@ -141,7 +141,7 @@
     border-radius: 5px;
     height: 24px;
     position: relative;
-    width: 252px;
+    width: 247px;
 }
 
 .customCheckbox {
@@ -169,14 +169,6 @@
 }
 
 .firstStep .agreeInput {
-    align-items: flex-start;
-    display: inline-flex;
-    gap: 4px;
-    left: 524px;
-    position: absolute;
-    top: 509px;
-}
-.firstStep .agreeInput1 {
     align-items: flex-start;
     display: inline-flex;
     gap: 4px;
@@ -255,3 +247,11 @@
 
 
 
+.link {
+    text-decoration: none;
+    color: #000000;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
