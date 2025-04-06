@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
-import userStore from "../../store/UserStore";
+import  userStore  from "../../store/UserStore";
 import { motion } from "framer-motion";
 import style from "./RegisterHeadFrom.module.css";
 const RegisterHeadForm = () => {
@@ -35,7 +35,6 @@ const RegisterHeadForm = () => {
             email: formData.companyEmail,
             emailPassword: formData.companyPassword,
         };
-        console.log(request);
 
         try {
             const response = await fetch("http://localhost:8080/api/v1/head/sign-up", {
@@ -47,11 +46,6 @@ const RegisterHeadForm = () => {
             });
 
             const data = await response.json();
-            console.log("response");
-            console.log(response);
-            console.log(response.status);
-            console.log("data");
-            console.log(data);
 
             if (!response.ok) {
                 if (response.status === 409) {
@@ -67,15 +61,15 @@ const RegisterHeadForm = () => {
                 } else {
                     alert("Ошибка регистрации: " + data.message + " " + data.status);
                 }
-                return;
+                return false;
             }
 
             userStore.setUser(data.userId, data.companyId, data.token);
-            navigate("/home");
             return true;
         } catch (error) {
             console.error("Ошибка при отправке запроса:", error);
             alert("Ошибка сети. Попробуйте еще раз.");
+            return false
         }
     };
 
@@ -182,7 +176,7 @@ const RegisterHeadForm = () => {
     const clearError = (fieldName) => {
         setErrors(prev => ({...prev, [fieldName]: ""}));
     };
-    const handleDone = () => {
+    const handleDone = async () => {
         const isFormValid = validateForm();
 
         if (!isFormValid) {
@@ -190,9 +184,13 @@ const RegisterHeadForm = () => {
         }
 
 
-        console.log("Form is valid, send data to server.");
 
-        handleSubmit()
+        const success = await handleSubmit();
+        if (success) {
+            if (userStore.isAuth){
+                navigate("/home");
+            }
+        }
     };
 
     return (

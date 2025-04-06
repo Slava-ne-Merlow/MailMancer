@@ -1,16 +1,15 @@
 import { makeAutoObservable } from "mobx";
 
 class UserStore {
-    user = null; // Данные пользователя (userId, companyId)
-    token = null; // Токен авторизации
-    isAuth = false; // Авторизован ли пользователь
+    user = null;
+    token = null;
+    isAuth = false;
 
     constructor() {
         makeAutoObservable(this);
         this.loadUser();
     }
 
-    // Устанавливаем пользователя, токен и сохраняем в localStorage
     setUser(userId, companyId, token) {
         this.user = { userId, companyId };
         this.token = token;
@@ -21,7 +20,6 @@ class UserStore {
         localStorage.setItem("isAuth", "true");
     }
 
-    // Загружаем пользователя из localStorage при старте
     loadUser() {
         const savedUser = localStorage.getItem("user");
         const savedToken = localStorage.getItem("token");
@@ -34,7 +32,6 @@ class UserStore {
         }
     }
 
-    // Выход из системы
     logout() {
         this.user = null;
         this.token = null;
@@ -46,4 +43,5 @@ class UserStore {
     }
 }
 
-export default new UserStore();
+const userStore = new UserStore();
+export default userStore;

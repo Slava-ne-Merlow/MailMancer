@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {motion} from "framer-motion";
 import style from "./RegisterManagerForm.module.css";
-import userStore from "../../store/UserStore";
+import userStore  from "../../store/UserStore";
 import {useNavigate} from "react-router-dom";
 
 const RegisterManagerForm = ({ token }) => {
@@ -76,7 +76,6 @@ const RegisterManagerForm = ({ token }) => {
             password: formData.password,
             inviteToken: token,
         };
-        console.log(request);
 
         try {
             const response = await fetch("http://localhost:8080/api/v1/manager/sign-up", {
@@ -106,15 +105,15 @@ const RegisterManagerForm = ({ token }) => {
                 } else {
                     alert("Ошибка регистрации: " + data.message + " " + data.status);
                 }
-                return;
+                return false;
             }
 
             userStore.setUser(data.userId, data.companyId, data.token);
-            navigate("/home");
             return true;
         } catch (error) {
             console.error("Ошибка при отправке запроса:", error);
             alert("Ошибка сети. Попробуйте еще раз.");
+            return false;
         }
     };
 
@@ -133,7 +132,7 @@ const RegisterManagerForm = ({ token }) => {
     const clearError = (fieldName) => {
         setErrors(prev => ({...prev, [fieldName]: ""}));
     };
-    const handleDone = () => {
+    const handleDone = async () => {
         const isFormValid = validateForm();
 
         if (!isFormValid) {
@@ -141,9 +140,13 @@ const RegisterManagerForm = ({ token }) => {
         }
 
 
-        console.log("Form is valid, send data to server.");
 
-        handleSubmit()
+        const success = await handleSubmit();
+        if (success) {
+            if (userStore.isAuth ){
+                navigate("/home");
+            }
+        }
     };
 
     return (
