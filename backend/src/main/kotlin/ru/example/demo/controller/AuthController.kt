@@ -1,9 +1,8 @@
 package ru.example.demo.controller
 
 
-import ru.example.demo.service.EmailConnectionService
+import ru.example.demo.service.EmailService
 import org.springframework.web.bind.annotation.*
-import ru.example.demo.dto.request.EmailCredentials
 import ru.example.demo.dto.request.RegisterHeadRequest
 import ru.example.demo.service.AuthService
 import ru.example.demo.dto.request.LoginUserRequest
@@ -16,7 +15,6 @@ import ru.example.demo.dto.response.InviteResponse
 @RequestMapping("/api/v1")
 class AuthController(
     val authService: AuthService,
-    val emailConnectionService: EmailConnectionService
 ) {
     @PostMapping("/head/sign-up")
     fun registerHead(@RequestBody request: RegisterHeadRequest): AuthResponse {
@@ -54,12 +52,5 @@ class AuthController(
         return InviteResponse(
             url = url,
         )
-    }
-    @GetMapping("/mail-check")
-    fun checkmail(credentials: EmailCredentials):String{
-        if(!emailConnectionService.testConnection(credentials)){
-            throw RuntimeException("Почта или пароль неверны")
-        }
-        return "Успешное подключение к почте"
     }
 }

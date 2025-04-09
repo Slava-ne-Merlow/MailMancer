@@ -3,10 +3,11 @@ package ru.example.demo.service
 import jakarta.mail.*
 import org.springframework.stereotype.Service
 import ru.example.demo.dto.request.EmailCredentials
+import ru.example.demo.exception.type.UnauthorizedException
 import java.util.*
 
 @Service
-class EmailConnectionService {
+class EmailService {
     fun testConnection(credentials:EmailCredentials): Boolean {
         val props = Properties().apply {
             put("mail.debug", "false")
@@ -28,7 +29,7 @@ class EmailConnectionService {
                     put("mail.imap.port", "993")
                     put("mail.imap.ssl.enable", "true")
                 }
-                else -> throw IllegalArgumentException("Unsupported email service")
+                else -> throw UnauthorizedException("Unsupported email service")
             }
         }
 
