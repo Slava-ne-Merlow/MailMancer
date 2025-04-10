@@ -33,7 +33,7 @@ class EmailService {
             }
         }
 
-        return try {
+        val result = try {
             val session = Session.getInstance(props, null)
             val store = session.store.apply {
                 connect(
@@ -49,5 +49,6 @@ class EmailService {
         } catch (e: Exception) {
             false
         }
+        return result
     }
 }

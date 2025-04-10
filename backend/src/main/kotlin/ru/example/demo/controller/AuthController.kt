@@ -1,7 +1,6 @@
 package ru.example.demo.controller
 
 
-import ru.example.demo.service.EmailService
 import org.springframework.web.bind.annotation.*
 import ru.example.demo.dto.request.RegisterHeadRequest
 import ru.example.demo.service.AuthService
