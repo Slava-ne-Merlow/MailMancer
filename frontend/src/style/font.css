@@ -1,8 +1,9 @@
 body {
     font-family: 'Mont', sans-serif;
     background-color: #f5f6fa;
-;
 }
+
+
 @font-face {
     font-family: 'Mont';
     src: url('../assets/fonts/MontRegular.ttf') format('truetype');
@@ -23,9 +24,59 @@ body {
     font-weight: bold;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'Nunito Sans-Bold';
+    src: url('../assets/fonts/NunitoSansBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nunito Sans-Regular';
+    src: url('../assets/fonts/NunitoSansRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Nunito Sans-SemiBold';
+    src: url('../assets/fonts/NunitoSansSemiBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Nunito Sans-ExtraBold';
+    src: url('../assets/fonts/NunitoSansExtraBold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 #root {
     margin: 0;
     padding: 0;
+    height: 100%;
     width: 100%;
-    position: fixed;
+    display: flex;
+    flex-direction: column;
 }
+
+.main-page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+
+/** {*/
+/*    outline: 1px solid red;*/
+/*}*/

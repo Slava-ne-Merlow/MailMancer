@@ -1,0 +1,62 @@
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+    padding-left: 0;
+    padding-right: 20px;
+    position: relative;
+    text-decoration: none;
+}
+.tail {
+    left: 0;
+    border-radius: 4px;
+    width: 11px;
+    clip-path: inset(0 0 0 50%);
+    height: 100%;
+    transform: translateX(-50%);
+}
+
+
+
+.row:hover .tail {
+    background-color: #f2f2f2;
+}
+
+
+.label {
+    font-size: 16px;
+}
+.item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px ;
+    border-radius: 8px;
+    font-size: 142px;
+
+    font-family: "Nunito Sans-SemiBold", sans-serif;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    color: #000000;
+    width: 100%;
+    box-sizing: border-box;
+
+}
+
+.item:hover {
+    background-color: #f2f2f2;
+}
+
+.selected {
+    background-color: #000000;
+    color: white;
+}
+
+.selected:hover {
+    background-color: #595959;
+
+}
+
+.selected img {
+    filter: brightness(0) invert(1);
+}

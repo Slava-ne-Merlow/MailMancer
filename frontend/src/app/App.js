@@ -4,6 +4,10 @@ import HomePage from "../pages/home/HomePage";
 import RegisterPage from "../pages/register/RegisterPage";
 import userStore from "../store/UserStore";
 import LoginPage from "../pages/login/LoginPage";
+import MailingsPage from "../pages/mailings/MailingsPage";
+import TeamPage from "../pages/teams/TeamPage";
+import CarriersPage from "../pages/carriers/CarriersPage";
+import CreatePage from "../pages/create/CreatePage";
 
 function App() {
   return (
@@ -15,6 +19,11 @@ function App() {
               path="/home"
               element={userStore.isAuth ? <HomePage /> : <Navigate to="/register" />}
           />
+            <Route path="/mailings" element={<MailingsPage />} />
+            <Route path="/teams"    element={<TeamPage />} />
+            <Route path="/carriers" element={<CarriersPage />} />
+            <Route path="/create" element={<CreatePage />} />
+
             <Route path="*" element={<Navigate to="/login" />} />
 
         </Routes>

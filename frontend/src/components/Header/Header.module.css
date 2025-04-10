@@ -1,0 +1,91 @@
+.header {
+    width: 100%;
+    position: fixed;
+    background-color: #ffffff;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+}
+.leftSection {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.rightSection {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-right: 20px;
+}
+
+.logo {
+    width: 240px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo .text {
+    color: transparent;
+    font-family: "Montserrat Alternates", sans-serif;
+    font-size: 20px;
+    letter-spacing: 0;
+}
+
+.burgerMenu {
+    height: 24px;
+    width: 24px;
+}
+
+.search {
+    outline: none;
+    caret-color: #000000;
+    background-color: #f5f6fa;
+    border: 0.6px solid #d4d4d4;
+    border-radius: 19px;
+    height: 38px;
+    position: relative;
+    width: 388px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    height: 44px;
+    width: 44px;
+    flex-shrink: 0;
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.profileInfo .name {
+    color: #000000;
+    font-family: "Nunito Sans-Bold", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: normal;
+    text-wrap: nowrap;
+}
+.profileInfo .role {
+    color: #565656;
+    font-family: "Nunito Sans-SemiBold", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+    width: 30px;
+}
