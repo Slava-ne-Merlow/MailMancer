@@ -13,7 +13,7 @@ import ru.example.demo.dto.response.InviteResponse
 @RestController
 @RequestMapping("/api/v1")
 class AuthController(
-    val authService: AuthService
+    val authService: AuthService,
 ) {
     @PostMapping("/head/sign-up")
     fun registerHead(@RequestBody request: RegisterHeadRequest): AuthResponse {
@@ -52,5 +52,4 @@ class AuthController(
             url = url,
         )
     }
-
 }
