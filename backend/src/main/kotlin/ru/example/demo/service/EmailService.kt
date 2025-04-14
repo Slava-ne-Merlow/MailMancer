@@ -2,53 +2,57 @@ package ru.example.demo.service
 
 import jakarta.mail.*
 import org.springframework.stereotype.Service
-import ru.example.demo.dto.request.EmailCredentials
-import ru.example.demo.exception.type.UnauthorizedException
+import ru.example.demo.exception.type.BadRequestException
 import java.util.*
 
 @Service
 class EmailService {
-    fun testConnection(credentials:EmailCredentials): Boolean {
-        val props = Properties().apply {
-            put("mail.debug", "false")
-            put("mail.store.protocol", "imaps")
-
-            when (credentials.service.lowercase()) {
-                "yandex" -> {
-                    put("mail.imap.host", "imap.yandex.ru")
-                    put("mail.imap.port", "993")
-                    put("mail.imap.ssl.enable", "true")
-                }
-                "gmail" -> {
+    fun testConnection(email: String, password: String): Boolean {
+        val domain = email.substringAfter("@").lowercase()
+        val props = when {
+            domain.contains("gmail") -> {
+                Properties().apply {
+                    put("mail.debug", "false")
+                    put("mail.store.protocol", "imaps")
                     put("mail.imap.host", "imap.gmail.com")
                     put("mail.imap.port", "993")
                     put("mail.imap.ssl.enable", "true")
                 }
-                "outlook" -> {
-                    put("mail.imap.host", "outlook.office365.com")
+            }
+
+            domain.contains("yandex") -> {
+                Properties().apply {
+                    put("mail.debug", "false")
+                    put("mail.store.protocol", "imaps")
+                    put("mail.imap.host", "imap.yandex.ru")
                     put("mail.imap.port", "993")
                     put("mail.imap.ssl.enable", "true")
                 }
-                else -> throw UnauthorizedException("Unsupported email service")
+            }
+
+            else -> {
+                throw BadRequestException("Провайдер $domain не поддерживается")
             }
         }
 
-        val result = try {
+        try {
             val session = Session.getInstance(props, null)
             val store = session.store.apply {
                 connect(
                     props.getProperty("mail.imap.host"),
-                    credentials.email,
-                    credentials.password
+                    email,
+                    password
                 )
             }
             store.close()
-            true
+            return true
         } catch (e: AuthenticationFailedException) {
-            false
+            println("Authentication failed")
+            return false
         } catch (e: Exception) {
-            false
+            println(e)
+            return false
+
         }
-        return result
     }
 }

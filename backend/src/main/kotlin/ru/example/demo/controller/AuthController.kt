@@ -22,6 +22,9 @@ class AuthController(
             userId = user.id,
             token = user.token,
             companyId = user.company.id,
+            role = user.role,
+            login = user.login,
+            name = user.name,
         )
     }
 
@@ -32,6 +35,9 @@ class AuthController(
             userId = user.id,
             token = user.token,
             companyId = user.company.id,
+            role = user.role,
+            login = user.login,
+            name = user.name,
         )
     }
 
@@ -42,6 +48,9 @@ class AuthController(
             userId = user.id,
             token = user.token,
             companyId = user.company.id,
+            role = user.role,
+            login = user.login,
+            name = user.name,
         )
     }
 

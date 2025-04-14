@@ -24,6 +24,7 @@ class AuthService(
     private val userCompanyRepository: UserCompanyRepository,
     private val inviteRepository: InviteRepository,
     private val tokenService: TokenService,
+    private val emailService: EmailService,
 ) {
     @Transactional
     fun registerHead(request: RegisterHeadRequest): UserEntity {
@@ -32,6 +33,10 @@ class AuthService(
         }
         userRepository.findByLogin(request.headLogin)?.let {
             throw EntityAlreadyExistsException("Логин ${request.headLogin} занят")
+        }
+
+        if (!emailService.testConnection(request.email, request.emailPassword)) {
+            throw UnauthorizedException("Email ${request.email} не прошёл проверку")
         }
 
         val token = tokenService.generateToken()
@@ -91,7 +96,7 @@ class AuthService(
     @Transactional
     fun loginUser(request: LoginUserRequest): UserEntity {
         val user = userRepository.findByLogin(request.login)
-            ?: throw NotFoundException("Логина ${request.login} не существует")
+            ?: throw NotFoundException("Логин ${request.login} занят")
 
         if (user.checkPassword(request.password)) {
             throw UnauthorizedException("Неверный логин или пароль")
@@ -121,8 +126,8 @@ class AuthService(
 
         val savedInvite = inviteRepository.save(invite)
 
-//        Пока localhost:8080 потом разберусь, как лучше сделать
-        return "https://localhost:3000/register?token=${savedInvite.token}"
+//        Пока localhost:3000 потом разберусь, как лучше сделать
+        return "http://localhost:3000/register?token=${savedInvite.token}"
     }
 
 }

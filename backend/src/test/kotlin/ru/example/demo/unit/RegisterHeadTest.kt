@@ -46,6 +46,7 @@ class RegisterHeadTest : AbstractUnitTest() {
         every { userCompanyRepository.save(any()) } answers { firstArg() }
         every { userRepository.findByLogin(any()) } answers { null }
         every { userCompanyRepository.findByEmail(any()) } answers { null }
+        every { emailService.testConnection(any(), any()) } answers { true }
         every { tokenService.generateToken() } returns "token"
 
         val savedUser = authService.registerHead(request).toUser()
