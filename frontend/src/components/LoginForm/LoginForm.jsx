@@ -19,20 +19,13 @@ const LoginForm = () => {
     };
     const validateForm = () => {
         const newErrors = {};
-        let isValid = true;
-        if (!formData.login) {
-            newErrors.login = "Field is required!";
-            isValid = false;
-        }
-        if (!formData.password) {
-            newErrors.password = "Field is required!";
-            isValid = false;
-        }
+        let isValid;
 
-        if (!formData.agreedToTerms) {
-            newErrors.agreedToTerms = "You must agree";
-            isValid = false;
-        }
+        if (!formData.login) newErrors.login = "Field is required!";
+        if (!formData.password) newErrors.password = "Field is required!";
+        if (!formData.agreedToTerms) newErrors.agreedToTerms = "You must agree";
+
+        isValid = Object.keys(newErrors).length === 0;
 
         setErrors(newErrors);
         return isValid;
@@ -56,10 +49,9 @@ const LoginForm = () => {
             });
 
             const data = await response.json();
-
             if (!response.ok) {
                 if (response.status === 404) {
-                    if (data.message === `Логин ${formData.login} занят`) {
+                    if (data.message === `Логин ${request.login} занят`) {
                         setErrors((prev) => ({...prev, login: "This login does not exist"}));
                     }
                 } else if (response.status === 401) {
@@ -73,7 +65,7 @@ const LoginForm = () => {
                 return false;
             }
 
-            userStore.setUser(data.userId, data.companyId, data.token);
+            userStore.setUser(data.userId, data.companyId, data.token, data.role, data.login, data.name);
             return true;
         } catch (error) {
             console.error("Ошибка при отправке запроса:", error);
@@ -96,11 +88,10 @@ const LoginForm = () => {
         }
 
 
-
         const success = await handleSubmit();
         if (success) {
-            if (userStore.isAuth ){
-                navigate("/home");
+            if (userStore.isAuth) {
+                navigate("/mailings");
             }
         }
     };
@@ -153,7 +144,7 @@ const LoginForm = () => {
                             }}
                         />
 
-                        <span className={style.checkmark} />
+                        <span className={style.checkmark}/>
                     </label>
 
                     <p className={style.agreeLabel}>

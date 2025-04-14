@@ -108,7 +108,7 @@ const RegisterManagerForm = ({ token }) => {
                 return false;
             }
 
-            userStore.setUser(data.userId, data.companyId, data.token);
+            userStore.setUser(data.userId, data.companyId, data.token, data.role, data.login, data.name);
             return true;
         } catch (error) {
             console.error("Ошибка при отправке запроса:", error);
@@ -144,7 +144,7 @@ const RegisterManagerForm = ({ token }) => {
         const success = await handleSubmit();
         if (success) {
             if (userStore.isAuth ){
-                navigate("/home");
+                navigate("/mailings");
             }
         }
     };

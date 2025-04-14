@@ -6,16 +6,18 @@ import search from "../../assets/icons/search.svg";
 import NotificationButton from "../NotificationButton/NotificationButton";
 import avatar from "../../assets/icons/avatar.svg";
 import more from "../../assets/icons/more.svg";
+import userStore from "../../store/UserStore";
 
 const Header = () => {
+
     return (
         <div className={styles.header}>
             <div className={styles.leftSection}>
                 <div className={styles.logo}>
                     <p className={styles.text}>
-                        <span style={{ color: "#000000" }}>Mail</span>
+                        <span style={{color: "#000000"}}>Mail</span>
 
-                        <span style={{ color: "#aaaaaa" }}>Mancer</span>
+                        <span style={{color: "#aaaaaa"}}>Mancer</span>
                     </p>
                 </div>
                 <img className={styles.burgerMenu} alt="Burger menu" src={burgerMenu}/>
@@ -42,9 +44,9 @@ const Header = () => {
                     <img className={styles.avatar} alt="Avatar" src={avatar}/>
 
                     <div className={styles.profileInfo}>
-                        <div className={styles.name}>Goy Goevddddddd</div>
+                        <div className={styles.name}>{userStore.user?.name || "—"}</div>
 
-                        <div className={styles.role}>Manager</div>
+                        <div className={styles.role}>{userStore.user?.role || "—"}</div>
 
                     </div>
                     <img alt="More" src={more}/>

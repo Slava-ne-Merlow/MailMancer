@@ -7,15 +7,15 @@
     position: relative;
     text-decoration: none;
 }
+
 .tail {
     left: 0;
-    border-radius: 4px;
+    border-radius: 6px;
     width: 11px;
     clip-path: inset(0 0 0 50%);
     height: 100%;
     transform: translateX(-50%);
 }
-
 
 
 .row:hover .tail {
@@ -26,12 +26,13 @@
 .label {
     font-size: 16px;
 }
+
 .item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px ;
-    border-radius: 8px;
+    padding: 12px;
+    border-radius: 6px;
     font-size: 142px;
 
     font-family: "Nunito Sans-SemiBold", sans-serif;

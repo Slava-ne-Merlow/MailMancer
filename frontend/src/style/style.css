@@ -45,12 +45,14 @@ body {
     font-weight: normal;
     font-style: normal;
 }
+
 @font-face {
     font-family: 'Nunito Sans-ExtraBold';
     src: url('../assets/fonts/NunitoSansExtraBold.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
+
 html, body {
     margin: 0;
     padding: 0;
@@ -76,6 +78,14 @@ html, body {
     box-sizing: border-box;
 }
 
+.main-content {
+    margin-left: 240px; /* ширина Sidebar */
+    margin-top: 70px; /* высота Header */
+    height: calc(100vh - 70px);
+    overflow-y: auto;
+    padding: 20px;
+    background-color: #f9f9f9; /* по желанию */
+}
 
 /** {*/
 /*    outline: 1px solid red;*/

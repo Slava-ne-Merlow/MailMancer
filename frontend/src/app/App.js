@@ -1,13 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import HomePage from "../pages/home/HomePage";
-import RegisterPage from "../pages/register/RegisterPage";
+import RegisterPage from "../pages/auth/register/RegisterPage";
 import userStore from "../store/UserStore";
-import LoginPage from "../pages/login/LoginPage";
-import MailingsPage from "../pages/mailings/MailingsPage";
-import TeamPage from "../pages/teams/TeamPage";
-import CarriersPage from "../pages/carriers/CarriersPage";
-import CreatePage from "../pages/create/CreatePage";
+import LoginPage from "../pages/auth/login/LoginPage";
+import MailingsPage from "../pages/main/mailings/MailingsPage";
+import TeamPage from "../pages/main/teams/TeamPage";
+import CarriersPage from "../pages/main/carriers/CarriersPage";
+import CreatePage from "../pages/main/create/CreatePage";
 
 function App() {
   return (
@@ -15,14 +14,11 @@ function App() {
         <Routes>
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
-          <Route
-              path="/home"
-              element={userStore.isAuth ? <HomePage /> : <Navigate to="/register" />}
-          />
-            <Route path="/mailings" element={<MailingsPage />} />
-            <Route path="/teams"    element={<TeamPage />} />
-            <Route path="/carriers" element={<CarriersPage />} />
-            <Route path="/create" element={<CreatePage />} />
+
+            <Route path="/mailings" element={userStore.isAuth ? <MailingsPage /> : <Navigate to="/login" />} />
+            <Route path="/teams"    element={userStore.isAuth ? <TeamPage />     : <Navigate to="/login" />} />
+            <Route path="/carriers" element={userStore.isAuth ? <CarriersPage /> : <Navigate to="/login" />} />
+            <Route path="/create"   element={userStore.isAuth ? <CreatePage />   : <Navigate to="/login" />} />
 
             <Route path="*" element={<Navigate to="/login" />} />
 

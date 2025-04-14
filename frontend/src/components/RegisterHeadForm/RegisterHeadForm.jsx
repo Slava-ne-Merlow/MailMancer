@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import  userStore  from "../../store/UserStore";
-import { motion } from "framer-motion";
+import userStore from "../../store/UserStore";
+import {motion} from "framer-motion";
 import style from "./RegisterHeadFrom.module.css";
+
 const RegisterHeadForm = () => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
@@ -49,22 +50,31 @@ const RegisterHeadForm = () => {
 
             if (!response.ok) {
                 if (response.status === 409) {
-                    if (data.message === `Логин ${formData.login} занят`) {
+                    if (data.message === `Логин ${request.headLogin} занят`) {
                         setErrors((prev) => ({...prev, login: "This login is already used"}));
                         prevStep()
                         prevStep()
                     }
-                    if (data.message === `Почта ${formData.companyEmail} занята`) {
+                    if (data.message === `Почта ${request.email} занята`) {
                         setErrors((prev) => ({...prev, companyEmail: "This mail is already used"}));
                         prevStep()
                     }
+                } else if (response.status === 401) {
+                    if (data.message === `Email ${request.email} не прошёл проверку`) {
+                        setErrors((prev) => ({...prev, companyEmail: "Invalid email or password"}));
+                        setErrors((prev) => ({...prev, companyPassword: "Invalid email or password"}));
+                        prevStep()
+                    }
+                } else if (response.status === 400) {
+                    setErrors((prev) => ({...prev, companyEmail: "The provider is not supported"}));
+                    prevStep()
                 } else {
                     alert("Ошибка регистрации: " + data.message + " " + data.status);
                 }
                 return false;
             }
 
-            userStore.setUser(data.userId, data.companyId, data.token);
+            userStore.setUser(data.userId, data.companyId, data.token, data.role, data.login, data.name);
             return true;
         } catch (error) {
             console.error("Ошибка при отправке запроса:", error);
@@ -91,84 +101,56 @@ const RegisterHeadForm = () => {
 
     const validateForm = () => {
         const newErrors = {};
-        let isValid = true;
+        let isValid;
         if (step === 1) {
-            if (!formData.fullName) {
-                newErrors.fullName = "Field is required!";
-                isValid = false;
-            }
-            if (!formData.login) {
-                newErrors.login = "Field is required!";
-                isValid = false;
-            } else if (errors.login) {
-                newErrors.login = errors.login;
-                isValid = false;
-            }
-            if (!formData.password) {
-                newErrors.password = "Field is required!";
-                isValid = false;
-            } else if (formData.password.length < 6) {
-                newErrors.password = "Password must be at least 6 characters";
-                isValid = false;
-            }
-            if (!formData.agreedToTerms) {
-                newErrors.agreedToTerms = "You must agree";
-                isValid = false;
-            }
+            if (!formData.fullName) newErrors.fullName = "Field is required!";
+
+            if (!formData.login) newErrors.login = "Field is required!";
+            else if (errors.login) newErrors.login = errors.login;
+
+            if (!formData.password) newErrors.password = "Field is required!";
+            else if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters";
+
+            if (!formData.agreedToTerms) newErrors.agreedToTerms = "You must agree";
+
 
         }
 
         if (step === 2) {
-            if (!formData.companyName) {
-                newErrors.companyName = "Field is required!";
-                isValid = false;
-            }
-            if (!formData.companyEmail) {
-                newErrors.companyEmail = "Field is required!";
-                isValid = false;
-            } else if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(formData.companyEmail)) {
+            if (!formData.companyName) newErrors.companyName = "Field is required!";
+
+            if (!formData.companyEmail) newErrors.companyEmail = "Field is required!";
+            else if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(formData.companyEmail)) {
                 newErrors.companyEmail = "Enter email in format: email@example.com!";
-                isValid = false;
-            } else if (errors.companyEmail) {
-                newErrors.companyEmail = errors.companyEmail;
-                isValid = false;
-            }
-            if (!formData.companyPassword) {
-                newErrors.companyPassword = "Field is required!";
-                isValid = false;
-            } else if (formData.companyPassword.length < 6) {
+            } else if (errors.companyEmail) newErrors.companyEmail = errors.companyEmail;
+
+            if (!formData.companyPassword) newErrors.companyPassword = "Field is required!";
+            else if (formData.companyPassword.length < 6) {
                 newErrors.companyPassword = "Password must be at least 6 characters";
-                isValid = false;
+            } else if (errors.companyPassword) {
+                newErrors.companyPassword = errors.companyPassword;
             }
         }
 
         if (step === 3) {
 
-            if (!formData.checkPassword) {
-                newErrors.checkPassword = "Field is required!";
-                isValid = false;
-            } else if (formData.checkPassword !== formData.password) {
-                newErrors.checkPassword = "Passwords must match!";
-                isValid = false;
-            }
+            if (!formData.checkPassword) newErrors.checkPassword = "Field is required!";
+            else if (formData.checkPassword !== formData.password) newErrors.checkPassword = "Passwords must match!";
 
-            if (!formData.checkCompanyEmail) {
-                newErrors.checkCompanyEmail = "Field is required!";
-                isValid = false;
-            } else if (formData.companyEmail !== formData.checkCompanyEmail) {
+            if (!formData.checkCompanyEmail) newErrors.checkCompanyEmail = "Field is required!";
+            else if (formData.companyEmail !== formData.checkCompanyEmail) {
                 newErrors.checkCompanyEmail = "Emails must match!";
-                isValid = false;
             }
 
             if (!formData.checkCompanyPassword) {
                 newErrors.checkCompanyPassword = "Field is required!";
-                isValid = false;
             } else if (formData.companyPassword !== formData.checkCompanyPassword) {
                 newErrors.checkCompanyPassword = "Passwords must match!";
-                isValid = false;
             }
 
         }
+
+        isValid = Object.keys(newErrors).length === 0;
 
         setErrors(newErrors);
         return isValid;
@@ -183,12 +165,10 @@ const RegisterHeadForm = () => {
             return;
         }
 
-
-
         const success = await handleSubmit();
         if (success) {
-            if (userStore.isAuth){
-                navigate("/home");
+            if (userStore.isAuth) {
+                navigate("/mailings");
             }
         }
     };

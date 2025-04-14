@@ -1,6 +1,6 @@
 import {useSearchParams} from "react-router-dom";
-import RegisterManagerForm from "../../components/RegisterManagerForm/RegisterManagerForm";
-import RegisterHeadForm from "../../components/RegisterHeadForm/RegisterHeadForm";
+import RegisterManagerForm from "../../../components/RegisterManagerForm/RegisterManagerForm";
+import RegisterHeadForm from "../../../components/RegisterHeadForm/RegisterHeadForm";
 
 const RegisterPage = () => {
     const [searchParams] = useSearchParams();

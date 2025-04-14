@@ -48,7 +48,6 @@
 }
 
 
-
 .firstStep {
 
     .group {
@@ -58,16 +57,18 @@
         top: 233px;
         width: 344px;
     }
+
     .companyInformation {
-         color: #aaaaaa;
-         font-size: 14px;
-         font-weight: 600;
-         left: 137px;
-         letter-spacing: 0;
-         line-height: normal;
-         position: absolute;
-         top: 0;
-     }
+        color: #aaaaaa;
+        font-size: 14px;
+        font-weight: 600;
+        left: 137px;
+        letter-spacing: 0;
+        line-height: normal;
+        position: absolute;
+        top: 0;
+    }
+
     .personalInformation {
         color: #000000;
         font-size: 14px;
@@ -78,6 +79,7 @@
         position: absolute;
         top: 0;
     }
+
     .securityCheckup {
         color: #aaaaaa;
         font-size: 14px;
@@ -88,6 +90,7 @@
         position: absolute;
         top: 0;
     }
+
     .agreeLabel {
         color: transparent;
         font-size: 10px;
@@ -101,6 +104,7 @@
         width: 184px;
     }
 }
+
 .secondStep {
     .group {
         height: 39px;
@@ -110,6 +114,7 @@
         width: 338px;
 
     }
+
     .companyInformation {
         color: #000000;
         font-size: 14px;
@@ -120,6 +125,7 @@
         position: absolute;
         top: 0;
     }
+
     .personalInformation {
         color: #aaaaaa;
         font-size: 14px;
@@ -130,6 +136,7 @@
         position: absolute;
         top: 0;
     }
+
     .securityCheckup {
         color: #aaaaaa;
         font-size: 14px;
@@ -141,6 +148,7 @@
         top: 0;
     }
 }
+
 .thirdStep {
     .group {
         height: 39px;
@@ -149,6 +157,7 @@
         top: 233px;
         width: 344px;
     }
+
     .companyInformation {
         color: #aaaaaa;
         font-size: 14px;
@@ -159,6 +168,7 @@
         position: absolute;
         top: 0;
     }
+
     .personalInformation {
         color: #aaaaaa;
         font-size: 14px;
@@ -169,6 +179,7 @@
         position: absolute;
         top: 0;
     }
+
     .securityCheckup {
         color: #000000;
         font-size: 14px;
@@ -201,6 +212,7 @@
     position: absolute;
     top: 317px;
 }
+
 .secondInput {
     align-items: flex-start;
     display: inline-flex;
@@ -210,6 +222,7 @@
     position: absolute;
     top: 382px;
 }
+
 .thirdInput {
     align-items: flex-start;
     display: inline-flex;
@@ -230,6 +243,7 @@
     position: relative;
     width: fit-content;
 }
+
 .inputField {
     caret-color: #000000;
     outline: none;
@@ -247,12 +261,14 @@
     display: inline-block;
     cursor: pointer;
 }
+
 .customCheckbox input {
     opacity: 0;
     position: absolute;
     left: 0;
     z-index: -1;
 }
+
 .customCheckbox .checkmark {
     border: 1px solid #000;
     border-radius: 3px;
@@ -262,6 +278,7 @@
     display: inline-block;
     transition: all 0.2s;
 }
+
 .customCheckbox input:checked + .checkmark {
     background-color: #000;
 }
@@ -293,6 +310,7 @@
     cursor: pointer;
 
 }
+
 .nextButton .text {
     font-family: "Montserrat Alternates", sans-serif;
     color: #ffffff;
@@ -322,6 +340,7 @@
     cursor: pointer;
 
 }
+
 .backButton .text {
     font-family: "Montserrat Alternates", sans-serif;
     color: #000000;
