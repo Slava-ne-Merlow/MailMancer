@@ -12,6 +12,7 @@ import ru.example.demo.dto.model.User
 import ru.example.demo.dto.model.UserCompany
 import ru.example.demo.dto.request.RegisterHeadRequest
 import ru.example.demo.exception.type.EntityAlreadyExistsException
+import ru.example.demo.exception.type.UnauthorizedException
 
 
 class RegisterHeadTest : AbstractUnitTest() {
@@ -83,6 +84,31 @@ class RegisterHeadTest : AbstractUnitTest() {
             authService.registerHead(request)
         }
         exception.message should startWith("Почта ${request.email} занята")
+    }
+
+    @Test
+    fun `ошибка если пароль к почте неверный`() {
+        val request = RegisterHeadRequest(
+            headLogin = "admin",
+            headName = "Name",
+            headPassword = "123456",
+            companyName = "Company",
+            email = "email@example.com",
+            emailPassword = "123456",
+        )
+
+
+        every { userRepository.save(any()) } answers { firstArg() }
+        every { userCompanyRepository.save(any()) } answers { firstArg() }
+        every { userRepository.findByLogin(any()) } answers { null }
+        every { userCompanyRepository.findByEmail(any()) } answers { null }
+        every { emailService.testConnection(any(), any()) } answers { false }
+        every { tokenService.generateToken() } returns "token"
+
+        val exception = shouldThrow<UnauthorizedException> {
+            authService.registerHead(request)
+        }
+        exception.message should startWith("Email ${request.email} не прошёл проверку")
     }
 
     @Test

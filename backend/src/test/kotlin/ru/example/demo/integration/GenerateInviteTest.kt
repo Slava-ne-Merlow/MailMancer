@@ -47,7 +47,7 @@ class GenerateInviteTest : AbstractServiceTest() {
 
         val inviteUrl = authService.generateInvite(savedUser.token)
 
-        inviteUrl shouldStartWith "https://localhost:3000/register?token="
+        inviteUrl shouldStartWith "http://localhost:3000/register?token="
 
         inviteRepository.findAll().size shouldBe 1
     }

@@ -45,7 +45,7 @@ class GenerateInviteTest : AbstractUnitTest() {
         verify(exactly = 1) { inviteRepository.save(any()) }
         verify(exactly = 1) { tokenService.generateToken() }
 
-        message shouldBe "https://localhost:3000/register?token=token"
+        message shouldBe "http://localhost:3000/register?token=token"
     }
 
     @Test

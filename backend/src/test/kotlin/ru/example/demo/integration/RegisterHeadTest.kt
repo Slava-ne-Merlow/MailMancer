@@ -6,12 +6,14 @@ import org.junit.jupiter.api.Test
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.startWith
+import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
 import ru.example.demo.dto.enums.UserRoles
 import ru.example.demo.dto.model.UserCompany
 import ru.example.demo.dto.request.RegisterHeadRequest
 import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.type.EntityAlreadyExistsException
+import ru.example.demo.exception.type.UnauthorizedException
 
 
 class RegisterHeadTest : AbstractServiceTest() {
@@ -33,6 +35,8 @@ class RegisterHeadTest : AbstractServiceTest() {
             email = "email@example.com",
             emailPassword = "123456"
         )
+        every { emailService.testConnection(any(), any()) } answers { true }
+
 
         val savedUser = authService.registerHead(request)
 
@@ -42,7 +46,6 @@ class RegisterHeadTest : AbstractServiceTest() {
         userRepository.findByLogin("admin") shouldNotBe null
         userCompanyRepository.findByEmail("email@example.com") shouldNotBe null
     }
-
 
     @Test
     fun `ошибка если почта компании уже занята`() {
@@ -67,6 +70,26 @@ class RegisterHeadTest : AbstractServiceTest() {
             authService.registerHead(request)
         }
         exception.message should startWith("Почта ${request.email} занята")
+    }
+
+    @Test
+    fun `ошибка если пароль к почте неверный`() {
+
+        val request = RegisterHeadRequest(
+            headLogin = "admin",
+            headName = "Name",
+            headPassword = "123456",
+            companyName = "Company",
+            email = "email@example.com",
+            emailPassword = "123456"
+        )
+
+        every { emailService.testConnection(any(), any()) } answers { false }
+
+        val exception = shouldThrow<UnauthorizedException> {
+            authService.registerHead(request)
+        }
+        exception.message should startWith("Email ${request.email} не прошёл проверку")
     }
 
     @Test

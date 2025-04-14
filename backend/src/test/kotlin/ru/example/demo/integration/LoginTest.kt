@@ -69,11 +69,11 @@ class LoginTest : AbstractServiceTest() {
             authService.loginUser(request)
         }
 
-        exception.message should startWith("Логина ${request.login} не существует")
+        exception.message should startWith("Логин ${request.login} занят")
     }
 
     @Test
-    fun `ошибка если пароль неаерный`() {
+    fun `ошибка если пароль неверный`() {
         val request = LoginUserRequest(
             login = savedUser.login,
             password = "non_correct_password"

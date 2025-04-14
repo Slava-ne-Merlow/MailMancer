@@ -7,6 +7,8 @@ import ru.example.demo.repository.InviteRepository
 import ru.example.demo.repository.UserCompanyRepository
 import ru.example.demo.repository.UserRepository
 import ru.example.demo.service.AuthService
+import ru.example.demo.service.EmailService
+import com.ninjasquad.springmockk.MockkBean
 
 
 @ActiveProfiles("test")
@@ -23,5 +25,8 @@ abstract class AbstractServiceTest {
 
     @Autowired
     lateinit var inviteRepository: InviteRepository
+
+    @MockkBean
+    lateinit var emailService: EmailService
 
 }
