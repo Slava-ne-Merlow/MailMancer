@@ -29,8 +29,6 @@ data class UserEntity(
     @JoinColumn(name = "company_id", nullable = false)
     val company: UserCompanyEntity,
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-    val orders: MutableList<OrderEntity> = mutableListOf(),
 
     ) {
 

@@ -18,22 +18,22 @@ data class OrderEntity(
     @Column(name = "delivery_address")
     val deliveryAddress: String,
 
-    val weight: String,
+    val weight: Double,
 
-    val length: String,
+    val length: Double,
 
-    val height: String,
+    val height: Double,
 
-    val width: String,
+    val width: Double,
 
     @Column(name = "additional_requirements")
     val additionalRequirements: String? = null,
 
-    @Column(name = "created_date")
+    @Column(name = "created_date", nullable = false)
     val createdDate: LocalDateTime = LocalDateTime.now(),
 
-    @Column(name = "close_date", nullable = false)
-    val closeDate: LocalDateTime? = null,
+    @Column(name = "closed_date")
+    val closedDate: LocalDateTime? = null,
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
