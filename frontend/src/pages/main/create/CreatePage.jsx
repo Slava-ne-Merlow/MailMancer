@@ -9,7 +9,9 @@ const CreatePage = () => {
 
             <Sidebar selected="create" />
             <div className="main-content">
-                <div style={{fontFamily: "Nunito Sans-Bold"}}>Авто</div>
+                <div className="content-header">
+                    <div className="text">Create Mailing</div>
+                </div>
             </div>
         </div>
     );

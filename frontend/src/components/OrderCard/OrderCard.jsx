@@ -1,0 +1,133 @@
+import styles from "./OrderCard.module.css";
+import search from "../../assets/icons/search.svg";
+import lock from "../../assets/icons/lock.svg";
+import React, {useEffect, useState} from "react";
+import userStore from "../../store/UserStore";
+import { useCallback } from "react";
+
+
+const OrderCard = ({closed}) => {
+    const [orders, setOrders] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filteredOrders, setFilteredOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const getData = useCallback(async () => {
+        try {
+            const response = await fetch(`http://192.168.1.76:8080/api/v1/orders/${closed}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `${userStore.token}`,
+                },
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                alert("Ошибка запроса: " + (data.message || response.status));
+                return [];
+            }
+
+            return data;
+        } catch (error) {
+            console.error("Ошибка сети:", error);
+            alert("Ошибка сети. Попробуйте еще раз.");
+            return [];
+        }
+    }, [closed]);
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            setLoading(true);
+            const result = await getData();
+            setOrders(result);
+            setFilteredOrders(result);
+            setLoading(false);
+        };
+
+
+        fetchOrders();
+    }, [closed, getData]);
+
+    useEffect(() => {
+        const searchWords = searchQuery.toLowerCase().split(" ").filter(Boolean);
+        console.log(searchWords);
+        const filtered = orders.filter(order =>
+            searchWords.every(word =>
+                (order.name?.toLowerCase().includes(word)) ||
+                (order.downloadAddress?.toLowerCase().includes(word)) ||
+                (order.deliveryAddress?.toLowerCase().includes(word)) ||
+                (order.kind?.toLowerCase().includes(word))
+            )
+        );
+
+        setFilteredOrders(filtered);
+    }, [searchQuery, orders]);
+
+    return (
+        <div className={styles.card}>
+            <div className={styles.cardTitle}>
+                <div className={styles.leftSection}>
+                    <div className={styles.title}>
+                        {closed ? "Closed" : "Open"}
+                    </div>
+                    {closed && <img className={styles.lock} alt="lock" src={lock}/>}
+                </div>
+
+                <input
+                    className={styles.search}
+                    placeholder="Search / Filter"
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{backgroundImage: `url(${search})`}}
+                />
+            </div>
+
+            <div className={styles.mailingGroup}>
+                {loading ? (
+                    <div>Loading...</div>
+                ) : orders.length > 0 ? (
+                    filteredOrders.length > 0 ? (
+                        filteredOrders.map((order) => (
+
+                            <React.Fragment key={order.id}>
+                                <hr/>
+                                <div className={styles.mailing}>
+                                    <div>{order.name}</div>
+                                    <div className={styles.route}>
+                                        <span className={styles.city}>{order.downloadAddress}</span>
+                                        <span className={styles.dash}>-</span>
+                                        <span className={styles.city}>{order.deliveryAddress}</span>
+                                    </div>
+                                    <div>{order.kind}</div>
+                                </div>
+                            </React.Fragment>
+                        ))) : (
+                        <>
+                            <hr/>
+                            <div className={styles.mailing}>
+                                <div>Рассылок не найдено</div>
+                            </div>
+                        </>
+                    )
+
+                ) : (
+                    <>
+                        <hr/>
+                        <div className={styles.mailing}>
+                            <div>Нет рассылок</div>
+                        </div>
+                    </>
+                )}
+
+
+            </div>
+        </div>
+    );
+};
+
+export default OrderCard;
+
+

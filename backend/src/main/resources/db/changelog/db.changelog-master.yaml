@@ -15,3 +15,5 @@ databaseChangeLog:
       file: db/changelog/changes/007_create_users_orders.sql
   - include:
       file: db/changelog/changes/008_create_order_recipients.sql
+  - include:
+      file: db/changelog/changes/009_alter_orders.sql

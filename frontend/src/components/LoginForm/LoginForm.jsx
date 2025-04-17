@@ -4,7 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import userStore from "../../store/UserStore";
 
 const LoginForm = () => {
-
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         login: "",
 
@@ -30,7 +30,7 @@ const LoginForm = () => {
         setErrors(newErrors);
         return isValid;
     };
-    const navigate = useNavigate();
+
 
     const handleSubmit = async () => {
 
@@ -40,7 +40,7 @@ const LoginForm = () => {
         };
 
         try {
-            const response = await fetch("http://localhost:8080/api/v1/sign-in", {
+            const response = await fetch("http://192.168.1.76:8080/api/v1/sign-in", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -62,15 +62,14 @@ const LoginForm = () => {
                 } else {
                     alert("Ошибка регистрации: " + data.message + " " + data.status);
                 }
-                return false;
+                return null;
             }
 
-            userStore.setUser(data.userId, data.companyId, data.token, data.role, data.login, data.name);
-            return true;
+            return data;
         } catch (error) {
             console.error("Ошибка при отправке запроса:", error);
             alert("Ошибка сети. Попробуйте еще раз.");
-            return false;
+            return null;
         }
     };
 
@@ -88,11 +87,16 @@ const LoginForm = () => {
         }
 
 
-        const success = await handleSubmit();
-        if (success) {
-            if (userStore.isAuth) {
-                navigate("/mailings");
-            }
+        const data = await handleSubmit();
+        console.log(userStore.isAuth)
+        console.log(data)
+        if (data) {
+            console.log("переход");
+            userStore.setUser(data.userId, data.companyId, data.token, data.role, data.login, data.name);
+
+
+            navigate("/mailings");
+
         }
     };
 

@@ -9,7 +9,9 @@ const TeamPage = () => {
 
             <Sidebar selected="team"/>
             <div className="main-content">
-                <div>Team</div>
+                <div className="content-header">
+                    <div className="text">Team</div>
+                </div>
             </div>
         </div>
     );

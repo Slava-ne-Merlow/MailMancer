@@ -9,7 +9,9 @@ const CarriersPage = () => {
 
             <Sidebar selected="carriers"/>
             <div className="main-content">
-                <div>Carriers</div>
+                <div className="content-header">
+                    <div className="text">Carriers</div>
+                </div>
             </div>
         </div>
     );

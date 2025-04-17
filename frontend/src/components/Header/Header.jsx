@@ -21,7 +21,6 @@ const Header = () => {
                     </p>
                 </div>
                 <img className={styles.burgerMenu} alt="Burger menu" src={burgerMenu}/>
-
                 <input
                     className={styles.search}
                     placeholder="Search"
@@ -37,7 +36,7 @@ const Header = () => {
 
             </div>
             <div className={styles.rightSection}>
-                <NotificationButton count={6}/>
+                <NotificationButton count={52}/>
 
 
                 <div className={styles.profile}>
