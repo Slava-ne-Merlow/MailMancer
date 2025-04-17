@@ -83,3 +83,12 @@
     align-items: center;
     gap: 10px;
 }
+
+.tracNumber {
+    color: #202224;
+    font-family: "Nunito Sans-Bold", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0; line-height: 20px;
+    white-space: nowrap;
+}

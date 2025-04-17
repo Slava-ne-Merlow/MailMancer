@@ -84,29 +84,34 @@ const OrderCard = ({closed}) => {
                     style={{backgroundImage: `url(${search})`}}
                 />
             </div>
+            <hr/>
 
             <div className={styles.mailingGroup}>
                 {loading ? (
-                    <div>Loading...</div>
+                    <>
+                        <div className={styles.mailing}>
+                            <div>Loading...</div>
+                        </div>
+                    </>
                 ) : orders.length > 0 ? (
                     filteredOrders.length > 0 ? (
                         filteredOrders.map((order) => (
 
                             <React.Fragment key={order.id}>
-                                <hr/>
                                 <div className={styles.mailing}>
-                                    <div>{order.name}</div>
+                                    <div className={styles.tracNumber}>{order.trackNumber}</div>
                                     <div className={styles.route}>
-                                        <span className={styles.city}>{order.downloadAddress}</span>
+                                        <span className={styles.city}>{order.from}</span>
                                         <span className={styles.dash}>-</span>
-                                        <span className={styles.city}>{order.deliveryAddress}</span>
+                                        <span className={styles.city}>{order.to}</span>
                                     </div>
-                                    <div>{order.kind}</div>
+                                    <div className={styles.tracNumber}>{order.type}</div>
                                 </div>
+                                <hr/>
                             </React.Fragment>
                         ))) : (
                         <>
-                            <hr/>
+
                             <div className={styles.mailing}>
                                 <div>Рассылок не найдено</div>
                             </div>
@@ -115,7 +120,6 @@ const OrderCard = ({closed}) => {
 
                 ) : (
                     <>
-                        <hr/>
                         <div className={styles.mailing}>
                             <div>Нет рассылок</div>
                         </div>
