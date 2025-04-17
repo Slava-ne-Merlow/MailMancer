@@ -17,8 +17,6 @@ data class UserCompanyEntity(
 
     val password: String,
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
-    val users: MutableList<UserEntity> = mutableListOf(),
 
     ) {
     fun toUserCompany(): UserCompany = UserCompany(
@@ -26,8 +24,4 @@ data class UserCompanyEntity(
         email = email,
         password = password,
     )
-
-    override fun toString(): String {
-        return "UserCompanyEntity(id=$id, name=$name, email=$email, password=$password, users=${users.map { it.id }})"
-    }
 }

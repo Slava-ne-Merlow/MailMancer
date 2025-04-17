@@ -26,6 +26,8 @@ data class OrderEntity(
 
     val width: Double,
 
+    val kind: String,
+
     @Column(name = "additional_requirements")
     val additionalRequirements: String? = null,
 

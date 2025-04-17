@@ -26,6 +26,7 @@ class OrderService(
             height = request.height,
             weight = request.weight,
             length = request.length,
+            kind = request.kind,
             user = user
         )
 

@@ -8,5 +8,6 @@ data class CreateRequest (
     val length: Double,
     val width: Double,
     val height: Double,
+    val kind: String,
     val additionalRequirements: String?,
 )
