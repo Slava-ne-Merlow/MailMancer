@@ -55,10 +55,10 @@ const OrderCard = ({closed}) => {
         console.log(searchWords);
         const filtered = orders.filter(order =>
             searchWords.every(word =>
-                (order.name?.toLowerCase().includes(word)) ||
-                (order.downloadAddress?.toLowerCase().includes(word)) ||
-                (order.deliveryAddress?.toLowerCase().includes(word)) ||
-                (order.kind?.toLowerCase().includes(word))
+                (order.trackNumber?.toLowerCase().includes(word)) ||
+                (order.from?.toLowerCase().includes(word)) ||
+                (order.to?.toLowerCase().includes(word)) ||
+                (order.type?.toLowerCase().includes(word))
             )
         );
 
@@ -84,7 +84,6 @@ const OrderCard = ({closed}) => {
                     style={{backgroundImage: `url(${search})`}}
                 />
             </div>
-            <hr/>
 
             <div className={styles.mailingGroup}>
                 {loading ? (
@@ -96,8 +95,8 @@ const OrderCard = ({closed}) => {
                 ) : orders.length > 0 ? (
                     filteredOrders.length > 0 ? (
                         filteredOrders.map((order) => (
-
                             <React.Fragment key={order.id}>
+                                <hr/>
                                 <div className={styles.mailing}>
                                     <div className={styles.tracNumber}>{order.trackNumber}</div>
                                     <div className={styles.route}>
@@ -107,19 +106,19 @@ const OrderCard = ({closed}) => {
                                     </div>
                                     <div className={styles.tracNumber}>{order.type}</div>
                                 </div>
-                                <hr/>
                             </React.Fragment>
+
                         ))) : (
                         <>
-
+                            <hr/>
                             <div className={styles.mailing}>
                                 <div>Рассылок не найдено</div>
                             </div>
                         </>
                     )
-
                 ) : (
                     <>
+                        <hr/>
                         <div className={styles.mailing}>
                             <div>Нет рассылок</div>
                         </div>
