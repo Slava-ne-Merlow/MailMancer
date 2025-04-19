@@ -40,7 +40,7 @@ const LoginForm = () => {
         };
 
         try {
-            const response = await fetch("http://192.168.1.76:8080/api/v1/sign-in", {
+            const response = await fetch("http://localhost:8080/api/v1/sign-in", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

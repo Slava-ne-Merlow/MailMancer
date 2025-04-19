@@ -14,7 +14,7 @@ const OrderCard = ({closed}) => {
 
     const getData = useCallback(async () => {
         try {
-            const response = await fetch(`http://192.168.1.76:8080/api/v1/orders/${closed}`, {
+            const response = await fetch(`http://localhost:8080/api/v1/orders/${closed}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
