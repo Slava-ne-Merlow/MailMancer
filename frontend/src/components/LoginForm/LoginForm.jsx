@@ -88,13 +88,8 @@ const LoginForm = () => {
 
 
         const data = await handleSubmit();
-        console.log(userStore.isAuth)
-        console.log(data)
         if (data) {
-            console.log("переход");
             userStore.setUser(data.userId, data.companyId, data.token, data.role, data.login, data.name);
-
-
             navigate("/mailings");
 
         }

@@ -6,9 +6,9 @@ import styles from "./CreatePage.module.css";
 const CreatePage = () => {
     return (
         <div className="main-page">
-            <Header />
+            <Header/>
 
-            <Sidebar selected="create" />
+            <Sidebar selected="create"/>
             <div className="main-content">
                 <div className="content-header">
                     <div className="text">Create Mailing</div>
@@ -18,9 +18,9 @@ const CreatePage = () => {
 
                     </div>
                 </div>
-                </div>
             </div>
-            );
-            };
+        </div>
+    );
+};
 
-            export default CreatePage;
+export default CreatePage;

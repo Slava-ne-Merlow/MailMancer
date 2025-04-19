@@ -7,13 +7,13 @@ import plusIcon from "../../assets/icons/plus.svg";
 import carriers from "../../assets/icons/carriers.svg";
 import styles from "./Sidebar.module.css";
 
-const Sidebar = ({ selected }) => {
+const Sidebar = ({selected}) => {
     return (
         <div className={styles.sidebar}>
-            <SidebarItem icon={mailIcon} label="Mailings" selected={selected === "mailings"} href={"/mailings"} />
-            <SidebarItem icon={teamIcon} label="Team" selected={selected === "team"} href={"/teams"} />
-            <SidebarItem icon={carriers} label="Carriers" selected={selected === "carriers"} href={"/carriers"} />
-            <SidebarItem icon={plusIcon} label="Create Mailing" selected={selected === "create"} href={"/create"} />
+            <SidebarItem icon={mailIcon} label="Mailings" selected={selected === "mailings"} href={"/mailings"}/>
+            <SidebarItem icon={teamIcon} label="Team" selected={selected === "team"} href={"/teams"}/>
+            <SidebarItem icon={carriers} label="Carriers" selected={selected === "carriers"} href={"/carriers"}/>
+            <SidebarItem icon={plusIcon} label="Create Mailing" selected={selected === "create"} href={"/create"}/>
         </div>
     );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import bell from "../../assets/icons/bell.svg";
 import styles from "./NotificationButton.module.css";
 
-const NotificationButton = ({ count }) => {
+const NotificationButton = ({count}) => {
     const getDisplayCount = () => {
         if (count > 9) return "9+";
         return count.toString();
@@ -15,7 +15,7 @@ const NotificationButton = ({ count }) => {
 
     return (
         <div className={styles.notifications}>
-            <img src={bell} alt="Notifications" />
+            <img src={bell} alt="Notifications"/>
             {count > 0 && (
                 <div
                     className={styles.badge}

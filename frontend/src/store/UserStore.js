@@ -21,12 +21,10 @@ class UserStore {
     }
 
     loadUser() {
-        console.log("try to load user");
         const savedUser = localStorage.getItem("user");
         const savedToken = localStorage.getItem("token");
         const savedAuth = localStorage.getItem("isAuth");
-        console.log(savedUser, savedToken, savedAuth);
-        console.log(savedUser && savedToken && savedAuth === "true");
+
         if (savedUser && savedToken && (savedAuth === "true")) {
             this.user = JSON.parse(savedUser);
             this.token = savedToken;

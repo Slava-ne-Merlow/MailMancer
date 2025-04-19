@@ -1,10 +1,10 @@
 import React, {useState} from "react";
 import {motion} from "framer-motion";
 import style from "./RegisterManagerForm.module.css";
-import userStore  from "../../store/UserStore";
+import userStore from "../../store/UserStore";
 import {Link, useNavigate} from "react-router-dom";
 
-const RegisterManagerForm = ({ token }) => {
+const RegisterManagerForm = ({token}) => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         fullName: "",
@@ -62,7 +62,6 @@ const RegisterManagerForm = ({ token }) => {
         }
 
 
-
         setErrors(newErrors);
         return isValid;
     };
@@ -118,7 +117,6 @@ const RegisterManagerForm = ({ token }) => {
     };
 
 
-
     const prevStep = () => setStep((prev) => prev - 1);
     const nextStep = () => {
         if (validateForm(formData)) {
@@ -140,10 +138,9 @@ const RegisterManagerForm = ({ token }) => {
         }
 
 
-
         const success = await handleSubmit();
         if (success) {
-            if (userStore.isAuth ){
+            if (userStore.isAuth) {
                 navigate("/mailings");
             }
         }
@@ -153,7 +150,7 @@ const RegisterManagerForm = ({ token }) => {
         <div className={style.registrationForm}>
             <div className={style.div}>
                 <div className={style.header}>Create an Account</div>
-                <div className={`${step === 1 ? style.firstStep : style.secondStep }`}>
+                <div className={`${step === 1 ? style.firstStep : style.secondStep}`}>
                     <div className={style.group}>
                         <div className={style.securityCheckup}>Security <br/> Checkup</div>
                         <div className={style.personalInformation}>Personal <br/> Information</div>
@@ -162,7 +159,7 @@ const RegisterManagerForm = ({ token }) => {
                 </div>
                 <motion.div
                     className={style.underline}
-                    animate={{x: step === 1 ? 0 : 125 }}
+                    animate={{x: step === 1 ? 0 : 125}}
                     transition={{type: "spring", stiffness: 100, damping: 10}}
                 />
 

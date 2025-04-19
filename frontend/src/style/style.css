@@ -101,9 +101,6 @@ html, body {
     line-height: normal;
 }
 
-/** {*/
-/*    outline: 1px solid red;*/
-/*}*/
 hr {
     height: 1px;
     border: none;
@@ -112,3 +109,6 @@ hr {
     padding: 0;
     width: 100%;
 }
+/** {*/
+/*    outline: 1px solid red;*/
+/*}*/

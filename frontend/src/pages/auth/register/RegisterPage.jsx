@@ -11,7 +11,7 @@ const RegisterPage = () => {
             {token ? (
                 <RegisterManagerForm token={token}/>
             ) : (
-                <RegisterHeadForm />
+                <RegisterHeadForm/>
             )}
         </>
     );

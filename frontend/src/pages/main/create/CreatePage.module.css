@@ -4,6 +4,7 @@
     overflow: auto;
     display: flex;
 }
+
 .card {
     flex: 1;
     width: 100%;
@@ -11,5 +12,4 @@
     border-radius: 14px;
     display: flex;
     flex-direction: column;
-
 }

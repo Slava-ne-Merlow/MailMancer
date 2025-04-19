@@ -25,6 +25,7 @@
     letter-spacing: 0;
     line-height: 20px;
 }
+
 .mailing {
     height: 60px;
     padding-left: 43px;
@@ -61,6 +62,7 @@
     min-width: 350px; /* или ширину по дизайну */
     text-align: center;
 }
+
 .city {
     flex: 1;
     text-align: right;
@@ -74,6 +76,7 @@
     width: 20px;
     text-align: center;
 }
+
 .lock {
     transform: translateY(-2px);
 }
@@ -89,6 +92,7 @@
     font-family: "Nunito Sans-Bold", sans-serif;
     font-size: 14px;
     font-weight: 700;
-    letter-spacing: 0; line-height: 20px;
+    letter-spacing: 0;
+    line-height: 20px;
     white-space: nowrap;
 }

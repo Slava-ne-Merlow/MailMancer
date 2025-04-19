@@ -3,7 +3,7 @@ import search from "../../assets/icons/search.svg";
 import lock from "../../assets/icons/lock.svg";
 import React, {useEffect, useState} from "react";
 import userStore from "../../store/UserStore";
-import { useCallback } from "react";
+import {useCallback} from "react";
 
 
 const OrderCard = ({closed}) => {
@@ -52,7 +52,6 @@ const OrderCard = ({closed}) => {
 
     useEffect(() => {
         const searchWords = searchQuery.toLowerCase().split(" ").filter(Boolean);
-        console.log(searchWords);
         const filtered = orders.filter(order =>
             searchWords.every(word =>
                 (order.trackNumber?.toLowerCase().includes(word)) ||
