@@ -8,7 +8,7 @@ const SidebarItem = ({icon, label, selected, href}) => {
         <Link to={href} href={href} className={styles.row}>
             <div className={styles.tail} style={{backgroundColor: `${selected ? "#000000" : "#ffffff"}`}}/>
             <div className={classNames(styles.item, {[styles.selected]: selected})}>
-                <img src={icon} alt={label}/>
+                <img src={icon} alt={label} className={styles.img}/>
                 <span className={styles.label}>{label}</span>
             </div>
         </Link>
