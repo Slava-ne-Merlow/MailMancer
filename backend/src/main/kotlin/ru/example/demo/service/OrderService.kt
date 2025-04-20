@@ -7,12 +7,13 @@ import ru.example.demo.entity.OrderEntity
 import ru.example.demo.exception.type.UnauthorizedException
 import ru.example.demo.repository.OrderRepository
 import ru.example.demo.repository.UserRepository
+import ru.example.demo.util.Loggable
 
 @Service
 class OrderService(
     private val orderRepository: OrderRepository,
     private val userRepository: UserRepository,
-) {
+) : Loggable() {
     fun createOrder(request: CreateRequest, token: String): OrderEntity {
 
         val user = userRepository.findByToken(token)
@@ -47,6 +48,7 @@ class OrderService(
                     orderRepository.findAllByClosedDateNotNullAndUser_Company(user.company)
                 }
             }
+
             UserRoles.MANAGER -> {
                 if (!closed) {
                     orderRepository.findAllByClosedDateIsNullAndUser(user)

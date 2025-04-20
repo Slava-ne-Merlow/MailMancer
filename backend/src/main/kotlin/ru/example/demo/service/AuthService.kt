@@ -16,6 +16,7 @@ import ru.example.demo.exception.type.UnauthorizedException
 import ru.example.demo.repository.InviteRepository
 import ru.example.demo.repository.UserCompanyRepository
 import ru.example.demo.repository.UserRepository
+import ru.example.demo.util.Loggable
 
 
 @Service
@@ -25,7 +26,7 @@ class AuthService(
     private val inviteRepository: InviteRepository,
     private val tokenService: TokenService,
     private val emailService: EmailService,
-) {
+) : Loggable() {
     @Transactional
     fun registerHead(request: RegisterHeadRequest): UserEntity {
         userCompanyRepository.findByEmail(request.email)?.let {
