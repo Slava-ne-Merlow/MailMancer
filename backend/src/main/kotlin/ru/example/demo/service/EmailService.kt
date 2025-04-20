@@ -3,10 +3,11 @@ package ru.example.demo.service
 import jakarta.mail.*
 import org.springframework.stereotype.Service
 import ru.example.demo.exception.type.BadRequestException
+import ru.example.demo.util.Loggable
 import java.util.*
 
 @Service
-class EmailService {
+class EmailService : Loggable() {
     fun testConnection(email: String, password: String): Boolean {
         val domain = email.substringAfter("@").lowercase()
         val props = when {
