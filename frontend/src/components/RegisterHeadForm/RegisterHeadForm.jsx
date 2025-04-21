@@ -242,15 +242,14 @@ const RegisterHeadForm = () => {
                                     }}
                                 />
                                 <span className={style.checkmark}></span>
-                            </label>
-
-                            <p className={style.agreeLabel}>
+                            <span className={style.agreeLabel}>
                                 <span style={{color: "#aaaaaa"}}>Please agree to the </span>
                                 <Link to="#" className={style.link}>
                                     <span>terms of service</span>
                                 </Link>
                                 <span style={{color: "#aaaaaa"}}>.</span>
-                            </p>
+                            </span>
+                            </label>
                         </div>
                         <div style={{
                             display: "flex",

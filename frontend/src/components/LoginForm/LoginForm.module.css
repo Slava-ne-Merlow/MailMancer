@@ -122,7 +122,6 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: normal;
-    margin-top: 3px;
     position: relative;
     white-space: nowrap;
 }
@@ -162,10 +161,12 @@
     text-decoration: underline;
 }
 
-.customCheckbox {
+.customCheckbox  {
     position: relative;
-    display: inline-block;
     cursor: pointer;
+    align-items: center;
+    display: inline-flex;
+    gap: 4px;
 }
 
 .customCheckbox input {

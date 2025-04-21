@@ -154,7 +154,6 @@ const RegisterManagerForm = ({token}) => {
                     <div className={style.group}>
                         <div className={style.securityCheckup}>Security <br/> Checkup</div>
                         <div className={style.personalInformation}>Personal <br/> Information</div>
-
                     </div>
                 </div>
                 <motion.div
@@ -200,15 +199,15 @@ const RegisterManagerForm = ({token}) => {
                                     }}
                                 />
                                 <span className={style.checkmark}></span>
-                            </label>
-
-                            <p className={style.agreeLabel}>
+                            <span className={style.agreeLabel}>
                                 <span style={{color: "#aaaaaa"}}>Please agree to the </span>
                                 <Link to="#" className={style.link}>
                                     <span>terms of service</span>
                                 </Link>
                                 <span style={{color: "#aaaaaa"}}>.</span>
-                            </p>
+                            </span>
+                            </label>
+
                         </div>
                         <div style={{
                             display: "flex",

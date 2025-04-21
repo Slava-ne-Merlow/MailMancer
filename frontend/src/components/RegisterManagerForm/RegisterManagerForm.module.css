@@ -61,13 +61,10 @@
         color: transparent;
         font-size: 10px;
         font-weight: 600;
-        height: 11px;
         letter-spacing: 0;
         line-height: normal;
-        margin-top: 3px;
         position: relative;
         white-space: nowrap;
-        width: 184px;
     }
 }
 
@@ -150,10 +147,12 @@
     width: 247px;
 }
 
-.customCheckbox {
+.customCheckbox  {
     position: relative;
-    display: inline-block;
     cursor: pointer;
+    align-items: center;
+    display: inline-flex;
+    gap: 4px;
 }
 
 .customCheckbox input {
