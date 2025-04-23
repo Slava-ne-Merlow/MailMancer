@@ -87,6 +87,7 @@ const OrderCard = ({closed}) => {
             <div className={styles.mailingGroup}>
                 {loading ? (
                     <>
+                        <hr/>
                         <div className={styles.mailing}>
                             <div>Loading...</div>
                         </div>
