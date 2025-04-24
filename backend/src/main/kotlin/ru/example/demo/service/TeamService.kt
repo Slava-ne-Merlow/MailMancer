@@ -19,7 +19,8 @@ class TeamService(
 ) {
     fun deleteMember(login : String, token : String) {
         val currentUser = userRepository.findByToken(token)
-        if (currentUser!!.role != UserRoles.HEAD) {
+            ?: throw UnauthorizedException("Недействителен токен авторизации")
+        if (currentUser.role != UserRoles.HEAD) {
             throw ForbiddenException("Недостаточно прав")
         }
         if (currentUser.login == login) {
