@@ -24,7 +24,7 @@ class TeamService(
             throw BadRequestException("Вы не можете удалить сами себя")
         }
         val userToDelete = userRepository.findByLogin(login)
-            ?: throw UnauthorizedException("Недействителен логин пользователя")
+            ?: throw BadRequestException("Недействителен логин пользователя")
         val orders = orderRepository.findAllByUser(userToDelete)
         orders.forEach { order ->
             order.user = currentUser
