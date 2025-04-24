@@ -17,7 +17,7 @@ function App() {
                 <Route path="/login" element={<LoginPage/>}/>
 
                 <Route path="/mailings" element={<ProtectedRoute><MailingsPage/></ProtectedRoute>}/>
-                <Route path="/teams" element={<ProtectedRoute><TeamPage/></ProtectedRoute>}/>
+                <Route path="/team" element={<ProtectedRoute><TeamPage/></ProtectedRoute>}/>
                 <Route path="/carriers" element={<ProtectedRoute><CarriersPage/></ProtectedRoute>}/>
                 <Route path="/create" element={<ProtectedRoute><CreatePage/></ProtectedRoute>}/>
 
