@@ -1,9 +1,13 @@
 package ru.example.demo.controller
 
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import ru.example.demo.dto.request.CreateRequest
+import ru.example.demo.dto.response.MemberRequestResponse
 import ru.example.demo.dto.response.OrderResponse
 import ru.example.demo.service.OrderService
+import ru.example.demo.service.TeamService
 
 @CrossOrigin(origins = ["http://Localhost:3000", "http://192.168.1.76:3000"])
 @RestController
@@ -19,7 +23,8 @@ class TeamController(
 
     @GetMapping("/team")
     fun get(@RequestHeader("Authorization") token: String): List<MemberRequestResponse> {
-        val users = teamService.get(token)
-        val response : List<MemberRequestResponse> = users.map { it.name, it.login, it.role }
+        val users = teamService.getTeam(token)
+        val response = users.map { MemberRequestResponse(it.name, it.login, it.role) }
+        return response
     }
 }
