@@ -11,7 +11,7 @@ import ru.example.demo.service.OrderService
 class TeamController(
     val teamService : TeamService
 ) {
-    @PostMapping("team/member/{login}")
+    @DeleteMapping("team/member/{login}")
     fun delete(@PathVariable login : String, @RequestHeader("Authorization") token: String) : ResponseEntity<String> {
         teamService.deleteMember(login, token)
         return ResponseEntity("Пользователь был успешно удалён.", HttpStatus.OK)
