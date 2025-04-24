@@ -30,7 +30,7 @@ class TeamService(
             order.user = currentUser
         }
         orderRepository.saveAll(orders)
-        userRepository.deleteById(userToDelete.id)
+        userRepository.deleteByLogin(login)
     }
 
     fun getTeam(token: String) : List<UserEntity> {
