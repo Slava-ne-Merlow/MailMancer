@@ -28,12 +28,15 @@ class TeamService(
         }
         val deletedUser = userRepository.findByLogin(login)
         val orders = orderRepository.findAllByUser(deletedUser!!)
-
+        orders.forEach { order ->
+            order.user = currentUser
+        }
         userRepository.deleteById(deletedUser.id)
     }
 
     fun getTeam(token: String) : List<UserEntity> {
         val currentUser = userRepository.findByToken(token)
+            ?: throw UnauthorizedException("Недействителен токен авторизации")
         val company = currentUser!!.company
         val users = userRepository.findAllByCompany(company)
         return users
