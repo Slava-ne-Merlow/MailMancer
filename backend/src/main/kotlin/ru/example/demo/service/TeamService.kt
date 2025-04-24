@@ -2,9 +2,6 @@ package ru.example.demo.service
 
 import org.springframework.stereotype.Service
 import ru.example.demo.dto.enums.UserRoles
-import ru.example.demo.dto.request.CreateRequest
-import ru.example.demo.dto.response.MemberRequestResponse
-import ru.example.demo.entity.OrderEntity
 import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.type.BadRequestException
 import ru.example.demo.exception.type.ForbiddenException
@@ -26,18 +23,20 @@ class TeamService(
         if (currentUser.login == login) {
             throw BadRequestException("Вы не можете удалить сами себя")
         }
-        val deletedUser = userRepository.findByLogin(login)
-        val orders = orderRepository.findAllByUser(deletedUser!!)
+        val userToDelete = userRepository.findByLogin(login)
+            ?: throw UnauthorizedException("Недействителен логин пользователя")
+        val orders = orderRepository.findAllByUser(userToDelete)
         orders.forEach { order ->
             order.user = currentUser
         }
-        userRepository.deleteById(deletedUser.id)
+        orderRepository.saveAll(orders)
+        userRepository.deleteById(userToDelete.id)
     }
 
     fun getTeam(token: String) : List<UserEntity> {
         val currentUser = userRepository.findByToken(token)
             ?: throw UnauthorizedException("Недействителен токен авторизации")
-        val company = currentUser!!.company
+        val company = currentUser.company
         val users = userRepository.findAllByCompany(company)
         return users
     }
