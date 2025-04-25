@@ -12,11 +12,14 @@ import ru.example.demo.util.Loggable
 @RequestMapping("/api/v1")
 class OrderController(
     val orderService: OrderService
-) : Loggable()  {
+) : Loggable() {
     @PostMapping("/create")
-    fun createOrder(@RequestBody request: CreateRequest, @RequestHeader("Authorization") token: String) : SuccessResponse {
+    fun createOrder(
+        @RequestBody request: CreateRequest,
+        @RequestHeader("Authorization") token: String
+    ): SuccessResponse {
         val savedOrder = orderService.createOrder(request, token)
-        return SuccessResponse(message = "Успешное создание заказа с трек номером: ${savedOrder.name}" )
+        return SuccessResponse(message = "Успешное создание заказа с трек номером: ${savedOrder.name}")
     }
 
     @GetMapping("/orders/{closed}")
