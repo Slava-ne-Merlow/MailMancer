@@ -7,6 +7,7 @@ import java.util.*
 @Service
 class TokenService : Loggable() {
     fun generateToken(): String {
+        logger.debug("Создание токена")
         return UUID.randomUUID().toString()
     }
 }

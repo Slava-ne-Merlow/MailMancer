@@ -1,5 +1,6 @@
 package ru.example.demo.service
 
+import org.slf4j.MDC
 import org.springframework.stereotype.Service
 import ru.example.demo.dto.enums.UserRoles
 import ru.example.demo.dto.request.CreateRequest
@@ -16,8 +17,12 @@ class OrderService(
 ) : Loggable() {
     fun createOrder(request: CreateRequest, token: String): OrderEntity {
 
+        logger.debug("Попытка создания заказа с токеном: {} и параметрами: {}", token, request)
+
         val user = userRepository.findByToken(token)
             ?: throw UnauthorizedException("Недействителен токен авторизации")
+
+        MDC.put("userId", user.id.toString())
 
         val order = OrderEntity(
             name = request.name,
@@ -33,14 +38,23 @@ class OrderService(
 
         val savedOrder = orderRepository.save(order)
 
+        logger.info("Создан заказ с ID: {}", savedOrder.id)
+
         return savedOrder
     }
 
     fun getOrders(closed: Boolean, token: String): List<OrderEntity> {
+
+        logger.debug("Запрос на получение заказов с токеном: {} закрытые: {}",token, closed)
+
         val user = userRepository.findByToken(token)
             ?: throw UnauthorizedException("Недействителен токен авторизации")
 
-        return when (user.role) {
+        logger.debug("Роль пользователя: {}", user.role)
+
+        MDC.put("userId", user.id.toString())
+
+        val orders = when (user.role) {
             UserRoles.HEAD -> {
                 if (!closed) {
                     orderRepository.findAllByClosedDateIsNullAndUser_Company(user.company)
@@ -48,7 +62,6 @@ class OrderService(
                     orderRepository.findAllByClosedDateNotNullAndUser_Company(user.company)
                 }
             }
-
             UserRoles.MANAGER -> {
                 if (!closed) {
                     orderRepository.findAllByClosedDateIsNullAndUser(user)
@@ -57,5 +70,9 @@ class OrderService(
                 }
             }
         }
+
+        logger.info("Найдено {} заказов", orders.size)
+
+        return orders
     }
 }

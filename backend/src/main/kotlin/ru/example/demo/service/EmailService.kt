@@ -9,6 +9,9 @@ import java.util.*
 @Service
 class EmailService : Loggable() {
     fun testConnection(email: String, password: String): Boolean {
+
+        logger.debug("Проверка почты email: {} password: {}", email, password)
+
         val domain = email.substringAfter("@").lowercase()
         val props = when {
             domain.contains("gmail") -> {
@@ -46,12 +49,14 @@ class EmailService : Loggable() {
                 )
             }
             store.close()
+            logger.info("Успешное подключение")
             return true
         } catch (e: AuthenticationFailedException) {
-            println("Authentication failed")
+            logger.warn("Ошибка во время аутентификации")
             return false
         } catch (e: Exception) {
-            println(e)
+            logger.warn("Неизвестная ошибка: {}", e.message)
+
             return false
 
         }
