@@ -15,9 +15,9 @@ class TeamController(
 ) : Loggable() {
     @DeleteMapping("team/member/{login}")
     fun delete(@PathVariable login: String, @RequestHeader("Authorization") token: String): SuccessResponse {
-        teamService.deleteMember(login, token)
+        val message = teamService.deleteMember(login, token)
 
-        return SuccessResponse(message = "Пользователь был успешно удалён")
+        return SuccessResponse(message = message)
     }
 
     @GetMapping("/team")

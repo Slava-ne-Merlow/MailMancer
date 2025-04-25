@@ -1,5 +1,6 @@
 package ru.example.demo.dto.model
 
+import ru.example.demo.entity.OrderEntity
 import java.time.LocalDateTime
 
 data class Order(
@@ -14,4 +15,19 @@ data class Order(
     val createdDate: LocalDateTime = LocalDateTime.now(),
     val closeDate: LocalDateTime? = null,
     val user: User,
+    val kind: String,
+) {
+    fun toEntity() = OrderEntity(
+        name = name,
+        downloadAddress = downloadAddress,
+        deliveryAddress = deliveryAddress,
+        weight = weight,
+        length = length,
+        width = width,
+        height = height,
+        additionalRequirements = additionalRequirements,
+        createdDate = createdDate,
+        kind = kind,
+        user = user.toEntity()
     )
+}
