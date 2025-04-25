@@ -31,4 +31,8 @@ class GlobalExceptionHandler {
     @ExceptionHandler(ExpiredTokenException::class)
     fun handleExpiredTokenException(exception: ExpiredTokenException) =
         ResponseEntity.status(410).body(ErrorResponse(exception.message ?: "TOKEN EXPIRED"))
+
+    @ExceptionHandler(ForbiddenException::class)
+    fun handleForbiddenException(exception: ForbiddenException) =
+        ResponseEntity.status(403).body(ErrorResponse(exception.message ?: "FORBIDDEN"))
 }

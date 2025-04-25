@@ -4,6 +4,7 @@ import userStore from "../../store/UserStore";
 import {motion} from "framer-motion";
 import style from "./RegisterHeadFrom.module.css";
 
+
 const RegisterHeadForm = () => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
