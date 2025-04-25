@@ -6,7 +6,6 @@ import ru.example.demo.dto.enums.UserRoles
 import ru.example.demo.dto.request.LoginUserRequest
 import ru.example.demo.dto.request.RegisterHeadRequest
 import ru.example.demo.dto.request.RegisterManagerRequest
-import ru.example.demo.entity.InviteEntity
 import ru.example.demo.entity.UserCompanyEntity
 import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.type.EntityAlreadyExistsException
@@ -129,29 +128,6 @@ class AuthService(
         return savedUser
     }
 
-    @Transactional
-    fun generateInvite(userToken: String): String {
 
-        logger.debug("Запрос на создание приглашения в компанию user'а с токеном: {}", userToken)
-
-        val user = userRepository.findByToken(userToken)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
-
-        val company = user.company
-
-        val token = tokenService.generateToken()
-
-        val invite = InviteEntity(
-            company = company,
-            token = token
-        )
-
-        val savedInvite = inviteRepository.save(invite)
-
-        logger.info("Создали приглашение с id = {}", savedInvite.id)
-
-//        Пока localhost:3000 потом разберусь, как лучше сделать
-        return "http://localhost:3000/register?token=${savedInvite.token}"
-    }
 
 }

@@ -7,7 +7,6 @@ import ru.example.demo.service.AuthService
 import ru.example.demo.dto.request.LoginUserRequest
 import ru.example.demo.dto.request.RegisterManagerRequest
 import ru.example.demo.dto.response.AuthResponse
-import ru.example.demo.dto.response.InviteResponse
 import ru.example.demo.util.Loggable
 
 @CrossOrigin(origins = ["http://Localhost:3000", "http://192.168.1.76:3000"])
@@ -55,11 +54,4 @@ class AuthController(
         )
     }
 
-    @PostMapping("/generate-invite")
-    fun generateInvite(@RequestHeader("Authorization") userToken: String): InviteResponse {
-        val url = authService.generateInvite(userToken)
-        return InviteResponse(
-            url = url,
-        )
-    }
 }

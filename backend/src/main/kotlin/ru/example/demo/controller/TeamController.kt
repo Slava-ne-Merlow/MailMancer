@@ -1,6 +1,7 @@
 package ru.example.demo.controller
 
 import org.springframework.web.bind.annotation.*
+import ru.example.demo.dto.response.InviteResponse
 import ru.example.demo.dto.response.MemberRequestResponse
 import ru.example.demo.dto.response.SuccessResponse
 import ru.example.demo.service.TeamService
@@ -26,5 +27,12 @@ class TeamController(
         val response = users.map { MemberRequestResponse(it.name, it.login, it.role) }
 
         return response
+    }
+
+    @PostMapping("/generate-invite")
+    fun generateInvite(@RequestHeader("Authorization") userToken: String): InviteResponse {
+        val url = teamService.generateInvite(userToken)
+
+        return InviteResponse(url = url)
     }
 }

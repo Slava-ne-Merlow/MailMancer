@@ -1,11 +1,14 @@
 package ru.example.demo.service
 
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import ru.example.demo.dto.enums.UserRoles
+import ru.example.demo.entity.InviteEntity
 import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.type.BadRequestException
 import ru.example.demo.exception.type.ForbiddenException
 import ru.example.demo.exception.type.UnauthorizedException
+import ru.example.demo.repository.InviteRepository
 import ru.example.demo.repository.OrderRepository
 import ru.example.demo.repository.UserRepository
 import ru.example.demo.util.Loggable
@@ -14,6 +17,8 @@ import ru.example.demo.util.Loggable
 class TeamService(
     private val orderRepository: OrderRepository,
     private val userRepository: UserRepository,
+    private val tokenService: TokenService,
+    private val inviteRepository: InviteRepository,
 ) : Loggable() {
     fun deleteMember(login: String, token: String) {
         val currentUser = userRepository.findByToken(token)
@@ -50,5 +55,30 @@ class TeamService(
         val users = userRepository.findAllByCompany(company)
 
         return users
+    }
+
+    @Transactional
+    fun generateInvite(userToken: String): String {
+
+        logger.debug("Запрос на создание приглашения в компанию user'а с токеном: {}", userToken)
+
+        val user = userRepository.findByToken(userToken)
+            ?: throw UnauthorizedException("Недействителен токен авторизации")
+
+        val company = user.company
+
+        val token = tokenService.generateToken()
+
+        val invite = InviteEntity(
+            company = company,
+            token = token
+        )
+
+        val savedInvite = inviteRepository.save(invite)
+
+        logger.info("Создали приглашение с id = {}", savedInvite.id)
+
+//        Пока localhost:3000 потом разберусь, как лучше сделать
+        return "http://localhost:3000/register?token=${savedInvite.token}"
     }
 }
