@@ -39,7 +39,7 @@ data class OrderEntity(
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    val user: UserEntity,
+    var user: UserEntity,
 
     @ManyToMany
     @JoinTable(

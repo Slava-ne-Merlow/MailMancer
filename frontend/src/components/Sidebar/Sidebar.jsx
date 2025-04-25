@@ -11,7 +11,7 @@ const Sidebar = ({selected}) => {
     return (
         <div className={styles.sidebar}>
             <SidebarItem icon={mailIcon} label="Mailings" selected={selected === "mailings"} href={"/mailings"}/>
-            <SidebarItem icon={teamIcon} label="Team" selected={selected === "team"} href={"/teams"}/>
+            <SidebarItem icon={teamIcon} label="Team" selected={selected === "team"} href={"/team"}/>
             <SidebarItem icon={carriers} label="Carriers" selected={selected === "carriers"} href={"/carriers"}/>
             <SidebarItem icon={plusIcon} label="Create Mailing" selected={selected === "create"} href={"/create"}/>
         </div>
