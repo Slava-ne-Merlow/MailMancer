@@ -17,8 +17,8 @@ import ru.example.demo.util.Loggable
 class TeamService(
     private val orderRepository: OrderRepository,
     private val userRepository: UserRepository,
-    private val tokenService: TokenService,
     private val inviteRepository: InviteRepository,
+    private val tokenService: TokenService,
 ) : Loggable() {
     fun deleteMember(login: String, token: String) {
         val currentUser = userRepository.findByToken(token)

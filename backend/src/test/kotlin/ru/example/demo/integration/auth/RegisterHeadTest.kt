@@ -1,4 +1,4 @@
-package ru.example.demo.integration
+package ru.example.demo.integration.auth
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
@@ -14,6 +14,7 @@ import ru.example.demo.dto.request.RegisterHeadRequest
 import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.type.EntityAlreadyExistsException
 import ru.example.demo.exception.type.UnauthorizedException
+import ru.example.demo.integration.AbstractServiceTest
 
 
 class RegisterHeadTest : AbstractServiceTest() {

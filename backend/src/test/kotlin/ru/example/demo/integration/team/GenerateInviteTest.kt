@@ -1,4 +1,4 @@
-package ru.example.demo.integration
+package ru.example.demo.integration.team
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
@@ -11,6 +11,7 @@ import ru.example.demo.dto.enums.UserRoles
 import ru.example.demo.entity.UserCompanyEntity
 import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.type.UnauthorizedException
+import ru.example.demo.integration.AbstractServiceTest
 
 
 class GenerateInviteTest : AbstractServiceTest() {
@@ -45,7 +46,7 @@ class GenerateInviteTest : AbstractServiceTest() {
     @Test
     fun `успешное создание приглашения`() {
 
-        val inviteUrl = authService.generateInvite(savedUser.token)
+        val inviteUrl = teamService.generateInvite(savedUser.token)
 
         inviteUrl shouldStartWith "http://localhost:3000/register?token="
 
@@ -55,7 +56,7 @@ class GenerateInviteTest : AbstractServiceTest() {
     @Test
     fun `ошибка если токен приглашения истёк`() {
         val exception = shouldThrow<UnauthorizedException> {
-            authService.generateInvite("invalid_token")
+            teamService.generateInvite("invalid_token")
         }
 
         exception.message should startWith("Недействителен токен авторизации")

@@ -9,16 +9,24 @@ import ru.example.demo.repository.UserRepository
 import ru.example.demo.service.AuthService
 import ru.example.demo.service.EmailService
 import com.ninjasquad.springmockk.MockkBean
+import ru.example.demo.repository.OrderRepository
+import ru.example.demo.service.TeamService
 
 
 @ActiveProfiles("test")
 @SpringBootTest
 abstract class AbstractServiceTest {
     @Autowired
+    lateinit var teamService: TeamService
+
+    @Autowired
     lateinit var authService: AuthService
 
     @Autowired
     lateinit var userRepository: UserRepository
+
+    @Autowired
+    lateinit var orderRepository: OrderRepository
 
     @Autowired
     lateinit var userCompanyRepository: UserCompanyRepository

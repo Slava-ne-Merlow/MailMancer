@@ -1,4 +1,4 @@
-package ru.example.demo.integration
+package ru.example.demo.integration.auth
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
@@ -15,6 +15,7 @@ import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.type.EntityAlreadyExistsException
 import ru.example.demo.exception.type.ExpiredTokenException
 import ru.example.demo.exception.type.NotFoundException
+import ru.example.demo.integration.AbstractServiceTest
 import java.time.LocalDateTime
 import java.time.Duration
 

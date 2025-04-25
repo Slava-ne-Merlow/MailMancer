@@ -1,4 +1,4 @@
-package ru.example.demo.unit
+package ru.example.demo.unit.auth
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
@@ -13,6 +13,7 @@ import ru.example.demo.dto.model.UserCompany
 import ru.example.demo.dto.request.LoginUserRequest
 import ru.example.demo.exception.type.NotFoundException
 import ru.example.demo.exception.type.UnauthorizedException
+import ru.example.demo.unit.AbstractUnitTest
 
 
 class LoginTest : AbstractUnitTest() {
