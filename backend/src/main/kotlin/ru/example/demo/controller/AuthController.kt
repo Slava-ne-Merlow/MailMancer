@@ -8,13 +8,14 @@ import ru.example.demo.dto.request.LoginUserRequest
 import ru.example.demo.dto.request.RegisterManagerRequest
 import ru.example.demo.dto.response.AuthResponse
 import ru.example.demo.dto.response.InviteResponse
+import ru.example.demo.util.Loggable
 
 @CrossOrigin(origins = ["http://Localhost:3000", "http://192.168.1.76:3000"])
 @RestController
 @RequestMapping("/api/v1")
 class AuthController(
     val authService: AuthService,
-) {
+) : Loggable() {
     @PostMapping("/head/sign-up")
     fun registerHead(@RequestBody request: RegisterHeadRequest): AuthResponse {
         val user = authService.registerHead(request)

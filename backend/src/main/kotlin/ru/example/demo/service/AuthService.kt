@@ -16,6 +16,7 @@ import ru.example.demo.exception.type.UnauthorizedException
 import ru.example.demo.repository.InviteRepository
 import ru.example.demo.repository.UserCompanyRepository
 import ru.example.demo.repository.UserRepository
+import ru.example.demo.util.Loggable
 
 
 @Service
@@ -25,9 +26,11 @@ class AuthService(
     private val inviteRepository: InviteRepository,
     private val tokenService: TokenService,
     private val emailService: EmailService,
-) {
+) : Loggable() {
     @Transactional
     fun registerHead(request: RegisterHeadRequest): UserEntity {
+        logger.debug("Запрос на регистрацию HEAD'а с параметрами: {}", request)
+
         userCompanyRepository.findByEmail(request.email)?.let {
             throw EntityAlreadyExistsException("Почта ${request.email} занята")
         }
@@ -49,6 +52,8 @@ class AuthService(
 
         val savedCompany = userCompanyRepository.save(company)
 
+        logger.info("Создана компания с id = {}", savedCompany.id)
+
         val user = UserEntity(
             login = request.headLogin,
             name = request.headName,
@@ -59,11 +64,17 @@ class AuthService(
         )
         val savedUser = userRepository.save(user)
 
+        logger.info("Создан user с id = {}", savedUser.id)
+
+
         return savedUser
     }
 
     @Transactional
     fun registerManager(request: RegisterManagerRequest): UserEntity {
+        logger.debug("Запрос на регистрацию MANAGER'а с параметрами: {}", request)
+
+
         val invite = inviteRepository.findByToken(request.inviteToken)
             ?: throw NotFoundException("Приглашение недействительно")
 
@@ -78,6 +89,7 @@ class AuthService(
         val company = invite.company
         val token = tokenService.generateToken()
 
+        logger.info("Приглашение с id = {}, companyID: {}", invite.id, invite.company.id)
 
         val newUser = UserEntity(
             login = request.login,
@@ -90,11 +102,16 @@ class AuthService(
 
         val savedUser = userRepository.save(newUser)
 
+        logger.info("Создали пользователя с id = {}", savedUser.id)
+
         return savedUser
     }
 
     @Transactional
     fun loginUser(request: LoginUserRequest): UserEntity {
+
+        logger.debug("Запрос на авторизацию с параметрами: {}", request)
+
         val user = userRepository.findByLogin(request.login)
             ?: throw NotFoundException("Логин ${request.login} занят")
 
@@ -106,11 +123,16 @@ class AuthService(
 
         val savedUser = userRepository.save(user)
 
+        logger.info("Найден пользователь с id = {}", savedUser.id)
+
+
         return savedUser
     }
 
     @Transactional
     fun generateInvite(userToken: String): String {
+
+        logger.debug("Запрос на создание приглашения в компанию user'а с токеном: {}", userToken)
 
         val user = userRepository.findByToken(userToken)
             ?: throw UnauthorizedException("Недействителен токен авторизации")
@@ -125,6 +147,8 @@ class AuthService(
         )
 
         val savedInvite = inviteRepository.save(invite)
+
+        logger.info("Создали приглашение с id = {}", savedInvite.id)
 
 //        Пока localhost:3000 потом разберусь, как лучше сделать
         return "http://localhost:3000/register?token=${savedInvite.token}"
