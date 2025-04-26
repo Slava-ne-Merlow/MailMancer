@@ -1,11 +1,8 @@
 package ru.example.demo.service
 
 import jakarta.transaction.Transactional
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import ru.example.demo.dto.enums.UserRoles
-import ru.example.demo.dto.response.InviteResponse
-import ru.example.demo.dto.response.SuccessResponse
 import ru.example.demo.entity.InviteEntity
 import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.type.BadRequestException
@@ -21,11 +18,11 @@ class TeamService(
     private val orderRepository: OrderRepository,
     private val userRepository: UserRepository,
     private val tokenService: TokenService,
-    private val inviteRepository: InviteResponse
+    private val inviteRepository: InviteRepository
 ) : Loggable() {
 
     @org.springframework.transaction.annotation.Transactional
-    fun deleteMember(login : String, token : String) {
+    fun deleteMember(login : String, token : String) : String {
         val currentUser = userRepository.findByToken(token)
             ?: throw UnauthorizedException("Недействителен токен авторизации")
 
@@ -55,6 +52,8 @@ class TeamService(
         userRepository.deleteByLogin(login)
 
         logger.info("Удаление пользователя прошло успешно")
+
+        return "Пользователь был успешно удалён"
     }
 
     fun getTeam(token: String) : List<UserEntity> {
