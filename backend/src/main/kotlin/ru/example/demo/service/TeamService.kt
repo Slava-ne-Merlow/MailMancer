@@ -18,8 +18,8 @@ import ru.example.demo.util.Loggable
 class TeamService(
     private val orderRepository: OrderRepository,
     private val userRepository: UserRepository,
-    private val tokenService: TokenService,
-    private val inviteRepository: InviteRepository
+    private val inviteRepository: InviteRepository,
+    private val tokenService: TokenService
 ) : Loggable() {
 
     @org.springframework.transaction.annotation.Transactional
