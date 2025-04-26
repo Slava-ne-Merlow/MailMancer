@@ -40,6 +40,8 @@ dependencies {
 	testImplementation("com.ninja-squad:springmockk:4.0.2")
 	implementation("com.sun.mail:jakarta.mail:2.0.1")
 	implementation("org.codehaus.janino:janino:3.1.9")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("io.micrometer:micrometer-registry-prometheus")
 }
 
 

@@ -48,10 +48,4 @@ class GlobalExceptionHandler : Loggable() {
         logger.warn("ForbiddenException: {}", exception.message)
         return ResponseEntity.status(403).body(ErrorResponse(exception.message ?: "FORBIDDEN"))
     }
-        
-    @ExceptionHandler(Exception::class)
-    fun handleGenericException(exception: Exception): ResponseEntity<ErrorResponse> {
-        logger.error("Unexpected error", exception)
-        return ResponseEntity.status(500).body(ErrorResponse("Internal server error"))
-    }
 }
