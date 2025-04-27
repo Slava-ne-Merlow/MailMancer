@@ -105,9 +105,9 @@ hr {
     height: 1px;
     border: none;
     background-color: #D8D8D8;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
-    width: 100%;
+    width: calc(100% - 40px);
 }
 /** {*/
 /*    outline: 1px solid red;*/
