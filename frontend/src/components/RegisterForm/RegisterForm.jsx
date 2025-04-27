@@ -2,11 +2,11 @@ import React, {useState} from "react";
 import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import userStore from "../../store/UserStore";
 import {motion} from "framer-motion";
-import style from "./RegisterHeadFrom.module.css";
+import style from "./RegisterFrom.module.css";
 import {CustomCheckbox} from "../CustomCheckbox/CustomCheckbox";
 
 
-const RegisterHeadForm = () => {
+const RegisterForm = () => {
     const [searchParams] = useSearchParams();
     const token = searchParams.get("token");
     let url
@@ -61,6 +61,7 @@ const RegisterHeadForm = () => {
 
             if (!response.ok) {
                 if (response.status === 409) {
+                    console.log(data.message);
                     if (data.message === `Логин ${request.login} занят`) {
                         setErrors((prev) => ({...prev, login: "This login is already used"}));
                         prevStep()
@@ -70,6 +71,9 @@ const RegisterHeadForm = () => {
                         setErrors((prev) => ({...prev, email: "This mail is already used"}));
                         prevStep()
                     }
+
+
+                //     Почта ${request.email} занята"
                 } else {
                     alert("Ошибка регистрации: " + data.message + " " + data.status);
                 }
@@ -346,4 +350,4 @@ const RegisterHeadForm = () => {
     );
 };
 
-export default RegisterHeadForm;
+export default RegisterForm;

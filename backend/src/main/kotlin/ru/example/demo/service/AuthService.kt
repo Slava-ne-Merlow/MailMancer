@@ -76,6 +76,10 @@ class AuthService(
             throw EntityAlreadyExistsException("Логин ${request.login} занят")
         }
 
+        userRepository.findByEmail(request.email)?.let {
+            throw EntityAlreadyExistsException("Почта ${request.email} занята")
+        }
+
         if (invite.checkToken()) {
             throw ExpiredTokenException("Приглашение истекло")
         }
