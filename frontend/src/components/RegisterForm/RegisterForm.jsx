@@ -71,9 +71,6 @@ const RegisterForm = () => {
                         setErrors((prev) => ({...prev, email: "This mail is already used"}));
                         prevStep()
                     }
-
-
-                //     Почта ${request.email} занята"
                 } else {
                     alert("Ошибка регистрации: " + data.message + " " + data.status);
                 }

@@ -7,7 +7,7 @@ import ru.example.demo.dto.response.SuccessResponse
 import ru.example.demo.service.TeamService
 import ru.example.demo.util.Loggable
 
-@CrossOrigin(origins = ["http://Localhost:3000", "http://192.168.1.76:3000"])
+@CrossOrigin(origins = ["http://Localhost:3000"])
 @RestController
 @RequestMapping("/api/v1")
 class TeamController(
@@ -29,7 +29,7 @@ class TeamController(
         return response
     }
 
-    @PostMapping("/generate-invite")
+    @GetMapping("/generate-invite")
     fun generateInvite(@RequestHeader("Authorization") userToken: String): InviteResponse {
         val url = teamService.generateInvite(userToken)
 

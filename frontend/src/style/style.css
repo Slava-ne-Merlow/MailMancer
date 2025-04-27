@@ -86,14 +86,12 @@ html, body {
     flex-direction: column;
     overflow-y: auto;
     gap: 20px;
-
 }
 
 .content-header {
     padding: 30px 30px 0 30px;
     display: flex;
     justify-content: space-between;
-
 }
 
 .content-header .text {
