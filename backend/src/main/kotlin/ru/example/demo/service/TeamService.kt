@@ -3,7 +3,6 @@ package ru.example.demo.service
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import ru.example.demo.dto.enums.UserRoles
-import ru.example.demo.dto.response.SuccessResponse
 import ru.example.demo.entity.InviteEntity
 import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.type.BadRequestException
@@ -14,17 +13,21 @@ import ru.example.demo.repository.OrderRepository
 import ru.example.demo.repository.UserRepository
 import ru.example.demo.util.Loggable
 
+
 @Service
 class TeamService(
     private val orderRepository: OrderRepository,
     private val userRepository: UserRepository,
     private val inviteRepository: InviteRepository,
-    private val tokenService: TokenService,
+    private val tokenService: TokenService
 ) : Loggable() {
-    @Transactional
-    fun deleteMember(login: String, token: String): String {
+
+    @org.springframework.transaction.annotation.Transactional
+    fun deleteMember(login : String, token : String) : String {
         val currentUser = userRepository.findByToken(token)
             ?: throw UnauthorizedException("Недействителен токен авторизации")
+
+        logger.debug("Найден пользователь по логину: ${currentUser.login}, id: ${currentUser.id}")
 
         if (currentUser.role != UserRoles.HEAD) {
             throw ForbiddenException("Недостаточно прав")
@@ -37,6 +40,8 @@ class TeamService(
         val userToDelete = userRepository.findByLogin(login)
             ?: throw BadRequestException("Такого логина не существует")
 
+        logger.debug("Найден пользователь по логину: ${userToDelete.login}, id: ${userToDelete.id}")
+
         val orders = orderRepository.findAllByUser(userToDelete)
 
         orders.forEach { order ->
@@ -47,16 +52,22 @@ class TeamService(
 
         userRepository.deleteByLogin(login)
 
+        logger.info("Удаление пользователя прошло успешно")
+
         return "Пользователь был успешно удалён"
     }
 
-    fun getTeam(token: String): List<UserEntity> {
+    fun getTeam(token: String) : List<UserEntity> {
         val currentUser = userRepository.findByToken(token)
             ?: throw UnauthorizedException("Недействителен токен авторизации")
+
+        logger.debug("Найден пользователь по логину: ${currentUser.login}, id : ${currentUser.id}")
 
         val company = currentUser.company
 
         val users = userRepository.findAllByCompany(company)
+
+        logger.info("Поиск команды пользователя прошёл успешно")
 
         return users
     }
