@@ -24,7 +24,7 @@ class TeamController(
     fun get(@RequestHeader("Authorization") token: String): List<MemberRequestResponse> {
         val users = teamService.getTeam(token)
 
-        val response = users.map { MemberRequestResponse(it.name, it.login, it.role) }
+        val response = users.map { MemberRequestResponse(it.name, it.login, it.role, it.email) }
 
         return response
     }

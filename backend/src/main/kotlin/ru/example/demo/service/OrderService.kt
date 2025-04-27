@@ -16,7 +16,7 @@ import ru.example.demo.util.Loggable
 class OrderService(
     private val orderRepository: OrderRepository,
     private val userRepository: UserRepository,
-    metricRegistry : MeterRegistry,
+    metricRegistry: MeterRegistry,
 ) : Loggable() {
     private val counter = metricRegistry.counter("orders")
 
@@ -49,10 +49,10 @@ class OrderService(
         return savedOrder
     }
 
-    
+
     fun getOrders(closed: Boolean, token: String): List<OrderEntity> {
 
-        logger.debug("Запрос на получение заказов с токеном: {} закрытые: {}",token, closed)
+        logger.debug("Запрос на получение заказов с токеном: {} закрытые: {}", token, closed)
 
         val user = userRepository.findByToken(token)
             ?: throw UnauthorizedException("Недействителен токен авторизации")
@@ -69,6 +69,7 @@ class OrderService(
                     orderRepository.findAllByClosedDateNotNullAndUser_Company(user.company)
                 }
             }
+
             UserRoles.MANAGER -> {
                 if (!closed) {
                     orderRepository.findAllByClosedDateIsNullAndUser(user)

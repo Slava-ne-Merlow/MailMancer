@@ -51,6 +51,7 @@ class RegisterManagerTest : AbstractUnitTest() {
 
         every { inviteRepository.findByToken("token") } answers { invite.toEntity() }
         every { userRepository.findByLogin(request.login) } answers { null }
+        every { userRepository.findByEmail(request.email) } answers { null }
         every { tokenService.generateToken() } answers { "token" }
         every { userRepository.save(any()) } answers { firstArg() }
 
@@ -146,6 +147,7 @@ class RegisterManagerTest : AbstractUnitTest() {
 
         every { inviteRepository.findByToken("token") } answers { invite.toEntity() }
         every { userRepository.findByLogin(request.login) } answers { null }
+        every { userRepository.findByEmail(request.email) } answers { null }
 
 
         val exception = shouldThrow<ExpiredTokenException> {

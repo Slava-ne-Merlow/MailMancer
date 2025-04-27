@@ -93,8 +93,8 @@ const OrderCard = ({closed}) => {
                     </>
                 ) : orders.length > 0 ? (
                     filteredOrders.length > 0 ? (
-                        filteredOrders.map((order) => (
-                            <React.Fragment key={order.id}>
+                        filteredOrders.map((order, index) => (
+                            <React.Fragment key={index}>
                                 <hr/>
                                 <div className={styles.mailing}>
                                     <div className={styles.tracNumber}>{order.trackNumber}</div>

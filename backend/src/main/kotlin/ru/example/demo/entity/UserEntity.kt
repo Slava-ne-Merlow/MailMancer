@@ -34,7 +34,6 @@ data class UserEntity(
 
 
     ) {
-
     fun toUser(): User {
 
         return User(
@@ -45,11 +44,10 @@ data class UserEntity(
             token = token,
             role = role,
             company = company.toUserCompany()
-
         )
     }
 
-    fun checkPassword(userPassword: String) : Boolean {
+    fun checkPassword(userPassword: String): Boolean {
         return password != userPassword
     }
 }

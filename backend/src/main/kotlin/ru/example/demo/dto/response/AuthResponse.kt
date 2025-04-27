@@ -2,7 +2,6 @@ package ru.example.demo.dto.response
 
 import ru.example.demo.dto.enums.UserRoles
 
-
 data class AuthResponse(
     val userId: Long,
     val companyId: Long,

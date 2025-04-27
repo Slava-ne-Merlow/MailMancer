@@ -23,7 +23,7 @@ class TeamService(
 ) : Loggable() {
 
     @org.springframework.transaction.annotation.Transactional
-    fun deleteMember(login : String, token : String) : String {
+    fun deleteMember(login: String, token: String): String {
         val currentUser = userRepository.findByToken(token)
             ?: throw UnauthorizedException("Недействителен токен авторизации")
 
@@ -57,7 +57,7 @@ class TeamService(
         return "Пользователь был успешно удалён"
     }
 
-    fun getTeam(token: String) : List<UserEntity> {
+    fun getTeam(token: String): List<UserEntity> {
         val currentUser = userRepository.findByToken(token)
             ?: throw UnauthorizedException("Недействителен токен авторизации")
 
@@ -65,7 +65,7 @@ class TeamService(
 
         val company = currentUser.company
 
-        val users = userRepository.findAllByCompany(company)
+        val users = userRepository.findAllByCompany(company).sortedBy { it.role == UserRoles.HEAD }.reversed()
 
         logger.info("Поиск команды пользователя прошёл успешно")
 

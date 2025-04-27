@@ -48,5 +48,4 @@ data class OrderEntity(
         inverseJoinColumns = [JoinColumn(name = "recipient_id")]
     )
     val recipients: MutableSet<CarrierRepresentativeEntity> = mutableSetOf()
-
 )

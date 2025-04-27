@@ -45,7 +45,12 @@ class GetTeamTest : AbstractUnitTest() {
 
 
         every { userRepository.findByToken(userToken) } answers { user1.toEntity() }
-        every { userRepository.findAllByCompany(company.toEntity()) } answers { listOf(user1.toEntity(), user2.toEntity()) }
+        every { userRepository.findAllByCompany(company.toEntity()) } answers {
+            listOf(
+                user1.toEntity(),
+                user2.toEntity()
+            )
+        }
 
 
         val users = teamService.getTeam(userToken)

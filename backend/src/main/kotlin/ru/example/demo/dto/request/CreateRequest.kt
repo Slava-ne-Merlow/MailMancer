@@ -1,6 +1,6 @@
 package ru.example.demo.dto.request
 
-data class CreateRequest (
+data class CreateRequest(
     val name: String,
     val from: String,
     val to: String,

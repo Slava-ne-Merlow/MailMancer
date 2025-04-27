@@ -42,7 +42,7 @@ class GlobalExceptionHandler : Loggable() {
         logger.warn("ExpiredTokenException: {}", exception.message)
         return ResponseEntity.status(410).body(ErrorResponse(exception.message ?: "TOKEN EXPIRED"))
     }
-    
+
     @ExceptionHandler(ForbiddenException::class)
     fun handleForbiddenException(exception: ForbiddenException): ResponseEntity<ErrorResponse> {
         logger.warn("ForbiddenException: {}", exception.message)
