@@ -20,14 +20,13 @@ class GetTeamTest : AbstractUnitTest() {
         val userToken = "token1"
 
         val company = UserCompany(
-            name = "name",
-            email = "email@example.com",
-            password = "123456"
+            name = "name"
         )
 
         val user1 = User(
-            login = "login1",
             name = "name1",
+            login = "login1",
+            email = "email@example.com1",
             password = "123456",
             role = UserRoles.HEAD,
             company = company,
@@ -35,8 +34,9 @@ class GetTeamTest : AbstractUnitTest() {
         )
 
         val user2 = User(
-            login = "login2",
             name = "name2",
+            login = "login2",
+            email = "email@example.com2",
             password = "123456",
             role = UserRoles.MANAGER,
             company = company,

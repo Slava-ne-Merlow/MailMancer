@@ -29,42 +29,37 @@ class RegisterHeadTest : AbstractServiceTest() {
     @Test
     fun `успешная регистрация`() {
         val request = RegisterHeadRequest(
-            headLogin = "admin",
-            headName = "Name",
-            headPassword = "123456",
-            companyName = "Company",
+            name = "Name",
+            login = "admin",
+            password = "123456",
             email = "email@example.com",
-            emailPassword = "123456"
         )
-        every { emailService.testConnection(any(), any()) } answers { true }
-
 
         val savedUser = authService.registerHead(request)
 
         savedUser shouldNotBe null
-        savedUser.company.email shouldBe request.email
+        savedUser.company.name shouldBe request.name + "'s Team"
 
         userRepository.findByLogin("admin") shouldNotBe null
-        userCompanyRepository.findByEmail("email@example.com") shouldNotBe null
+        userCompanyRepository.findById(savedUser.company.id) shouldNotBe null
     }
 
     @Test
-    fun `ошибка если почта компании уже занята`() {
-        val company = UserCompany(
-            name = "Company",
+    fun `ошибка если почта уже занята`() {
+        val request1 = RegisterHeadRequest(
+            name = "Name",
+            login = "admin",
+            password = "123456",
             email = "email@example.com",
-            password = "123456"
         )
 
-        val existingCompany = userCompanyRepository.save(company.toEntity())
+        val existingUser = authService.registerHead(request1)
 
         val request = RegisterHeadRequest(
-            headLogin = "admin",
-            headName = "Name",
-            headPassword = "123456",
-            companyName = "NewCompany",
-            email = existingCompany.email,
-            emailPassword = "123456"
+            name = "Name",
+            login = "admin",
+            password = "123456",
+            email = existingUser.email
         )
 
         val exception = shouldThrow<EntityAlreadyExistsException> {
@@ -74,39 +69,17 @@ class RegisterHeadTest : AbstractServiceTest() {
     }
 
     @Test
-    fun `ошибка если пароль к почте неверный`() {
-
-        val request = RegisterHeadRequest(
-            headLogin = "admin",
-            headName = "Name",
-            headPassword = "123456",
-            companyName = "Company",
-            email = "email@example.com",
-            emailPassword = "123456"
-        )
-
-        every { emailService.testConnection(any(), any()) } answers { false }
-
-        val exception = shouldThrow<UnauthorizedException> {
-            authService.registerHead(request)
-        }
-        exception.message should startWith("Email ${request.email} не прошёл проверку")
-    }
-
-    @Test
     fun `ошибка если логин уже занят`() {
         val company = UserCompany(
             name = "Company",
-            email = "email@example.com",
-            password = "123456"
         )
-
 
         val existingCompany = userCompanyRepository.save(company.toEntity())
 
         val user = UserEntity(
-            login = "admin",
             name = "ExistingName",
+            login = "admin",
+            email = "email@example.com",
             password = "123456",
             role = UserRoles.HEAD,
             company = existingCompany,
@@ -116,17 +89,15 @@ class RegisterHeadTest : AbstractServiceTest() {
         val existingUser = userRepository.save(user)
 
         val request = RegisterHeadRequest(
-            headLogin = existingUser.login,
-            headName = "NewName",
-            headPassword = "123456",
-            companyName = "Company",
+            name = "NewName",
+            login = existingUser.login,
+            password = "123456",
             email = "new_email@example.com",
-            emailPassword = "123456"
         )
 
         val exception = shouldThrow<EntityAlreadyExistsException> {
             authService.registerHead(request)
         }
-        exception.message should startWith("Логин ${request.headLogin} занят")
+        exception.message should startWith("Логин ${request.login} занят")
     }
 }

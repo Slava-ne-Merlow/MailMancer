@@ -29,15 +29,14 @@ class LoginTest : AbstractServiceTest() {
 
         val company = UserCompany(
             name = "name",
-            email = "email@example.com",
-            password = "123456"
         )
 
         savedCompany = userCompanyRepository.save(company.toEntity())
 
         val user = UserEntity(
-            login = "login",
             name = "name",
+            login = "login",
+            email = "email@example.com",
             password = "123456",
             role = UserRoles.MANAGER,
             company = savedCompany,

@@ -1,5 +1,7 @@
 package ru.example.demo.service
 
+import io.micrometer.core.annotation.Timed
+import io.micrometer.core.instrument.MeterRegistry
 import org.slf4j.MDC
 import org.springframework.stereotype.Service
 import ru.example.demo.dto.enums.UserRoles
@@ -14,7 +16,11 @@ import ru.example.demo.util.Loggable
 class OrderService(
     private val orderRepository: OrderRepository,
     private val userRepository: UserRepository,
+    metricRegistry : MeterRegistry,
 ) : Loggable() {
+    private val counter = metricRegistry.counter("orders")
+
+    @Timed
     fun createOrder(request: CreateRequest, token: String): OrderEntity {
 
         logger.debug("Попытка создания заказа с токеном: {} и параметрами: {}", token, request)
@@ -43,6 +49,7 @@ class OrderService(
         return savedOrder
     }
 
+    
     fun getOrders(closed: Boolean, token: String): List<OrderEntity> {
 
         logger.debug("Запрос на получение заказов с токеном: {} закрытые: {}",token, closed)

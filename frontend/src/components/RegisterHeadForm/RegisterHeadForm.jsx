@@ -1,24 +1,31 @@
 import React, {useState} from "react";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useNavigate, useSearchParams} from "react-router-dom";
 import userStore from "../../store/UserStore";
 import {motion} from "framer-motion";
 import style from "./RegisterHeadFrom.module.css";
+import {CustomCheckbox} from "../CustomCheckbox/CustomCheckbox";
 
 
 const RegisterHeadForm = () => {
+    const [searchParams] = useSearchParams();
+    const token = searchParams.get("token");
+    let url
+    if (token) {
+        url = "http://localhost:8080/api/v1/manager/sign-up";
+    } else {
+        url = "http://localhost:8080/api/v1/head/sign-up"
+    }
+
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         fullName: "",
         login: "",
+
+        email: "",
+        confirmEmail: "",
+
         password: "",
-
-        companyName: "",
-        companyEmail: "",
-        companyPassword: "",
-
-        checkPassword: "",
-        checkCompanyEmail: "",
-        checkCompanyPassword: "",
+        confirmPassword: "",
 
         agreedToTerms: false,
     });
@@ -26,20 +33,23 @@ const RegisterHeadForm = () => {
 
     const navigate = useNavigate();
 
+
+
     const handleSubmit = async () => {
 
         const request = {
-            headLogin: formData.login,
-            headName: formData.fullName,
-            headPassword: formData.password,
-
-            companyName: formData.companyName,
-            email: formData.companyEmail,
-            emailPassword: formData.companyPassword,
+            name: formData.fullName,
+            login: formData.login,
+            password: formData.password,
+            email: formData.email
         };
 
+        if (token) {
+            request.token = token;
+        }
+
         try {
-            const response = await fetch("http://localhost:8080/api/v1/head/sign-up", {
+            const response = await fetch(url, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -51,24 +61,15 @@ const RegisterHeadForm = () => {
 
             if (!response.ok) {
                 if (response.status === 409) {
-                    if (data.message === `Логин ${request.headLogin} занят`) {
+                    if (data.message === `Логин ${request.login} занят`) {
                         setErrors((prev) => ({...prev, login: "This login is already used"}));
                         prevStep()
                         prevStep()
                     }
                     if (data.message === `Почта ${request.email} занята`) {
-                        setErrors((prev) => ({...prev, companyEmail: "This mail is already used"}));
+                        setErrors((prev) => ({...prev, email: "This mail is already used"}));
                         prevStep()
                     }
-                } else if (response.status === 401) {
-                    if (data.message === `Email ${request.email} не прошёл проверку`) {
-                        setErrors((prev) => ({...prev, companyEmail: "Invalid email or password"}));
-                        setErrors((prev) => ({...prev, companyPassword: "Invalid email or password"}));
-                        prevStep()
-                    }
-                } else if (response.status === 400) {
-                    setErrors((prev) => ({...prev, companyEmail: "The provider is not supported"}));
-                    prevStep()
                 } else {
                     alert("Ошибка регистрации: " + data.message + " " + data.status);
                 }
@@ -103,53 +104,32 @@ const RegisterHeadForm = () => {
     const validateForm = () => {
         const newErrors = {};
         let isValid;
+
         if (step === 1) {
             if (!formData.fullName) newErrors.fullName = "Field is required!";
 
             if (!formData.login) newErrors.login = "Field is required!";
             else if (errors.login) newErrors.login = errors.login;
 
+        }
+        if (step === 2) {
+            if (!formData.email) newErrors.email = "Field is required!";
+            else if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(formData.email)) newErrors.email = "Enter email in format: email@example.com!";
+            else if (errors.email) newErrors.email = errors.email;
+
+            if (!formData.confirmEmail) newErrors.confirmEmail = "Field is required!";
+            else if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(formData.confirmEmail)) newErrors.confirmEmail = "Enter email in format: email@example.com!";
+            else if (formData.confirmEmail !== formData.email) newErrors.confirmEmail = "Emails must match!";
+            else if (errors.confirmEmail) newErrors.confirmEmail = errors.confirmEmail;
+        }
+        if (step === 3) {
             if (!formData.password) newErrors.password = "Field is required!";
             else if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters";
 
-            if (!formData.agreedToTerms) newErrors.agreedToTerms = "You must agree";
-
-
+            if (!formData.confirmPassword) newErrors.confirmPassword = "Field is required!";
+            else if (formData.confirmPassword !== formData.password) newErrors.confirmPassword = "Passwords must match!";
         }
-
-        if (step === 2) {
-            if (!formData.companyName) newErrors.companyName = "Field is required!";
-
-            if (!formData.companyEmail) newErrors.companyEmail = "Field is required!";
-            else if (!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(formData.companyEmail)) {
-                newErrors.companyEmail = "Enter email in format: email@example.com!";
-            } else if (errors.companyEmail) newErrors.companyEmail = errors.companyEmail;
-
-            if (!formData.companyPassword) newErrors.companyPassword = "Field is required!";
-            else if (formData.companyPassword.length < 6) {
-                newErrors.companyPassword = "Password must be at least 6 characters";
-            } else if (errors.companyPassword) {
-                newErrors.companyPassword = errors.companyPassword;
-            }
-        }
-
-        if (step === 3) {
-
-            if (!formData.checkPassword) newErrors.checkPassword = "Field is required!";
-            else if (formData.checkPassword !== formData.password) newErrors.checkPassword = "Passwords must match!";
-
-            if (!formData.checkCompanyEmail) newErrors.checkCompanyEmail = "Field is required!";
-            else if (formData.companyEmail !== formData.checkCompanyEmail) {
-                newErrors.checkCompanyEmail = "Emails must match!";
-            }
-
-            if (!formData.checkCompanyPassword) {
-                newErrors.checkCompanyPassword = "Field is required!";
-            } else if (formData.companyPassword !== formData.checkCompanyPassword) {
-                newErrors.checkCompanyPassword = "Passwords must match!";
-            }
-
-        }
+        if (!formData.agreedToTerms) newErrors.agreedToTerms = "You must agree";
 
         isValid = Object.keys(newErrors).length === 0;
 
@@ -176,18 +156,19 @@ const RegisterHeadForm = () => {
 
     return (
         <div className={style.registrationForm}>
-            <div className={style.div}>
+            <div className={style.card}>
                 <div className={style.header}>Create an Account</div>
+
                 <div className={`${step === 1 ? style.firstStep : step === 2 ? style.secondStep : style.thirdStep}`}>
                     <div className={style.group}>
-                        <div className={style.companyInformation}>Company <br/> Information</div>
                         <div className={style.personalInformation}>Personal <br/> Information</div>
+                        <div className={style.companyInformation}>Company <br/> Information</div>
                         <div className={style.securityCheckup}>Security <br/> Checkup</div>
 
                         <motion.div
                             className={style.underline}
-                            animate={{x: step === 1 ? 0 : step === 2 ? 125 : 251}} // Меняет позицию
-                            transition={{type: "spring", stiffness: 100, damping: 10}} // Плавное движение
+                            animate={{x: step === 1 ? -5 : step === 2 ? 130 : 255}}
+                            transition={{type: "spring", stiffness: 100, damping: 10}}
                         />
                     </div>
                 </div>
@@ -219,7 +200,86 @@ const RegisterHeadForm = () => {
                             {errors.login && <p className={style.error}>{errors.login}</p>}
                         </div>
 
-                        <div className={style.thirdInput}>
+
+                        <div className={style.agree}>
+
+                            <CustomCheckbox
+                                checked={formData.agreedToTerms}
+                                onChange={handleCheckboxChange}
+                                clearError={clearError}
+                            />
+
+                            {errors.agreedToTerms && <p className={style.error}>{errors.agreedToTerms}</p>}
+
+                        </div>
+
+
+                        <div className={style.btn} onClick={nextStep}>
+                            <div className={style.text}>Next</div>
+                            <div className={style.text}>→</div>
+                        </div>
+
+
+                    </div>
+                }
+
+                {step === 2 &&
+                    <div className={style.secondStep}>
+                        <div className={style.firstInput}>
+                            <div className={style.inputLabel}>Email</div>
+                            <input
+                                className={style.inputField}
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                onFocus={() => clearError('email')}
+                            />
+                            {errors.email && <p className={style.error}>{errors.email}</p>}
+                        </div>
+
+                        <div className={style.secondInput}>
+                            <div className={style.inputLabel}>Confirm Email</div>
+                            <input
+                                type="email"
+                                className={style.inputField}
+                                name="confirmEmail"
+                                value={formData.confirmEmail}
+                                onChange={handleChange}
+                                onFocus={() => clearError('confirmEmail')}
+
+                            />
+                            {errors.confirmEmail && <p className={style.error}>{errors.confirmEmail}</p>}
+                        </div>
+
+                        <div className={style.agree}>
+
+                            <CustomCheckbox
+                                checked={formData.agreedToTerms}
+                                onChange={handleCheckboxChange}
+                                clearError={clearError}
+                            />
+
+                            {errors.agreedToTerms && <p className={style.error}>{errors.agreedToTerms}</p>}
+
+                        </div>
+
+                        <div className={style.navigation}>
+                            <div className={style.backButton} onClick={prevStep}>
+                                <div className={style.text}>←</div>
+                                <div className={style.text}>Back</div>
+                            </div>
+
+                            <div className={style.nextButton} onClick={nextStep}>
+                                <div className={style.text}>Next</div>
+                                <div className={style.text}>→</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                {step === 3 &&
+                    <div className={style.thirdStep}>
+                        <div className={style.firstInput}>
                             <div className={style.inputLabel}>Password</div>
                             <input
                                 type="password"
@@ -228,157 +288,49 @@ const RegisterHeadForm = () => {
                                 value={formData.password}
                                 onChange={handleChange}
                                 onFocus={() => clearError('password')}
+
                             />
                             {errors.password && <p className={style.error}>{errors.password}</p>}
                         </div>
 
-                        <div className={style.agreeInput}>
-                            <label className={style.customCheckbox}>
-                                <input
-                                    type="checkbox"
-                                    checked={formData.agreedToTerms}
-                                    onChange={(e) => {
-                                        handleCheckboxChange(e);
-                                        clearError('agreedToTerms');
-                                    }}
-                                />
-                                <span className={style.checkmark}></span>
-                            </label>
+                        <div className={style.secondInput}>
+                            <div className={style.inputLabel}>Confirm Password</div>
+                            <input
+                                type="password"
+                                className={style.inputField}
+                                name="confirmPassword"
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                onFocus={() => clearError('confirmPassword')}
 
-                            <p className={style.agreeLabel}>
-                                <span style={{color: "#aaaaaa"}}>Please agree to the </span>
-                                <Link to="#" className={style.link}>
-                                    <span>terms of service</span>
-                                </Link>
-                                <span style={{color: "#aaaaaa"}}>.</span>
-                            </p>
+                            />
+                            {errors.confirmPassword && <p className={style.error}>{errors.confirmPassword}</p>}
                         </div>
-                        <div style={{
-                            display: "flex",
-                            justifyContent: "space-between",
-                            left: 524,
-                            position: "absolute",
-                            top: 530
-                        }}>
+
+                        <div className={style.agree}>
+
+                            <CustomCheckbox
+                                checked={formData.agreedToTerms}
+                                onChange={handleCheckboxChange}
+                                clearError={clearError}
+                            />
+
                             {errors.agreedToTerms && <p className={style.error}>{errors.agreedToTerms}</p>}
-                        </div>
-
-                        <button className={style.nextButton} onClick={nextStep}>
-                            <div className={style.text}>Next</div>
-                            <div className={style.text}>→</div>
-                        </button>
-                    </div>
-                }
-
-                {step === 2 &&
-                    <div className={style.secondStep}>
-                        <div className={style.firstInput}>
-                            <div className={style.inputLabel}>Company Name</div>
-                            <input
-                                className={style.inputField}
-                                name="companyName"
-                                value={formData.companyName}
-                                onChange={handleChange}
-                                onFocus={() => clearError('companyName')}
-                            />
-                            {errors.companyName && <p className={style.error}>{errors.companyName}</p>}
-                        </div>
-
-                        <div className={style.secondInput}>
-                            <div className={style.inputLabel}>Company Email</div>
-                            <input
-                                type="email"
-                                className={style.inputField}
-                                name="companyEmail"
-                                value={formData.companyEmail}
-                                onChange={handleChange}
-                                onFocus={() => clearError('companyEmail')}
-
-                            />
-                            {errors.companyEmail && <p className={style.error}>{errors.companyEmail}</p>}
-                        </div>
-
-                        <div className={style.thirdInput}>
-                            <div className={style.inputLabel}>Company Password</div>
-                            <input
-                                type="password"
-                                className={style.inputField}
-                                name="companyPassword"
-                                value={formData.companyPassword}
-                                onChange={handleChange}
-                                onFocus={() => clearError('companyPassword')}
-
-                            />
-                            {errors.companyPassword && <p className={style.error}>{errors.companyPassword}</p>}
 
                         </div>
 
-                        <button className={style.backButton} onClick={prevStep}>
-                            <div className={style.text}>←</div>
-                            <div className={style.text}>Back</div>
-                        </button>
+                        <div className={style.navigation}>
 
-                        <button className={style.nextButton} onClick={nextStep}>
-                            <div className={style.text}>Next</div>
-                            <div className={style.text}>→</div>
-                        </button>
-                    </div>
-                }
+                            <div className={style.backButton} onClick={prevStep}>
+                                <div className={style.text}>←</div>
+                                <div className={style.text}>Back</div>
+                            </div>
 
-                {step === 3 &&
-                    <div className={style.thirdStep}>
-                        <div className={style.firstInput}>
-                            <div className={style.inputLabel}>Your Password</div>
-                            <input
-                                type="password"
-                                className={style.inputField}
-                                name="checkPassword"
-                                value={formData.checkPassword}
-                                onChange={handleChange}
-                                onFocus={() => clearError('checkPassword')}
-
-                            />
-                            {errors.checkPassword && <p className={style.error}>{errors.checkPassword}</p>}
+                            <div className={style.nextButton} onClick={handleDone}>
+                                <div className={style.text}>Done</div>
+                                <div className={style.text}>→</div>
+                            </div>
                         </div>
-
-                        <div className={style.secondInput}>
-                            <div className={style.inputLabel}>Company Email</div>
-                            <input
-                                type="email"
-                                className={style.inputField}
-                                name="checkCompanyEmail"
-                                value={formData.checkCompanyEmail}
-                                onChange={handleChange}
-                                onFocus={() => clearError('checkCompanyEmail')}
-
-                            />
-                            {errors.checkCompanyEmail && <p className={style.error}>{errors.checkCompanyEmail}</p>}
-                        </div>
-
-                        <div className={style.thirdInput}>
-                            <div className={style.inputLabel}>Company Email Password</div>
-                            <input
-                                type={"password"}
-                                className={style.inputField}
-                                name="checkCompanyPassword"
-                                value={formData.checkCompanyPassword}
-                                onChange={handleChange}
-                                onFocus={() => clearError('checkCompanyPassword')}
-
-                            />
-                            {errors.checkCompanyPassword &&
-                                <p className={style.error}>{errors.checkCompanyPassword}</p>}
-                        </div>
-
-                        <button className={style.backButton} onClick={prevStep}>
-                            <div className={style.text}>←</div>
-                            <div className={style.text}>Back</div>
-                        </button>
-
-                        <button className={style.nextButton} onClick={handleDone}>
-                            <div className={style.text}>Done</div>
-                            <div className={style.text}>→</div>
-                        </button>
                     </div>
                 }
                 <div className={style.redirect}>

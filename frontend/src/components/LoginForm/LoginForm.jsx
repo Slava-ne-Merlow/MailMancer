@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import style from "./LoginForm.module.css";
 import {Link, useNavigate} from "react-router-dom";
 import userStore from "../../store/UserStore";
+import {CustomCheckbox} from "../CustomCheckbox/CustomCheckbox";
 
 const LoginForm = () => {
     const navigate = useNavigate();
@@ -98,7 +99,7 @@ const LoginForm = () => {
 
     return (
         <div className={style.loginForm}>
-            <div className={style.div}>
+            <div className={style.card}>
                 <div className={style.header}>Login to Account</div>
 
                 <div className={style.login}>
@@ -133,37 +134,14 @@ const LoginForm = () => {
 
 
                 <div className={style.agree}>
-                    <label className={style.customCheckbox}>
-                        <input
-                            type="checkbox"
-                            checked={formData.agreedToTerms}
-                            onChange={(e) => {
-                                handleCheckboxChange(e);
-                                clearError('agreedToTerms');
-                            }}
-                        />
-
-                        <span className={style.checkmark}/>
-                    </label>
-
-                    <p className={style.agreeLabel}>
-                        <span style={{color: "#aaaaaa"}}>Please agree to the </span>
-                        <Link to="#" className={style.link}>
-                            <span>terms of service</span>
-                        </Link>
-                        <span style={{color: "#aaaaaa"}}>.</span>
-                    </p>
-                </div>
-                <div style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    position: "absolute",
-                    marginTop: "3px",
-                    top: 270,
-                    left: 125
-                }}>
+                    <CustomCheckbox
+                        checked={formData.agreedToTerms}
+                        onChange={handleCheckboxChange}
+                        clearError={clearError}
+                    />
                     {errors.agreedToTerms && <p className={style.error}>{errors.agreedToTerms}</p>}
                 </div>
+
 
 
                 <div className={style.nextButton} onClick={handleDone}>

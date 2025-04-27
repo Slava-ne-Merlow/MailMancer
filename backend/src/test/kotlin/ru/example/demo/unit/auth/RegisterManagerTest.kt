@@ -25,14 +25,13 @@ class RegisterManagerTest : AbstractUnitTest() {
         val request = RegisterManagerRequest(
             name = "Name",
             login = "login",
+            email = "email@example.com",
             password = "password",
-            inviteToken = "token"
+            token = "token"
         )
 
         val company = UserCompany(
             name = "Company",
-            email = "email@example.com",
-            password = "123456"
         )
 
         val invite = Invite(
@@ -41,8 +40,9 @@ class RegisterManagerTest : AbstractUnitTest() {
         )
 
         val user = User(
-            login = request.login,
             name = request.name,
+            login = request.login,
+            email = request.email,
             password = request.password,
             role = UserRoles.MANAGER,
             company = company,
@@ -66,8 +66,9 @@ class RegisterManagerTest : AbstractUnitTest() {
         val request = RegisterManagerRequest(
             name = "Name",
             login = "login",
+            email = "email@example.com",
             password = "password",
-            inviteToken = "token"
+            token = "token"
         )
 
         every { inviteRepository.findByToken("token") } answers { null }
@@ -85,14 +86,13 @@ class RegisterManagerTest : AbstractUnitTest() {
         val request = RegisterManagerRequest(
             name = "Name",
             login = "login",
+            email = "email@example.com",
             password = "password",
-            inviteToken = "token"
+            token = "token"
         )
 
         val company = UserCompany(
             name = "Company",
-            email = "email@example.com",
-            password = "123456"
         )
 
         val invite = Invite(
@@ -101,8 +101,9 @@ class RegisterManagerTest : AbstractUnitTest() {
         )
 
         val oldUser = User(
-            login = request.login,
             name = request.name,
+            login = request.login,
+            email = "email@example.com12",
             password = request.password,
             role = UserRoles.MANAGER,
             company = company,
@@ -127,14 +128,13 @@ class RegisterManagerTest : AbstractUnitTest() {
         val request = RegisterManagerRequest(
             name = "Name",
             login = "login",
+            email = "email@example.com",
             password = "password",
-            inviteToken = "token"
+            token = "token"
         )
 
         val company = UserCompany(
             name = "Company",
-            email = "email@example.com",
-            password = "123456"
         )
 
         val invite = Invite(

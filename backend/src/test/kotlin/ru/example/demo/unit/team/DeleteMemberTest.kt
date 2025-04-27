@@ -26,14 +26,13 @@ class DeleteMemberTest : AbstractUnitTest() {
         val userToken = "token1"
 
         val company = UserCompany(
-            name = "name",
-            email = "email@example.com",
-            password = "123456"
+            name = "name"
         )
 
         val head = User(
-            login = "login1",
             name = "name1",
+            login = "login1",
+            email = "email@example.com1",
             password = "123456",
             role = UserRoles.HEAD,
             company = company,
@@ -41,8 +40,9 @@ class DeleteMemberTest : AbstractUnitTest() {
         )
 
         val userToDelete = User(
-            login = "login2",
             name = "name2",
+            login = "login2",
+            email = "email@example.com2",
             password = "123456",
             role = UserRoles.MANAGER,
             company = company,
@@ -115,14 +115,13 @@ class DeleteMemberTest : AbstractUnitTest() {
 
         val company = UserCompany(
             name = "name",
-            email = "email@example.com",
-            password = "123456"
         )
 
         val head = User(
             login = "login",
             name = "name1",
             password = "123456",
+            email = "email@example.com",
             role = UserRoles.MANAGER,
             company = company,
             token = "token1"
@@ -141,14 +140,13 @@ class DeleteMemberTest : AbstractUnitTest() {
         val userToken = "token"
 
         val company = UserCompany(
-            name = "name",
-            email = "email@example.com",
-            password = "123456"
+            name = "name"
         )
 
         val head = User(
-            login = "login",
             name = "name1",
+            login = "login",
+            email = "email@example.com",
             password = "123456",
             role = UserRoles.HEAD,
             company = company,
@@ -170,14 +168,13 @@ class DeleteMemberTest : AbstractUnitTest() {
         val userToken = "token"
 
         val company = UserCompany(
-            name = "name",
-            email = "email@example.com",
-            password = "123456"
+            name = "name"
         )
 
         val head = User(
-            login = "login",
             name = "name1",
+            login = "login",
+            email = "email@example.com",
             password = "123456",
             role = UserRoles.HEAD,
             company = company,

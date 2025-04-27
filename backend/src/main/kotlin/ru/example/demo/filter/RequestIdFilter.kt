@@ -9,7 +9,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 import java.util.UUID
 
 @Component
-class RequestIdFilter: OncePerRequestFilter() {
+class RequestIdFilter : OncePerRequestFilter() {
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -17,7 +17,9 @@ class RequestIdFilter: OncePerRequestFilter() {
     ) {
         try {
             MDC.put("requestId", UUID.randomUUID().toString())
-            logger.debug("Получили ${request.method}-запрос по пути ${request.requestURI}")
+            if (request.requestURI != "/actuator/prometheus") {
+                logger.debug("Получили ${request.method}-запрос по пути ${request.requestURI}")
+            }
             filterChain.doFilter(request, response)
         } finally {
             MDC.clear()

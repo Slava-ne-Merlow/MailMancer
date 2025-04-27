@@ -24,29 +24,22 @@ class AuthService(
     private val userCompanyRepository: UserCompanyRepository,
     private val inviteRepository: InviteRepository,
     private val tokenService: TokenService,
-    private val emailService: EmailService,
 ) : Loggable() {
     @Transactional
     fun registerHead(request: RegisterHeadRequest): UserEntity {
         logger.debug("Запрос на регистрацию HEAD'а с параметрами: {}", request)
 
-        userCompanyRepository.findByEmail(request.email)?.let {
+        userRepository.findByEmail(request.email)?.let {
             throw EntityAlreadyExistsException("Почта ${request.email} занята")
         }
-        userRepository.findByLogin(request.headLogin)?.let {
-            throw EntityAlreadyExistsException("Логин ${request.headLogin} занят")
-        }
-
-        if (!emailService.testConnection(request.email, request.emailPassword)) {
-            throw UnauthorizedException("Email ${request.email} не прошёл проверку")
+        userRepository.findByLogin(request.login)?.let {
+            throw EntityAlreadyExistsException("Логин ${request.login} занят")
         }
 
         val token = tokenService.generateToken()
 
         val company = UserCompanyEntity(
-            name = request.companyName,
-            email = request.email,
-            password = request.emailPassword
+            name = request.name + "'s Team",
         )
 
         val savedCompany = userCompanyRepository.save(company)
@@ -54,13 +47,15 @@ class AuthService(
         logger.info("Создана компания с id = {}", savedCompany.id)
 
         val user = UserEntity(
-            login = request.headLogin,
-            name = request.headName,
-            password = request.headPassword,
+            name = request.name,
+            login = request.login,
+            email = request.email,
+            password = request.password,
             role = UserRoles.HEAD,
             company = savedCompany,
             token = token
         )
+
         val savedUser = userRepository.save(user)
 
         logger.info("Создан user с id = {}", savedUser.id)
@@ -74,7 +69,7 @@ class AuthService(
         logger.debug("Запрос на регистрацию MANAGER'а с параметрами: {}", request)
 
 
-        val invite = inviteRepository.findByToken(request.inviteToken)
+        val invite = inviteRepository.findByToken(request.token)
             ?: throw NotFoundException("Приглашение недействительно")
 
         userRepository.findByLogin(request.login)?.let {
@@ -86,13 +81,15 @@ class AuthService(
         }
 
         val company = invite.company
+
         val token = tokenService.generateToken()
 
         logger.info("Приглашение с id = {}, companyID: {}", invite.id, invite.company.id)
 
         val newUser = UserEntity(
-            login = request.login,
             name = request.name,
+            login = request.login,
+            email = request.email,
             password = request.password,
             role = UserRoles.MANAGER,
             company = company,
@@ -123,7 +120,6 @@ class AuthService(
         val savedUser = userRepository.save(user)
 
         logger.info("Найден пользователь с id = {}", savedUser.id)
-
 
         return savedUser
     }

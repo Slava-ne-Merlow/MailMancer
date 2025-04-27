@@ -26,15 +26,14 @@ class GenerateInviteTest : AbstractServiceTest() {
 
         val company = UserCompanyEntity(
             name = "name",
-            email = "email@example.com",
-            password = "123456"
         )
 
         savedCompany = userCompanyRepository.save(company)
 
         val user = UserEntity(
-            login = "login",
             name = "name",
+            login = "login",
+            email = "email@example.com",
             password = "123456",
             role = UserRoles.HEAD,
             company = savedCompany,

@@ -8,15 +8,13 @@ const RegisterManagerForm = ({token}) => {
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
         fullName: "",
-
         login: "",
-
         password: "",
-
         checkPassword: "",
-
         agreedToTerms: false,
     });
+
+
 
     const [errors, setErrors] = useState({});
     const handleChange = (e) => {

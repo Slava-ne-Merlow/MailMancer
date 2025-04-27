@@ -11,4 +11,5 @@ interface UserRepository : JpaRepository<UserEntity, Long> {
     fun findByLogin(login: String): UserEntity?
     fun findAllByCompany(company: UserCompanyEntity): List<UserEntity>
     fun deleteByLogin(login: String)
+    fun findByEmail(email: String): UserEntity?
 }

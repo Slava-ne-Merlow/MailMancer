@@ -1,194 +1,180 @@
 .registrationForm {
-    transform: scale(1.1);
-    background-color: #ffffff;
+    /*transform: scale(1.1);*/
+    background-color: #f5f6fa;
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
+    height: 100vh;
 }
 
-.div {
+.card {
     background-color: #ffffff;
+    border: 0.3px solid #b8b8b8;
+    border-radius: 24px;
+
+    display: flex;
+    align-items: center;
+
     position: relative;
-    width: 1280px;
+
+    flex-direction: column;
+
+    box-shadow: 0 0 100px rgba(185, 185, 185, 0.3);
+    padding: 80px 114px;
+    gap: 24px; /* базовый отступ между элементами */
 }
+
 
 .header {
     font-family: "Montserrat Alternates", sans-serif;
     color: #aaaaaa;
     font-size: 18px;
     font-weight: 700;
-    left: 561px;
     letter-spacing: 0;
     line-height: normal;
-    position: absolute;
-    top: 160px;
 }
 
 .redirect {
     align-items: flex-start;
     display: inline-flex;
     gap: 4px;
-    left: 560px;
-    position: absolute;
-    top: 596px;
 }
 
 .redirectLLabel {
     color: transparent;
     font-size: 10px;
     font-weight: 600;
-    height: 11px;
     letter-spacing: 0;
     line-height: normal;
     margin-top: 3px;
     position: relative;
     white-space: nowrap;
-    width: 184px;
 }
 
+.group {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.companyInformation {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+
+}
+
+.personalInformation {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+
+}
+
+.securityCheckup {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+}
 
 .firstStep {
+    display: flex;
+    align-items: center;
 
-    .group {
-        height: 39px;
-        left: 465px;
-        position: absolute;
-        top: 233px;
-        width: 344px;
+    position: relative;
+
+    flex-direction: column;
+    gap: 24px;
+
+
+    .personalInformation {
+        color: #000000;
+
+
     }
 
     .companyInformation {
         color: #aaaaaa;
-        font-size: 14px;
-        font-weight: 600;
-        left: 137px;
-        letter-spacing: 0;
-        line-height: normal;
-        position: absolute;
-        top: 0;
     }
 
-    .personalInformation {
-        color: #000000;
-        font-size: 14px;
-        font-weight: 600;
-        left: 5px;
-        letter-spacing: 0;
-        line-height: normal;
-        position: absolute;
-        top: 0;
-    }
 
     .securityCheckup {
         color: #aaaaaa;
-        font-size: 14px;
-        font-weight: 600;
-        left: 274px;
-        letter-spacing: 0;
-        line-height: normal;
-        position: absolute;
-        top: 0;
     }
 
-    .agreeLabel {
-        color: transparent;
-        font-size: 10px;
-        font-weight: 600;
-        height: 11px;
-        letter-spacing: 0;
-        line-height: normal;
-        margin-top: 3px;
-        position: relative;
-        white-space: nowrap;
-        width: 184px;
+    .btn {
+        all: unset;
+        align-items: center;
+        background-color: #040510;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        box-sizing: border-box;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        padding: 10px 16px 10px 25px;
+        width: 127px;
+        cursor: pointer;
+
+        .text {
+            font-family: "Montserrat Alternates", sans-serif;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0;
+            line-height: normal;
+            margin-top: -1.00px;
+            position: relative;
+            width: fit-content;
+        }
     }
 }
 
 .secondStep {
-    .group {
-        height: 39px;
-        left: 471px;
-        position: absolute;
-        top: 233px;
-        width: 338px;
+    display: flex;
+    align-items: center;
 
-    }
+    position: relative;
 
-    .companyInformation {
-        color: #000000;
-        font-size: 14px;
-        font-weight: 600;
-        left: 130px;
-        letter-spacing: 0;
-        line-height: normal;
-        position: absolute;
-        top: 0;
-    }
+    flex-direction: column;
+    gap: 24px;
 
     .personalInformation {
         color: #aaaaaa;
-        font-size: 14px;
-        font-weight: 600;
-        left: 0;
-        letter-spacing: 0;
-        line-height: normal;
-        position: absolute;
-        top: 0;
+
+    }
+    .companyInformation {
+        color: #000000;
     }
 
     .securityCheckup {
         color: #aaaaaa;
-        font-size: 14px;
-        font-weight: 600;
-        left: 268px;
-        letter-spacing: 0;
-        line-height: normal;
-        position: absolute;
-        top: 0;
     }
 }
 
 .thirdStep {
-    .group {
-        height: 39px;
-        left: 471px;
-        position: absolute;
-        top: 233px;
-        width: 344px;
-    }
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
+    flex-direction: column;
+    gap: 24px;
+
 
     .companyInformation {
         color: #aaaaaa;
-        font-size: 14px;
-        font-weight: 600;
-        left: 131px;
-        letter-spacing: 0;
-        line-height: normal;
-        position: absolute;
-        top: 0;
     }
 
     .personalInformation {
         color: #aaaaaa;
-        font-size: 14px;
-        font-weight: 600;
-        left: 0;
-        letter-spacing: 0;
-        line-height: normal;
-        position: absolute;
-        top: 0;
     }
 
     .securityCheckup {
         color: #000000;
-        font-size: 14px;
-        font-weight: 600;
-        left: 267px;
-        letter-spacing: 0;
-        line-height: normal;
-        position: absolute;
-        top: 0;
     }
 }
 
@@ -200,17 +186,15 @@
     width: 94px;
     position: absolute;
     top: 36px;
-    left: 0;
+
 }
 
 .firstInput {
     align-items: flex-start;
     display: inline-flex;
     flex-direction: column;
+    position: relative;
     gap: 2px;
-    left: 517px;
-    position: absolute;
-    top: 317px;
 }
 
 .secondInput {
@@ -218,20 +202,9 @@
     display: inline-flex;
     flex-direction: column;
     gap: 2px;
-    left: 517px;
-    position: absolute;
-    top: 382px;
+    position: relative;
 }
 
-.thirdInput {
-    align-items: flex-start;
-    display: inline-flex;
-    flex-direction: column;
-    gap: 2px;
-    left: 517px;
-    position: absolute;
-    top: 447px;
-}
 
 .inputLabel {
     color: #7f7f7f;
@@ -256,41 +229,21 @@
     width: 247px;
 }
 
-.customCheckbox {
-    position: relative;
-    display: inline-block;
-    cursor: pointer;
-}
-
-.customCheckbox input {
-    opacity: 0;
-    position: absolute;
-    left: 0;
-    z-index: -1;
-}
-
-.customCheckbox .checkmark {
-    border: 1px solid #000;
-    border-radius: 3px;
-    width: 12px;
-    height: 11px;
-    background-color: white;
-    display: inline-block;
-    transition: all 0.2s;
-}
-
-.customCheckbox input:checked + .checkmark {
-    background-color: #000;
-}
-
-.firstStep .agreeInput {
-    align-items: flex-start;
+.agree {
     display: inline-flex;
     gap: 4px;
-    left: 524px;
-    position: absolute;
-    top: 509px;
+    position: relative;
+    align-items: center;
 }
+
+
+.navigation {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
 
 
 .nextButton {
@@ -302,26 +255,24 @@
     display: flex;
     gap: 10px;
     justify-content: center;
-    left: 695px;
     padding: 10px 16px 10px 25px;
-    position: absolute;
-    top: 545px;
     width: 94px;
     cursor: pointer;
+    border: 1px solid transparent;
 
+    .text {
+        font-family: "Montserrat Alternates", sans-serif;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0;
+        line-height: normal;
+        margin-top: -1.00px;
+        position: relative;
+        width: fit-content;
+    }
 }
 
-.nextButton .text {
-    font-family: "Montserrat Alternates", sans-serif;
-    color: #ffffff;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -1.00px;
-    position: relative;
-    width: fit-content;
-}
 
 .backButton {
     all: unset;
@@ -332,33 +283,32 @@
     display: flex;
     gap: 10px;
     justify-content: center;
-    left: 505px;
     padding: 10px 25px 10px 16px;
-    position: absolute;
-    top: 545px;
-    width: 98px;
+    width: 94px;
     cursor: pointer;
 
+    .text {
+        font-family: "Montserrat Alternates", sans-serif;
+        color: #000000;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0;
+        line-height: normal;
+        margin-top: -1.00px;
+        position: relative;
+        width: fit-content;
+    }
 }
 
-.backButton .text {
-    font-family: "Montserrat Alternates", sans-serif;
-    color: #000000;
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -1.00px;
-    position: relative;
-    width: fit-content;
-}
 
 
 .error {
     color: red;
     font-size: 10px;
-    margin-top: 3px;
+    margin-top: 4px;
     font-weight: bold;
+    position: absolute;
+    top: 100%;
 }
 
 

@@ -33,8 +33,6 @@ class RegisterManagerTest : AbstractServiceTest() {
     fun `успешная регистрация менеджера`() {
         val company = UserCompany(
             name = "Company",
-            email = "email@example.com",
-            password = "123456"
         )
 
         val savedCompany = userCompanyRepository.save(company.toEntity())
@@ -47,10 +45,11 @@ class RegisterManagerTest : AbstractServiceTest() {
         val savedInvite = inviteRepository.save(invite)
 
         val request = RegisterManagerRequest(
-            inviteToken = savedInvite.token,
             login = "login",
+            email = "email@example.com",
             name = "Name",
-            password = "password"
+            password = "password",
+            token = savedInvite.token
         )
 
         val savedManager = authService.registerManager(request)
@@ -63,10 +62,12 @@ class RegisterManagerTest : AbstractServiceTest() {
     @Test
     fun `ошибка если приглашение не найдено`() {
         val request = RegisterManagerRequest(
-            inviteToken = "invalid_token",
+            token = "invalid_token",
             login = "login",
             name = "Name",
-            password = "password"
+            password = "password",
+            email = "email@example.com"
+
         )
 
         val exception = shouldThrow<NotFoundException> {
@@ -81,16 +82,15 @@ class RegisterManagerTest : AbstractServiceTest() {
 
         val company = UserCompany(
             name = "Company",
-            email = "email@example.com",
-            password = "123456"
         )
 
 
         val existingCompany = userCompanyRepository.save(company.toEntity())
 
         val user = UserEntity(
-            login = "login",
             name = "ExistingName",
+            login = "login",
+            email = "email@example.com",
             password = "123456",
             role = UserRoles.HEAD,
             company = existingCompany,
@@ -110,8 +110,9 @@ class RegisterManagerTest : AbstractServiceTest() {
         val request = RegisterManagerRequest(
             name = "Name",
             login = "login",
+            email = "email@example.com",
             password = "password",
-            inviteToken = savedInvite.token
+            token = savedInvite.token
         )
 
         val exception = shouldThrow<EntityAlreadyExistsException> {
@@ -125,8 +126,6 @@ class RegisterManagerTest : AbstractServiceTest() {
     fun `ошибка если приглашение истекло`() {
         val company = UserCompany(
             name = "Company",
-            email = "email@example.com",
-            password = "123456"
         )
 
         val savedCompany = userCompanyRepository.save(company.toEntity())
@@ -142,8 +141,9 @@ class RegisterManagerTest : AbstractServiceTest() {
         val request = RegisterManagerRequest(
             name = "Name",
             login = "login",
+            email = "email@example.com",
             password = "123456",
-            inviteToken = savedInvite.token
+            token = savedInvite.token
         )
 
         val exception = shouldThrow<ExpiredTokenException> {

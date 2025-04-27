@@ -21,13 +21,12 @@ class GenerateInviteTest : AbstractUnitTest() {
 
         val company = UserCompany(
             name = "name",
-            email = "email@example.com",
-            password = "123456"
         )
 
         val user = User(
-            login = "login",
             name = "name",
+            login = "login",
+            email = "email@example.com",
             password = "123456",
             role = UserRoles.HEAD,
             company = company,
