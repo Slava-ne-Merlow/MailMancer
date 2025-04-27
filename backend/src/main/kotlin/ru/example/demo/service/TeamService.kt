@@ -38,7 +38,7 @@ class TeamService(
         }
 
         val userToDelete = userRepository.findByLogin(login)
-            ?: throw BadRequestException("Недействителен логин пользователя")
+            ?: throw BadRequestException("Такого логина не существует")
 
         logger.debug("Найден пользователь по логину: ${userToDelete.login}, id: ${userToDelete.id}")
 
