@@ -80,6 +80,10 @@ class TeamService(
         val user = userRepository.findByToken(userToken)
             ?: throw UnauthorizedException("Недействителен токен авторизации")
 
+        if (user.role != UserRoles.HEAD) {
+            throw ForbiddenException("Недостаточно прав")
+        }
+
         val company = user.company
 
         val token = tokenService.generateToken()
