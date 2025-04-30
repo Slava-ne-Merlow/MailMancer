@@ -2,6 +2,7 @@ package ru.example.demo.controller
 
 import org.springframework.web.bind.annotation.*
 import ru.example.demo.dto.request.CreateRequest
+import ru.example.demo.dto.response.OrderDetailResponse
 import ru.example.demo.dto.response.OrderResponse
 import ru.example.demo.dto.response.SuccessResponse
 import ru.example.demo.service.OrderService
@@ -15,8 +16,8 @@ class OrderController(
 ) : Loggable() {
     @PostMapping("/create")
     fun createOrder(
-        @RequestBody request: CreateRequest,
-        @RequestHeader("Authorization") token: String
+        @RequestHeader("Authorization") token: String,
+        @RequestBody request: CreateRequest
     ): SuccessResponse {
         val savedOrder = orderService.createOrder(request, token)
         return SuccessResponse(message = "Успешное создание заказа с трек номером: ${savedOrder.name}")
@@ -27,6 +28,7 @@ class OrderController(
         val orders = orderService.getOrders(closed, token)
         val answer = orders.map {
             OrderResponse(
+                id = it.id,
                 trackNumber = it.name,
                 from = it.downloadAddress,
                 to = it.deliveryAddress,
@@ -35,5 +37,27 @@ class OrderController(
             )
         }
         return answer
+    }
+
+    @GetMapping("/order/{id}")
+    fun getOrder(
+        @RequestHeader("Authorization") token: String,
+        @PathVariable id: Long
+    ): OrderDetailResponse {
+        val (order, cargoSpaces) = orderService.getOrder(id, token)
+
+        return OrderDetailResponse(
+            number = order.name,
+            from = order.downloadAddress,
+            to = order.deliveryAddress,
+            created = order.createdDate.toLocalDate().toString(),
+            closed = order.closedDate?.toLocalDate().toString(),
+            kind = order.kind,
+            add = order.additionalRequirements,
+            cargoDetails = cargoSpaces.map {
+                it.toModel()
+            }
+
+        )
     }
 }

@@ -18,14 +18,6 @@ data class OrderEntity(
     @Column(name = "delivery_address")
     val deliveryAddress: String,
 
-    val weight: Double,
-
-    val length: Double,
-
-    val height: Double,
-
-    val width: Double,
-
     val kind: String,
 
     @Column(name = "additional_requirements")
@@ -47,5 +39,5 @@ data class OrderEntity(
         joinColumns = [JoinColumn(name = "order_id")],
         inverseJoinColumns = [JoinColumn(name = "recipient_id")]
     )
-    val recipients: MutableSet<CarrierRepresentativeEntity> = mutableSetOf()
+    val recipients: MutableSet<CarrierRepresentativeEntity> = mutableSetOf(),
 )

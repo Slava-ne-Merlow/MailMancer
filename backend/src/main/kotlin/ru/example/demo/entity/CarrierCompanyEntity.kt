@@ -1,6 +1,5 @@
 package ru.example.demo.entity
 
-
 import jakarta.persistence.*
 
 @Entity
