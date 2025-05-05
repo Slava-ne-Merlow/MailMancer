@@ -16,6 +16,7 @@ import ru.example.demo.repository.InviteRepository
 import ru.example.demo.repository.UserCompanyRepository
 import ru.example.demo.repository.UserRepository
 import ru.example.demo.util.Loggable
+import ru.example.demo.util.PasswordEncoder
 
 
 @Service
@@ -24,6 +25,7 @@ class AuthService(
     private val userCompanyRepository: UserCompanyRepository,
     private val inviteRepository: InviteRepository,
     private val tokenService: TokenService,
+    private val passwordEncoder: PasswordEncoder,
 ) : Loggable() {
     @Transactional
     fun registerHead(request: RegisterHeadRequest): UserEntity {
@@ -50,7 +52,7 @@ class AuthService(
             name = request.name,
             login = request.login,
             email = request.email,
-            password = request.password,
+            password = passwordEncoder.encode(request.password),
             role = UserRoles.HEAD,
             company = savedCompany,
             token = token
@@ -94,7 +96,7 @@ class AuthService(
             name = request.name,
             login = request.login,
             email = request.email,
-            password = request.password,
+            password = passwordEncoder.encode(request.password),
             role = UserRoles.MANAGER,
             company = company,
             token = token
@@ -113,9 +115,9 @@ class AuthService(
         logger.debug("Запрос на авторизацию с параметрами: {}", request)
 
         val user = userRepository.findByLogin(request.login)
-            ?: throw NotFoundException("Логин ${request.login} занят")
+            ?: throw NotFoundException("Пользователь с логином ${request.login} не найден")
 
-        if (user.checkPassword(request.password)) {
+        if (!passwordEncoder.matches(request.password, user.password)) {
             throw UnauthorizedException("Неверный логин или пароль")
         }
 

@@ -40,14 +40,11 @@ data class UserEntity(
             name = name,
             login = login,
             email = email,
-            password = password,
+            password = "",
             token = token,
             role = role,
             company = company.toUserCompany()
         )
     }
 
-    fun checkPassword(userPassword: String): Boolean {
-        return password != userPassword
-    }
 }
