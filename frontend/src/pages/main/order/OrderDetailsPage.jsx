@@ -19,7 +19,7 @@ const OrderDetailsPage = () => {
         const fetchOrderDetails = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`http://localhost:8080/api/v1/order/${orderId}`, {
+                const response = await fetch(`http://localhost:8080/api/v1/orders/get_by_id/${orderId}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",

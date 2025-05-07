@@ -10,7 +10,7 @@ import ru.example.demo.util.Loggable
 
 @CrossOrigin(origins = ["http://Localhost:3000"])
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/orders")
 class OrderController(
     val orderService: OrderService
 ) : Loggable() {
@@ -23,7 +23,7 @@ class OrderController(
         return SuccessResponse(message = "Успешное создание заказа с трек номером: ${savedOrder.name}")
     }
 
-    @GetMapping("/orders/{closed}")
+    @GetMapping("/{closed}")
     fun getOrders(@PathVariable closed: Boolean, @RequestHeader("Authorization") token: String): List<OrderResponse> {
         val orders = orderService.getOrders(closed, token)
         val answer = orders.map {
@@ -39,7 +39,7 @@ class OrderController(
         return answer
     }
 
-    @GetMapping("/order/{id}")
+    @GetMapping("/get_by_id/{id}")
     fun getOrder(
         @RequestHeader("Authorization") token: String,
         @PathVariable id: Long
