@@ -9,18 +9,18 @@ import ru.example.demo.util.Loggable
 
 @CrossOrigin(origins = ["http://Localhost:3000"])
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/team")
 class TeamController(
     val teamService: TeamService
 ) : Loggable() {
-    @DeleteMapping("team/member/{login}")
+    @DeleteMapping("/member/{login}")
     fun delete(@PathVariable login: String, @RequestHeader("Authorization") token: String): SuccessResponse {
         val message = teamService.deleteMember(login, token)
 
         return SuccessResponse(message = message)
     }
 
-    @GetMapping("/team")
+    @GetMapping
     fun get(@RequestHeader("Authorization") token: String): List<MemberRequestResponse> {
         val users = teamService.getTeam(token)
 
