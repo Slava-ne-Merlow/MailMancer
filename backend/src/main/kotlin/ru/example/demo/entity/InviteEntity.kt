@@ -20,7 +20,7 @@ class InviteEntity(
 
     val createdAt: LocalDateTime = LocalDateTime.now()
 ) {
-    fun checkToken() : Boolean {
+    fun checkToken(): Boolean {
         return Duration.between(createdAt, LocalDateTime.now()).toHours() > 24
     }
 

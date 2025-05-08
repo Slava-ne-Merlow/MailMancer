@@ -1,11 +1,10 @@
 package ru.example.demo.entity
 
-
 import jakarta.persistence.*
 
 @Entity
-@Table(name="carrier_companies")
-data class CarrierCompanyEntity (
+@Table(name = "carrier_companies")
+data class CarrierCompanyEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,

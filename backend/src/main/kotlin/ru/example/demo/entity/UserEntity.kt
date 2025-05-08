@@ -13,10 +13,13 @@ data class UserEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
+    val name: String,
+
     @Column(unique = true)
     val login: String,
 
-    val name: String,
+    @Column(unique = true)
+    val email: String,
 
     val password: String,
 
@@ -31,21 +34,20 @@ data class UserEntity(
 
 
     ) {
-
     fun toUser(): User {
 
         return User(
-            login = login,
             name = name,
+            login = login,
+            email = email,
             password = password,
             token = token,
             role = role,
             company = company.toUserCompany()
-
         )
     }
 
-    fun checkPassword(userPassword: String) : Boolean {
+    fun checkPassword(userPassword: String): Boolean {
         return password != userPassword
     }
 }

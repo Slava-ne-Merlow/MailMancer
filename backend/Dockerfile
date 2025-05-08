@@ -1,7 +1,5 @@
 FROM eclipse-temurin:17-jdk-jammy AS builder
 
-
-
 WORKDIR /app
 
 COPY build.gradle.kts settings.gradle.kts gradlew /app/

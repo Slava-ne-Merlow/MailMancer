@@ -8,7 +8,7 @@ data class Invite(
     val company: UserCompany,
     val createdAt: LocalDateTime = LocalDateTime.now()
 ) {
-    fun toEntity() = InviteEntity (
+    fun toEntity() = InviteEntity(
         token = token,
         company = company.toEntity(),
         createdAt = createdAt

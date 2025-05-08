@@ -3,8 +3,8 @@ package ru.example.demo.entity
 import jakarta.persistence.*
 
 @Entity
-@Table(name="carrier_representative")
-data class CarrierRepresentativeEntity (
+@Table(name = "carrier_representative")
+data class CarrierRepresentativeEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
@@ -15,7 +15,7 @@ data class CarrierRepresentativeEntity (
 
     val email: String,
 
-    val additionally: String?=null,
+    val additionally: String? = null,
 
     @ManyToMany(mappedBy = "recipients")
     val orders: MutableSet<OrderEntity> = mutableSetOf()

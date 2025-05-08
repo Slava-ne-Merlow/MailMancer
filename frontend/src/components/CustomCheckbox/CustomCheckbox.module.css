@@ -1,0 +1,47 @@
+.customCheckbox {
+    position: relative;
+    cursor: pointer;
+    align-items: center;
+    display: inline-flex;
+    gap: 4px;
+}
+
+.customCheckbox input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 0;
+    z-index: -1;
+}
+
+.checkmark {
+    border: 1px solid #000;
+    border-radius: 3px;
+    width: 12px;
+    height: 11px;
+    background-color: white;
+    display: inline-block;
+    transition: all 0.2s;
+}
+
+.customCheckbox input:checked + .checkmark {
+    background-color: #000;
+}
+
+.link {
+    text-decoration: none;
+    color: #000000;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+.agreeLabel {
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: transparent;
+    margin-top: 3px;
+}

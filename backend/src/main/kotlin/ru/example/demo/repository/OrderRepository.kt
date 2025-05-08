@@ -11,4 +11,6 @@ interface OrderRepository : JpaRepository<OrderEntity, Long> {
 
     fun findAllByClosedDateNotNullAndUser_Company(company: UserCompanyEntity): List<OrderEntity>
     fun findAllByClosedDateIsNullAndUser_Company(company: UserCompanyEntity): List<OrderEntity>
+
+    fun findAllByUser(user: UserEntity): List<OrderEntity>
 }

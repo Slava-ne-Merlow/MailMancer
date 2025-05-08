@@ -1,4 +1,4 @@
-package ru.example.demo.unit
+package ru.example.demo.unit.team
 
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.matchers.should
@@ -11,6 +11,7 @@ import ru.example.demo.dto.enums.UserRoles
 import ru.example.demo.dto.model.User
 import ru.example.demo.dto.model.UserCompany
 import ru.example.demo.exception.type.UnauthorizedException
+import ru.example.demo.unit.AbstractUnitTest
 
 
 class GenerateInviteTest : AbstractUnitTest() {
@@ -20,13 +21,12 @@ class GenerateInviteTest : AbstractUnitTest() {
 
         val company = UserCompany(
             name = "name",
-            email = "email@example.com",
-            password = "123456"
         )
 
         val user = User(
-            login = "login",
             name = "name",
+            login = "login",
+            email = "email@example.com",
             password = "123456",
             role = UserRoles.HEAD,
             company = company,
@@ -38,7 +38,7 @@ class GenerateInviteTest : AbstractUnitTest() {
         every { tokenService.generateToken() } returns "token"
         every { inviteRepository.save(any()) } answers { firstArg() }
 
-        val message = authService.generateInvite(userToken)
+        val message = teamService.generateInvite(userToken)
 
 
         verify(exactly = 1) { userRepository.findByToken(userToken) }
@@ -55,7 +55,7 @@ class GenerateInviteTest : AbstractUnitTest() {
         every { userRepository.findByToken(userToken) } answers { null }
 
         val exception = shouldThrow<UnauthorizedException> {
-            authService.generateInvite(userToken)
+            teamService.generateInvite(userToken)
         }
 
         exception.message should startWith("Недействителен токен авторизации")

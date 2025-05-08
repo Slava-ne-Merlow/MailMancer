@@ -1,4 +1,23 @@
 spring:
   profiles:
     active: dev
+  output:
+    ansi:
+      enabled: ALWAYS
 
+logging:
+  config: classpath:logback.xml
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus, actuator
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+  metrics:
+    tags:
+      application: ${spring.application.name}

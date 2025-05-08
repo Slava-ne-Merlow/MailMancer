@@ -1,0 +1,324 @@
+.registrationForm {
+    /*transform: scale(1.1);*/
+    background-color: #f5f6fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.card {
+    background-color: #ffffff;
+    border: 0.3px solid #b8b8b8;
+    border-radius: 24px;
+
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
+    flex-direction: column;
+
+    box-shadow: 0 0 100px rgba(185, 185, 185, 0.3);
+    padding: 80px 114px;
+    gap: 24px; /* базовый отступ между элементами */
+}
+
+
+.header {
+    font-family: "Montserrat Alternates", sans-serif;
+    color: #aaaaaa;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+.redirect {
+    align-items: flex-start;
+    display: inline-flex;
+    gap: 4px;
+}
+
+.redirectLLabel {
+    color: transparent;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+    margin-top: 3px;
+    position: relative;
+    white-space: nowrap;
+}
+
+.group {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+}
+
+.companyInformation {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+
+}
+
+.personalInformation {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+
+}
+
+.securityCheckup {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+}
+
+.firstStep {
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
+    flex-direction: column;
+    gap: 24px;
+
+
+    .personalInformation {
+        color: #000000;
+
+
+    }
+
+    .companyInformation {
+        color: #aaaaaa;
+    }
+
+
+    .securityCheckup {
+        color: #aaaaaa;
+    }
+
+    .btn {
+        all: unset;
+        align-items: center;
+        background-color: #040510;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        box-sizing: border-box;
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        padding: 10px 16px 10px 25px;
+        width: 127px;
+        cursor: pointer;
+
+        .text {
+            font-family: "Montserrat Alternates", sans-serif;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0;
+            line-height: normal;
+            margin-top: -1.00px;
+            position: relative;
+            width: fit-content;
+        }
+    }
+}
+
+.secondStep {
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
+    flex-direction: column;
+    gap: 24px;
+
+    .personalInformation {
+        color: #aaaaaa;
+
+    }
+    .companyInformation {
+        color: #000000;
+    }
+
+    .securityCheckup {
+        color: #aaaaaa;
+    }
+}
+
+.thirdStep {
+    display: flex;
+    align-items: center;
+
+    position: relative;
+
+    flex-direction: column;
+    gap: 24px;
+
+
+    .companyInformation {
+        color: #aaaaaa;
+    }
+
+    .personalInformation {
+        color: #aaaaaa;
+    }
+
+    .securityCheckup {
+        color: #000000;
+    }
+}
+
+
+.underline {
+    background-color: #040510;
+    border-radius: 10px;
+    height: 3px;
+    width: 94px;
+    position: absolute;
+    top: 36px;
+
+}
+
+.firstInput {
+    align-items: flex-start;
+    display: inline-flex;
+    flex-direction: column;
+    position: relative;
+    gap: 2px;
+}
+
+.secondInput {
+    align-items: flex-start;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 2px;
+    position: relative;
+}
+
+
+.inputLabel {
+    color: #7f7f7f;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+    margin-top: -1.00px;
+    position: relative;
+    width: fit-content;
+}
+
+.inputField {
+    caret-color: #000000;
+    outline: none;
+    padding-left: 5px;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    height: 24px;
+    position: relative;
+    width: 247px;
+}
+
+.agree {
+    display: inline-flex;
+    gap: 4px;
+    position: relative;
+    align-items: center;
+}
+
+
+.navigation {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+
+.nextButton {
+    all: unset;
+    align-items: center;
+    background-color: #040510;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px 16px 10px 25px;
+    width: 94px;
+    cursor: pointer;
+    border: 1px solid transparent;
+
+    .text {
+        font-family: "Montserrat Alternates", sans-serif;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0;
+        line-height: normal;
+        margin-top: -1.00px;
+        position: relative;
+        width: fit-content;
+    }
+}
+
+
+.backButton {
+    all: unset;
+    align-items: center;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    padding: 10px 25px 10px 16px;
+    width: 94px;
+    cursor: pointer;
+
+    .text {
+        font-family: "Montserrat Alternates", sans-serif;
+        color: #000000;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 0;
+        line-height: normal;
+        margin-top: -1.00px;
+        position: relative;
+        width: fit-content;
+    }
+}
+
+
+
+.error {
+    color: red;
+    font-size: 10px;
+    margin-top: 4px;
+    font-weight: bold;
+    position: absolute;
+    top: 100%;
+}
+
+
+.link {
+    text-decoration: none;
+    color: #000000;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
+
+

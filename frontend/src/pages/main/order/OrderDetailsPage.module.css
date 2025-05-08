@@ -1,0 +1,196 @@
+.wrapper {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    min-height: 0;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.backButton {
+    padding: 10px 20px;
+    background-color: #040510;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+
+}
+
+.backButton:hover {
+    background-color: #24263a;
+}
+
+.details p {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+    padding: 0 30px 30px 30px;
+    box-sizing: border-box;
+    height: 100%;
+    min-height: 0;
+}
+
+.cardTitle {
+    height: 88px;
+    padding-left: 38px;
+    padding-right: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.leftSection {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title {
+    color: #202224;
+    font-family: "Nunito Sans-Bold", sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+
+.cardContent {
+    padding: 0 30px 30px 30px;
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* 💥 важно */
+    height: 100%;
+}
+
+.search {
+    outline: none;
+    caret-color: #000000;
+    background-color: #f5f6fa;
+    border: 0.6px solid #d4d4d4;
+    border-radius: 12px;
+    height: 40px;
+    position: relative;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    -moz-border-radius-bottomleft: 16px;
+    -moz-border-radius-bottomright: 16px;
+    overflow: hidden;
+    background-color: white;
+    font-family: sans-serif;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.table th,
+.table td {
+    padding: 16px 20px;
+    text-align: center;
+}
+
+.table th {
+    background-color: #f9fafa;
+    font-weight: bold;
+    color: #222;
+    text-transform: uppercase;
+    font-size: 14px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.table td {
+    font-size: 15px;
+    color: #333;
+    border-bottom: 1px solid #e5e5e5;
+
+}
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.status {
+    background-color: #e7dcfc;
+    color: #6f42c1;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.tableWrapper {
+    border: 1px solid #e5e5e5;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+}
+
+.tableWrapper2 {
+    border: 1px solid #e5e5e5;
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    height: 100%;
+    min-height: 0;
+}
+
+.tableScrollWrapper {
+    flex-grow: 1;
+    overflow-y: auto;
+    min-height: 0;
+}
+
+.tableContainer {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+
+    /*Эти две строчки*/
+    border: 1px solid #e5e5e5;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.tableHeader {
+    flex-shrink: 0;
+}
+
+.tableBodyWrapper {
+    flex-grow: 1;
+    overflow-y: auto;
+    min-height: 0;
+    height: 100%;
+}
+
+.col {
+    width: 20%;
+}
+
+.pageWrapper {
+    height: 100%;
+    min-height: 0;
+}

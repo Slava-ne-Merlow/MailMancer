@@ -1,8 +1,9 @@
 package ru.example.demo.dto.request
 
-data class RegisterManagerRequest (
+data class RegisterManagerRequest(
     val name: String,
     val login: String,
+    val email: String,
     val password: String,
-    val inviteToken: String
+    val token: String
 )

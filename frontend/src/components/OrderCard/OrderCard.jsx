@@ -4,9 +4,11 @@ import lock from "../../assets/icons/lock.svg";
 import React, {useEffect, useState} from "react";
 import userStore from "../../store/UserStore";
 import {useCallback} from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 
 const OrderCard = ({closed}) => {
+
     const [orders, setOrders] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredOrders, setFilteredOrders] = useState([]);
@@ -36,6 +38,15 @@ const OrderCard = ({closed}) => {
             return [];
         }
     }, [closed]);
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const handleOrderClick = (orderId) => {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set("orderId", orderId);
+        navigate(`${location.pathname}?${searchParams.toString()}`);
+    };
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -94,10 +105,10 @@ const OrderCard = ({closed}) => {
                     </>
                 ) : orders.length > 0 ? (
                     filteredOrders.length > 0 ? (
-                        filteredOrders.map((order) => (
-                            <React.Fragment key={order.id}>
+                        filteredOrders.map((order, index) => (
+                            <React.Fragment key={index}>
                                 <hr/>
-                                <div className={styles.mailing}>
+                                <div className={styles.mailing} onClick={() => handleOrderClick(order.id)}>
                                     <div className={styles.tracNumber}>{order.trackNumber}</div>
                                     <div className={styles.route}>
                                         <span className={styles.city}>{order.from}</span>

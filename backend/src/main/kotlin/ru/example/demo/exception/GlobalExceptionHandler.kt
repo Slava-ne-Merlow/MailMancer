@@ -7,28 +7,45 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import ru.example.demo.dto.response.ErrorResponse
 import ru.example.demo.exception.type.*
+import ru.example.demo.util.Loggable
 
 @Hidden
 @RestControllerAdvice
-class GlobalExceptionHandler {
+class GlobalExceptionHandler : Loggable() {
 
     @ExceptionHandler(BadRequestException::class)
-    fun handleIllegalArgumentException(exception: BadRequestException) =
-        ResponseEntity.status(400).body(ErrorResponse(exception.message ?: "BAD REQUEST"))
+    fun handleIllegalArgumentException(exception: BadRequestException): ResponseEntity<ErrorResponse> {
+        logger.warn("BadRequestException: {}", exception.message)
+        return ResponseEntity.status(400).body(ErrorResponse(exception.message ?: "BAD REQUEST"))
+    }
 
     @ExceptionHandler(EntityAlreadyExistsException::class)
-    fun handleEntityAlreadyExistsException(exception: EntityAlreadyExistsException) =
-        ResponseEntity.status(409).body(ErrorResponse(exception.message ?: "CONFLICT"))
+    fun handleEntityAlreadyExistsException(exception: EntityAlreadyExistsException): ResponseEntity<ErrorResponse> {
+        logger.warn("EntityAlreadyExistsException: {}", exception.message)
+        return ResponseEntity.status(409).body(ErrorResponse(exception.message ?: "CONFLICT"))
+    }
 
     @ExceptionHandler(NotFoundException::class)
-    fun handleNotFoundException(exception: NotFoundException) =
-        ResponseEntity.status(404).body(ErrorResponse(exception.message ?: "NOT FOUND"))
+    fun handleNotFoundException(exception: NotFoundException): ResponseEntity<ErrorResponse> {
+        logger.warn("NotFoundException: {}", exception.message)
+        return ResponseEntity.status(404).body(ErrorResponse(exception.message ?: "NOT FOUND"))
+    }
 
     @ExceptionHandler(UnauthorizedException::class)
-    fun handleUnauthorizedException(exception: UnauthorizedException) =
-        ResponseEntity.status(401).body(ErrorResponse(exception.message ?: "UNAUTHORIZED"))
+    fun handleUnauthorizedException(exception: UnauthorizedException): ResponseEntity<ErrorResponse> {
+        logger.warn("UnauthorizedException: {}", exception.message)
+        return ResponseEntity.status(401).body(ErrorResponse(exception.message ?: "UNAUTHORIZED"))
+    }
 
     @ExceptionHandler(ExpiredTokenException::class)
-    fun handleExpiredTokenException(exception: ExpiredTokenException) =
-        ResponseEntity.status(410).body(ErrorResponse(exception.message ?: "TOKEN EXPIRED"))
+    fun handleExpiredTokenException(exception: ExpiredTokenException): ResponseEntity<ErrorResponse> {
+        logger.warn("ExpiredTokenException: {}", exception.message)
+        return ResponseEntity.status(410).body(ErrorResponse(exception.message ?: "TOKEN EXPIRED"))
+    }
+
+    @ExceptionHandler(ForbiddenException::class)
+    fun handleForbiddenException(exception: ForbiddenException): ResponseEntity<ErrorResponse> {
+        logger.warn("ForbiddenException: {}", exception.message)
+        return ResponseEntity.status(403).body(ErrorResponse(exception.message ?: "FORBIDDEN"))
+    }
 }

@@ -12,16 +12,8 @@ data class UserCompanyEntity(
 
     val name: String,
 
-    @Column(unique = true, nullable = false)
-    val email: String,
-
-    val password: String,
-
-
     ) {
     fun toUserCompany(): UserCompany = UserCompany(
-        name = name,
-        email = email,
-        password = password,
+        name = name
     )
 }
