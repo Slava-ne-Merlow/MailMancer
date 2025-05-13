@@ -22,20 +22,18 @@ class TokenService(private val jwtUtil: JwtUtil) : Loggable() {
     
     fun generateTokenForUser(username: String, role: String = "USER"): String {
         logger.debug("Создание JWT токена для пользователя: $username")
-        val user = username
         val userDetails = User.builder()
-            .username(user)
+            .username(username)
             .password("")
             .authorities(SimpleGrantedAuthority(role))
             .build()
-        val tokenForUser = jwtUtil.generateToken(userDetails)
-        return tokenForUser
+        return jwtUtil.generateToken(userDetails)
     }
     
     fun validateToken(token: String): Boolean {
         logger.debug("Валидация JWT токена")
         try {
-            val username = jwtUtil.extractUsername(token)
+            // Only check for token expiration, as username is validated by other methods when needed
             val expiration = jwtUtil.extractExpiration(token)
             return !expiration.before(Date())
         } catch (e: Exception) {
