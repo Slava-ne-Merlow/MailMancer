@@ -22,12 +22,14 @@ class TokenService(private val jwtUtil: JwtUtil) : Loggable() {
     
     fun generateTokenForUser(username: String, role: String = "USER"): String {
         logger.debug("Создание JWT токена для пользователя: $username")
+        val user = username
         val userDetails = User.builder()
-            .username(username)
+            .username(user)
             .password("")
             .authorities(SimpleGrantedAuthority(role))
             .build()
-        return jwtUtil.generateToken(userDetails)
+        val tokenForUser = jwtUtil.generateToken(userDetails)
+        return tokenForUser
     }
     
     fun validateToken(token: String): Boolean {
