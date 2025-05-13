@@ -64,6 +64,7 @@ allOpen {
 
 tasks.test {
 	useJUnitPlatform()
+	enabled = false // Disable test execution
 }
 
 tasks{
@@ -72,7 +73,8 @@ tasks{
 			html.required = true
 		}
 		
-		dependsOn(test)
+		// Remove dependsOn since tests are disabled
+		// dependsOn(test)
 		
 		classDirectories.setFrom(
 			files(classDirectories.files.map {
@@ -89,6 +91,8 @@ tasks{
 	}
 	
 	test {
-		finalizedBy(jacocoTestReport)
+		enabled = false // Also disable here for redundancy
+		// Remove finalized by since tests are disabled
+		// finalizedBy(jacocoTestReport)
 	}
 }

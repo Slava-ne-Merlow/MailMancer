@@ -38,7 +38,8 @@ class JwtUtil {
 
     fun generateToken(userDetails: UserDetails): String {
         val claims = HashMap<String, Any>()
-        claims["role"] = userDetails.authorities.firstOrNull()?.authority ?: "USER"
+        val authority = userDetails.authorities.firstOrNull()?.authority
+        claims["role"] = authority ?: "USER"
         return createToken(claims, userDetails.username)
     }
 

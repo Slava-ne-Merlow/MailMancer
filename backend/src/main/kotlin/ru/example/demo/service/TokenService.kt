@@ -55,7 +55,12 @@ class TokenService(private val jwtUtil: JwtUtil) : Loggable() {
     fun getRoleFromToken(token: String): String? {
         logger.debug("Извлечение роли из JWT токена")
         return try {
-            jwtUtil.extractClaim(token) { claims -> claims["role"] as String }
+            val role = jwtUtil.extractClaim(token) { claims -> claims["role"] }
+            when (role) {
+                is String -> role
+                null -> null
+                else -> role.toString()
+            }
         } catch (e: Exception) {
             logger.error("Ошибка при извлечении роли из токена", e)
             null
