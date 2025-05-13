@@ -90,6 +90,10 @@ class OrderService(
                     orderRepository.findAllByClosedDateNotNullAndUser(user)
                 }
             }
+            
+            else -> {
+                throw ForbiddenException("Недопустимая роль пользователя для получения заказов")
+            }
         }
 
         logger.info("Найдено {} заказов", orders.size)
