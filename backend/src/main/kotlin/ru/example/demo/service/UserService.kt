@@ -10,7 +10,6 @@ import ru.example.demo.dto.UserDto
 import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.UserNotFoundException
 import ru.example.demo.repository.UserRepository
-import java.time.LocalDateTime
 
 @Service
 class UserService(
@@ -35,17 +34,17 @@ class UserService(
 
     fun authenticate(username: String, password: String): UserEntity {
         val user = userRepository.findByLogin(username)
-        ?: throw UserNotFoundException("User not found with username: $username")
-    
+            ?: throw UserNotFoundException("User not found with username: $username")
+
         if (!passwordEncoder.matches(password, user.password)) {
             throw IllegalArgumentException("Invalid password")
         }
-    
+
         val token = tokenService.generateTokenForUser(user.login, user.role.name)
-        
+
         user.token = token
         userRepository.save(user)
-        
+
         return user
     }
 
@@ -53,7 +52,7 @@ class UserService(
         if (tokenService.validateToken(token)) {
             val username = tokenService.getUsernameFromToken(token)
                 ?: throw IllegalArgumentException("Invalid token")
-                
+
             return userRepository.findByLogin(username)
                 ?: throw UserNotFoundException("User not found with username: $username")
         }
@@ -71,8 +70,8 @@ class UserService(
 
     override fun loadUserByUsername(username: String): UserDetails {
         val user = userRepository.findByLogin(username)
-        ?: throw UsernameNotFoundException("User not found with username: $username")
-        
+            ?: throw UsernameNotFoundException("User not found with username: $username")
+
         return User.builder()
             .username(user.login)
             .password(user.password)

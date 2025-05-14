@@ -5,16 +5,16 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import ru.example.demo.service.TokenService
+import ru.example.demo.service.UserService
 
 @Component
 class JwtAuthFilter(
     private val tokenService: TokenService,
-    private val userDetailsService: UserDetailsService
+    private val userService: UserService
 ) : OncePerRequestFilter() {
 
     override fun doFilterInternal(
@@ -33,8 +33,8 @@ class JwtAuthFilter(
         val username = tokenService.getUsernameFromToken(jwt)
 
         if (username != null && SecurityContextHolder.getContext().authentication == null) {
-            val userDetails = userDetailsService.loadUserByUsername(username)
-            
+            val userDetails = userService.loadUserByUsername(username)
+
             if (tokenService.validateToken(jwt)) {
                 val authToken = UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.authorities
@@ -43,7 +43,7 @@ class JwtAuthFilter(
                 SecurityContextHolder.getContext().authentication = authToken
             }
         }
-        
+
         filterChain.doFilter(request, response)
     }
 }
