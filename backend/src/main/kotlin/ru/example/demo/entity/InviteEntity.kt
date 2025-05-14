@@ -14,7 +14,7 @@ class InviteEntity(
     @Column(unique = true)
     val token: String,
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "user_company_id", nullable = false)
     val company: UserCompanyEntity,
 
