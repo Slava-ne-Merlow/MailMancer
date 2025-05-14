@@ -168,8 +168,6 @@
     flex-direction: column;
     flex: 1;
     min-height: 0;
-
-    /*Эти две строчки*/
     border: 1px solid #e5e5e5;
     border-radius: 16px;
     overflow: hidden;
