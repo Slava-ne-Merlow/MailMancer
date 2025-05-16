@@ -36,7 +36,6 @@ class DeleteMemberTest : AbstractUnitTest() {
             password = "123456",
             role = UserRoles.HEAD,
             company = company,
-            token = "token1"
         )
 
         val userToDelete = User(
@@ -46,7 +45,6 @@ class DeleteMemberTest : AbstractUnitTest() {
             password = "123456",
             role = UserRoles.MANAGER,
             company = company,
-            token = "token1"
         )
 
         val date = LocalDateTime.now()
@@ -70,7 +68,6 @@ class DeleteMemberTest : AbstractUnitTest() {
             createdDate = date
         )
 
-        every { userRepository.findByToken(userToken) } returns head.toEntity()
         every { userRepository.findByLogin(userToDelete.login) } returns userToDelete.toEntity()
         every { orderRepository.findAllByUser(userToDelete.toEntity()) } returns listOf(order.toEntity())
         every { orderRepository.saveAll(listOf(orderUpdated.toEntity())) } returns listOf(orderUpdated.toEntity())
@@ -79,7 +76,6 @@ class DeleteMemberTest : AbstractUnitTest() {
         val message = teamService.deleteMember(token = userToken, login = userToDelete.login)
 
         // Проверки
-        verify(exactly = 1) { userRepository.findByToken(userToken) }
         verify(exactly = 1) { orderRepository.findAllByUser(userToDelete.toEntity()) }
         verify(exactly = 1) { userRepository.findByLogin(userToDelete.login) }
         verify(exactly = 1) { orderRepository.saveAll(listOf(orderUpdated.toEntity())) }
@@ -91,8 +87,6 @@ class DeleteMemberTest : AbstractUnitTest() {
     @Test
     fun `ошибка если токен авторизации не существет`() {
         val userToken = "token"
-
-        every { userRepository.findByToken(userToken) } answers { null }
 
         val exception = shouldThrow<UnauthorizedException> {
             teamService.deleteMember(token = userToken, login = "")
@@ -116,9 +110,7 @@ class DeleteMemberTest : AbstractUnitTest() {
             email = "email@example.com",
             role = UserRoles.MANAGER,
             company = company,
-            token = "token1"
         )
-        every { userRepository.findByToken(userToken) } answers { head.toEntity() }
 
         val exception = shouldThrow<ForbiddenException> {
             teamService.deleteMember(token = userToken, login = "")
@@ -142,11 +134,9 @@ class DeleteMemberTest : AbstractUnitTest() {
             password = "123456",
             role = UserRoles.HEAD,
             company = company,
-            token = "token1"
         )
 
 
-        every { userRepository.findByToken(userToken) } answers { head.toEntity() }
 
         val exception = shouldThrow<BadRequestException> {
             teamService.deleteMember(token = userToken, login = head.login)
@@ -170,13 +160,11 @@ class DeleteMemberTest : AbstractUnitTest() {
             password = "123456",
             role = UserRoles.HEAD,
             company = company,
-            token = "token1"
         )
 
         val login = "non-existent login"
 
 
-        every { userRepository.findByToken(userToken) } answers { head.toEntity() }
         every { userRepository.findByLogin(login) } answers { null }
 
         val exception = shouldThrow<BadRequestException> {

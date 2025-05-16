@@ -12,13 +12,11 @@ import ru.example.demo.exception.type.BadRequestException
 import ru.example.demo.exception.type.ForbiddenException
 import ru.example.demo.repository.CargoSpaceRepository
 import ru.example.demo.repository.OrderRepository
-import ru.example.demo.repository.UserRepository
 import ru.example.demo.util.Loggable
 
 @Service
 class OrderService(
     private val orderRepository: OrderRepository,
-    private val userRepository: UserRepository,
     private val cargoSpaceRepository: CargoSpaceRepository,
     private val tokenService: TokenService,
     metricRegistry: MeterRegistry,
