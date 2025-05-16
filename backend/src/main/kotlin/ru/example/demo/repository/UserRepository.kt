@@ -9,6 +9,4 @@ interface UserRepository : JpaRepository<UserEntity, Long> {
     fun findAllByCompany(company: UserCompanyEntity): List<UserEntity>
     fun deleteByLogin(login: String)
     fun findByEmail(email: String): UserEntity?
-    fun findByToken(token: String): UserEntity?
-    fun findCompanyById(id: Long): UserCompanyEntity?
 }

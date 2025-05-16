@@ -25,13 +25,9 @@ data class UserEntity(
 
     val role: UserRoles,
 
-    @Column(unique = true)
-    var token: String,
-
     @ManyToOne()
     @JoinColumn(name = "company_id", nullable = false)
     val company: UserCompanyEntity,
-
 
     ) {
     fun toUser(): User {
@@ -41,13 +37,8 @@ data class UserEntity(
             login = login,
             email = email,
             password = password,
-            token = token,
             role = role,
             company = company.toUserCompany()
         )
-    }
-
-    fun checkPassword(userPassword: String): Boolean {
-        return password != userPassword
     }
 }

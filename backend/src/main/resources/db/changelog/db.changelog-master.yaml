@@ -17,3 +17,7 @@ databaseChangeLog:
       file: db/changelog/changes/008_create_order_recipients.sql
   - include:
       file: db/changelog/changes/009_alter_orders.sql
+  - include:
+      file: db/changelog/changes/010_alter_users.sql
+  - include:
+      file: db/changelog/changes/011_create_cargo_spaces.sql

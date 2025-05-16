@@ -7,7 +7,6 @@ import ru.example.demo.entity.InviteEntity
 import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.type.BadRequestException
 import ru.example.demo.exception.type.ForbiddenException
-import ru.example.demo.exception.type.UnauthorizedException
 import ru.example.demo.repository.InviteRepository
 import ru.example.demo.repository.OrderRepository
 import ru.example.demo.repository.UserRepository
@@ -22,19 +21,10 @@ class TeamService(
     private val tokenService: TokenService
 ) : Loggable() {
 
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     fun deleteMember(login: String, token: String): String {
-        val tokenWithoutBearer = extractTokenFromHeader(token)
-        
-        if (!tokenService.validateToken(tokenWithoutBearer)) {
-            throw UnauthorizedException("Недействителен токен авторизации")
-        }
-        
-        val username = tokenService.getUsernameFromToken(tokenWithoutBearer)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
-        
-        val currentUser = userRepository.findByLogin(username)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
+
+        val currentUser = tokenService.getUserFromToken(token)
 
         logger.debug("Найден пользователь по логину: ${currentUser.login}, id: ${currentUser.id}")
 
@@ -67,17 +57,8 @@ class TeamService(
     }
 
     fun getTeam(token: String): List<UserEntity> {
-        val tokenWithoutBearer = extractTokenFromHeader(token)
-        
-        if (!tokenService.validateToken(tokenWithoutBearer)) {
-            throw UnauthorizedException("Недействителен токен авторизации")
-        }
-        
-        val username = tokenService.getUsernameFromToken(tokenWithoutBearer)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
-        
-        val currentUser = userRepository.findByLogin(username)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
+
+        val currentUser = tokenService.getUserFromToken(token)
 
         logger.debug("Найден пользователь по логину: ${currentUser.login}, id : ${currentUser.id}")
 
@@ -91,20 +72,10 @@ class TeamService(
     }
 
     @Transactional
-    fun generateInvite(userToken: String): String {
-        val tokenWithoutBearer = extractTokenFromHeader(userToken)
-        
+    fun generateInvite(token: String): String {
         logger.debug("Запрос на создание приглашения в компанию")
-        
-        if (!tokenService.validateToken(tokenWithoutBearer)) {
-            throw UnauthorizedException("Недействителен токен авторизации")
-        }
-        
-        val username = tokenService.getUsernameFromToken(tokenWithoutBearer)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
-        
-        val user = userRepository.findByLogin(username)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
+
+        val user = tokenService.getUserFromToken(token)
 
         if (user.role != UserRoles.HEAD) {
             throw ForbiddenException("Недостаточно прав")
@@ -112,11 +83,10 @@ class TeamService(
 
         val company = user.company
 
-        val token = tokenService.generateToken()
 
         val invite = InviteEntity(
             company = company,
-            token = token
+            token = tokenService.getInviteToken()
         )
 
         val savedInvite = inviteRepository.save(invite)
@@ -126,11 +96,5 @@ class TeamService(
         return "http://localhost:3000/register?token=${savedInvite.token}"
     }
     
-    private fun extractTokenFromHeader(authHeader: String): String {
-        return if (authHeader.startsWith("Bearer ")) {
-            authHeader.substring(7)
-        } else {
-            authHeader
-        }
-    }
+
 }

@@ -16,11 +16,9 @@ class AuthController(
 ) {
     @PostMapping("/head/sign-up")
     fun registerHead(@RequestBody request: RegisterHeadRequest): AuthResponse {
-        val user = authService.registerHead(request)
+        val (user, token) = authService.registerHead(request)
         return AuthResponse(
-            userId = user.id,
-            token = user.token,
-            companyId = user.company.id,
+            token = token,
             role = user.role,
             login = user.login,
             name = user.name,
@@ -29,11 +27,9 @@ class AuthController(
 
     @PostMapping("/manager/sign-up")
     fun registerManager(@RequestBody request: RegisterManagerRequest): AuthResponse {
-        val user = authService.registerManager(request)
+        val (user, token) = authService.registerManager(request)
         return AuthResponse(
-            userId = user.id,
-            token = user.token,
-            companyId = user.company.id,
+            token = token,
             role = user.role,
             login = user.login,
             name = user.name,
@@ -42,11 +38,9 @@ class AuthController(
 
     @PostMapping("/sign-in")
     fun loginUser(@RequestBody request: LoginUserRequest): AuthResponse {
-        val user = authService.loginUser(request)
+        val (user, token) = authService.loginUser(request)
         return AuthResponse(
-            userId = user.id,
-            token = user.token,
-            companyId = user.company.id,
+            token = token,
             role = user.role,
             login = user.login,
             name = user.name,
