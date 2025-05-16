@@ -5,7 +5,12 @@ import ru.example.demo.dto.enums.MessageType
 import java.time.LocalDateTime
 
 @Entity
-@Table(name = "messages")
+@Table(name = "messages",
+    indexes = [
+        Index(name = "idx_message_order", columnList = "order_id"),
+        Index(name = "idx_message_user_company", columnList = "user_company_id")
+    ])
+
 data class MessageEntity (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
