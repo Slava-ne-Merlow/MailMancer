@@ -18,8 +18,8 @@ data class MessageEntity (
     val order: OrderEntity,
 
     @ManyToOne
-    @JoinColumn(name = "user_company_id", nullable = true)
-    val company: CarrierCompanyEntity,
+    @JoinColumn(name = "user_company_id", nullable = false)
+    val company: CarrierRepresentativeEntity,
 
     val type: MessageType,
 
