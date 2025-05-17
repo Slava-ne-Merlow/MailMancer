@@ -1,6 +1,7 @@
 package ru.example.demo.unit
 
 import io.mockk.mockk
+import org.springframework.security.crypto.password.PasswordEncoder
 import ru.example.demo.repository.InviteRepository
 import ru.example.demo.repository.OrderRepository
 import ru.example.demo.repository.UserCompanyRepository
@@ -15,7 +16,9 @@ abstract class AbstractUnitTest {
     val orderRepository = mockk<OrderRepository>()
     val inviteRepository = mockk<InviteRepository>()
     val tokenService = mockk<TokenService>()
-    val authService = AuthService(userRepository, userCompanyRepository, inviteRepository, tokenService)
+    val passwordEncoder =  mockk<PasswordEncoder>()
+
+    val authService = AuthService(userRepository, userCompanyRepository, inviteRepository, tokenService, passwordEncoder)
     val teamService = TeamService(orderRepository, userRepository, inviteRepository, tokenService)
 
 }

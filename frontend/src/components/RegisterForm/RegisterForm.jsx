@@ -77,7 +77,7 @@ const RegisterForm = () => {
                 return false;
             }
 
-            userStore.setUser(data.userId, data.companyId, data.token, data.role, data.login, data.name);
+            userStore.setUser(data.role, data.login, data.name, data.token);
             return true;
         } catch (error) {
             console.error("Ошибка при отправке запроса:", error);
