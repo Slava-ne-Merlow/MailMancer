@@ -1,4 +1,4 @@
-//package ru.example.demo.unit.auth
+package ru.example.demo.unit.auth
 //
 //import io.kotest.assertions.throwables.shouldThrow
 //import io.kotest.matchers.should

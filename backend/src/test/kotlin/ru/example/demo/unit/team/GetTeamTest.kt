@@ -30,7 +30,6 @@ class GetTeamTest : AbstractUnitTest() {
             password = "123456",
             role = UserRoles.HEAD,
             company = company,
-            token = "token1"
         )
 
         val user2 = User(
@@ -40,11 +39,9 @@ class GetTeamTest : AbstractUnitTest() {
             password = "123456",
             role = UserRoles.MANAGER,
             company = company,
-            token = "token1"
         )
 
 
-        every { userRepository.findByToken(userToken) } answers { user1.toEntity() }
         every { userRepository.findAllByCompany(company.toEntity()) } answers {
             listOf(
                 user1.toEntity(),
@@ -56,7 +53,6 @@ class GetTeamTest : AbstractUnitTest() {
         val users = teamService.getTeam(userToken)
 
 
-        verify(exactly = 1) { userRepository.findByToken(userToken) }
         verify(exactly = 1) { userRepository.findAllByCompany(company.toEntity()) }
 
         users shouldBe listOf(user1.toEntity(), user2.toEntity())
@@ -66,7 +62,6 @@ class GetTeamTest : AbstractUnitTest() {
     fun `ошибка если токен авторизации не существет`() {
         val userToken = "token"
 
-        every { userRepository.findByToken(userToken) } answers { null }
 
         val exception = shouldThrow<UnauthorizedException> {
             teamService.getTeam(userToken)

@@ -46,7 +46,6 @@ class RegisterManagerTest : AbstractUnitTest() {
             password = request.password,
             role = UserRoles.MANAGER,
             company = company,
-            token = "token"
         )
 
         every { inviteRepository.findByToken("token") } answers { invite.toEntity() }

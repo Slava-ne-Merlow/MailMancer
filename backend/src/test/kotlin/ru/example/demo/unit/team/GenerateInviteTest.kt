@@ -29,19 +29,16 @@ class GenerateInviteTest : AbstractUnitTest() {
             email = "email@example.com",
             password = "123456",
             role = UserRoles.HEAD,
-            company = company,
-            token = "token"
+            company = company
         )
 
 
-        every { userRepository.findByToken(userToken) } answers { user.toEntity() }
         every { tokenService.generateToken() } returns "token"
         every { inviteRepository.save(any()) } answers { firstArg() }
 
         val message = teamService.generateInvite(userToken)
 
 
-        verify(exactly = 1) { userRepository.findByToken(userToken) }
         verify(exactly = 1) { inviteRepository.save(any()) }
         verify(exactly = 1) { tokenService.generateToken() }
 
@@ -51,8 +48,6 @@ class GenerateInviteTest : AbstractUnitTest() {
     @Test
     fun `ошибка если токен приглашения истёк`() {
         val userToken = "token"
-
-        every { userRepository.findByToken(userToken) } answers { null }
 
         val exception = shouldThrow<UnauthorizedException> {
             teamService.generateInvite(userToken)
