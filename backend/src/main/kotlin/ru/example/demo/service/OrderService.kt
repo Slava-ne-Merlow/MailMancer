@@ -10,17 +10,15 @@ import ru.example.demo.entity.CargoSpaceEntity
 import ru.example.demo.entity.OrderEntity
 import ru.example.demo.exception.type.BadRequestException
 import ru.example.demo.exception.type.ForbiddenException
-import ru.example.demo.exception.type.UnauthorizedException
 import ru.example.demo.repository.CargoSpaceRepository
 import ru.example.demo.repository.OrderRepository
-import ru.example.demo.repository.UserRepository
 import ru.example.demo.util.Loggable
 
 @Service
 class OrderService(
     private val orderRepository: OrderRepository,
-    private val userRepository: UserRepository,
     private val cargoSpaceRepository: CargoSpaceRepository,
+    private val tokenService: TokenService,
     metricRegistry: MeterRegistry,
 ) : Loggable() {
     private val counter = metricRegistry.counter("orders")
@@ -30,8 +28,8 @@ class OrderService(
 
         logger.debug("Попытка создания заказа с токеном: {} и параметрами: {}", token, request)
 
-        val user = userRepository.findByToken(token)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
+        val user = tokenService.getUserFromToken(token)
+
 
         MDC.put("userId", user.id.toString())
 
@@ -67,8 +65,7 @@ class OrderService(
 
         logger.debug("Запрос на получение заказов с токеном: {} закрытые: {}", token, closed)
 
-        val user = userRepository.findByToken(token)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
+        val user = tokenService.getUserFromToken(token)
 
         logger.debug("Роль пользователя: {}", user.role)
 
@@ -98,8 +95,8 @@ class OrderService(
     }
 
     fun getOrder(id: Long, token: String): Pair<OrderEntity, List<CargoSpaceEntity>> {
-        val user = userRepository.findByToken(token)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
+
+        val user = tokenService.getUserFromToken(token)
 
         val order = orderRepository.findById(id).orElse(null)
             ?: throw BadRequestException("Заказа с id = $id не существует")

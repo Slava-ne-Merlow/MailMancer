@@ -7,7 +7,6 @@ import ru.example.demo.entity.InviteEntity
 import ru.example.demo.entity.UserEntity
 import ru.example.demo.exception.type.BadRequestException
 import ru.example.demo.exception.type.ForbiddenException
-import ru.example.demo.exception.type.UnauthorizedException
 import ru.example.demo.repository.InviteRepository
 import ru.example.demo.repository.OrderRepository
 import ru.example.demo.repository.UserRepository
@@ -22,10 +21,10 @@ class TeamService(
     private val tokenService: TokenService
 ) : Loggable() {
 
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     fun deleteMember(login: String, token: String): String {
-        val currentUser = userRepository.findByToken(token)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
+
+        val currentUser = tokenService.getUserFromToken(token)
 
         logger.debug("Найден пользователь по логину: ${currentUser.login}, id: ${currentUser.id}")
 
@@ -58,8 +57,8 @@ class TeamService(
     }
 
     fun getTeam(token: String): List<UserEntity> {
-        val currentUser = userRepository.findByToken(token)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
+
+        val currentUser = tokenService.getUserFromToken(token)
 
         logger.debug("Найден пользователь по логину: ${currentUser.login}, id : ${currentUser.id}")
 
@@ -73,12 +72,10 @@ class TeamService(
     }
 
     @Transactional
-    fun generateInvite(userToken: String): String {
+    fun generateInvite(token: String): String {
+        logger.debug("Запрос на создание приглашения в компанию")
 
-        logger.debug("Запрос на создание приглашения в компанию user'а с токеном: {}", userToken)
-
-        val user = userRepository.findByToken(userToken)
-            ?: throw UnauthorizedException("Недействителен токен авторизации")
+        val user = tokenService.getUserFromToken(token)
 
         if (user.role != UserRoles.HEAD) {
             throw ForbiddenException("Недостаточно прав")
@@ -86,18 +83,18 @@ class TeamService(
 
         val company = user.company
 
-        val token = tokenService.generateToken()
 
         val invite = InviteEntity(
             company = company,
-            token = token
+            token = tokenService.getInviteToken()
         )
 
         val savedInvite = inviteRepository.save(invite)
 
         logger.info("Создали приглашение с id = {}", savedInvite.id)
 
-//        Пока localhost:3000 потом разберусь, как лучше сделать
         return "http://localhost:3000/register?token=${savedInvite.token}"
     }
+    
+
 }

@@ -90,7 +90,7 @@ const LoginForm = () => {
 
         const data = await handleSubmit();
         if (data) {
-            userStore.setUser(data.userId, data.companyId, data.token, data.role, data.login, data.name);
+            userStore.setUser(data.role, data.login, data.name, data.token);
             navigate("/mailings");
 
         }

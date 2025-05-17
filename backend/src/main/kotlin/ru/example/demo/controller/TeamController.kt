@@ -30,8 +30,8 @@ class TeamController(
     }
 
     @GetMapping("/generate-invite")
-    fun generateInvite(@RequestHeader("Authorization") userToken: String): InviteResponse {
-        val url = teamService.generateInvite(userToken)
+    fun generateInvite(@RequestHeader("Authorization") token: String): InviteResponse {
+        val url = teamService.generateInvite(token)
 
         return InviteResponse(url = url)
     }

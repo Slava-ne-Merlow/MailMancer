@@ -11,6 +11,7 @@ class DemoApplicationTests {
 
 	@Test
 	fun contextLoads() {
+		// Empty test to verify context loads successfully
 	}
 
 }

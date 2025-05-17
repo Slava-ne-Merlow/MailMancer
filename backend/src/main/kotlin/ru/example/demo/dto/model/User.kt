@@ -9,7 +9,6 @@ data class User(
     val email: String,
     val password: String,
     val role: UserRoles,
-    val token: String,
     val company: UserCompany
 ) {
     fun toEntity() = UserEntity(
@@ -18,7 +17,6 @@ data class User(
         email = email,
         password = password,
         role = role,
-        token = token,
         company = company.toEntity()
     )
 }

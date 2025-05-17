@@ -1,6 +1,7 @@
 package ru.example.demo.service
 
 import jakarta.transaction.Transactional
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import ru.example.demo.dto.enums.UserRoles
 import ru.example.demo.dto.request.LoginUserRequest
@@ -24,9 +25,10 @@ class AuthService(
     private val userCompanyRepository: UserCompanyRepository,
     private val inviteRepository: InviteRepository,
     private val tokenService: TokenService,
+    private val passwordEncoder: PasswordEncoder,
 ) : Loggable() {
     @Transactional
-    fun registerHead(request: RegisterHeadRequest): UserEntity {
+    fun registerHead(request: RegisterHeadRequest): Pair<UserEntity, String> {
         logger.debug("Запрос на регистрацию HEAD'а с параметрами: {}", request)
 
         userRepository.findByEmail(request.email)?.let {
@@ -35,8 +37,6 @@ class AuthService(
         userRepository.findByLogin(request.login)?.let {
             throw EntityAlreadyExistsException("Логин ${request.login} занят")
         }
-
-        val token = tokenService.generateToken()
 
         val company = UserCompanyEntity(
             name = request.name + "'s Team",
@@ -50,22 +50,22 @@ class AuthService(
             name = request.name,
             login = request.login,
             email = request.email,
-            password = request.password,
+            password = passwordEncoder.encode(request.password),
             role = UserRoles.HEAD,
             company = savedCompany,
-            token = token
         )
 
         val savedUser = userRepository.save(user)
 
         logger.info("Создан user с id = {}", savedUser.id)
 
+        val token = tokenService.generateTokenForUser(user.login, user.role.name)
 
-        return savedUser
+        return user to token
     }
 
     @Transactional
-    fun registerManager(request: RegisterManagerRequest): UserEntity {
+    fun registerManager(request: RegisterManagerRequest): Pair<UserEntity, String> {
         logger.debug("Запрос на регистрацию MANAGER'а с параметрами: {}", request)
 
 
@@ -86,46 +86,42 @@ class AuthService(
 
         val company = invite.company
 
-        val token = tokenService.generateToken()
-
         logger.info("Приглашение с id = {}, companyID: {}", invite.id, invite.company.id)
 
         val newUser = UserEntity(
             name = request.name,
             login = request.login,
             email = request.email,
-            password = request.password,
+            password = passwordEncoder.encode(request.password),
             role = UserRoles.MANAGER,
-            company = company,
-            token = token
+            company = company
         )
 
         val savedUser = userRepository.save(newUser)
 
         logger.info("Создали пользователя с id = {}", savedUser.id)
 
-        return savedUser
+        val token = tokenService.generateTokenForUser(savedUser.login, savedUser.role.name)
+
+        return savedUser to token
     }
 
-    @Transactional
-    fun loginUser(request: LoginUserRequest): UserEntity {
+    fun loginUser(request: LoginUserRequest): Pair<UserEntity, String> {
 
         logger.debug("Запрос на авторизацию с параметрами: {}", request)
 
         val user = userRepository.findByLogin(request.login)
             ?: throw NotFoundException("Логин ${request.login} занят")
 
-        if (user.checkPassword(request.password)) {
+        if (!passwordEncoder.matches(request.password, user.password)) {
             throw UnauthorizedException("Неверный логин или пароль")
         }
 
-        user.token = tokenService.generateToken()
+        logger.info("Найден пользователь с id = {}", user.id)
 
-        val savedUser = userRepository.save(user)
+        val token = tokenService.generateTokenForUser(user.login, user.role.name)
 
-        logger.info("Найден пользователь с id = {}", savedUser.id)
-
-        return savedUser
+        return user to token
     }
 
 

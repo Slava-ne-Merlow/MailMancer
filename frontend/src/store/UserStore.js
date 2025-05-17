@@ -10,12 +10,12 @@ class UserStore {
         this.loadUser();
     }
 
-    setUser(userId, companyId, token, role, login, name) {
-        this.user = { userId, companyId, role, login, name };
+    setUser(role, login, name, token) {
+        this.user = {role, login, name };
         this.token = token;
         this.isAuth = true;
 
-        localStorage.setItem("user", JSON.stringify({ userId, companyId, role, login, name}));
+        localStorage.setItem("user", JSON.stringify({role, login, name}));
         localStorage.setItem("token", token);
         localStorage.setItem("isAuth", "true");
     }
@@ -35,12 +35,9 @@ class UserStore {
 
     logout() {
         this.user = null;
-        this.token = null;
         this.isAuth = false;
 
-
         localStorage.removeItem("user");
-        localStorage.removeItem("token");
         localStorage.removeItem("isAuth");
     }
 }
