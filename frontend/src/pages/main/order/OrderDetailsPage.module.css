@@ -173,6 +173,9 @@
 .col {
     width: 20%;
 }
+.col2 {
+    width: 25%;
+}
 
 .pageWrapper {
     display: flex;

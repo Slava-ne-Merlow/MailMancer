@@ -76,11 +76,10 @@ const OrderDetailsPage = () => {
                                 <table className={styles.table}>
                                     <thead>
                                     <tr>
-                                        <th className={styles.col}>Created Date</th>
-                                        <th className={styles.col}>From</th>
-                                        <th className={styles.col}>To</th>
-                                        <th className={styles.col}>Type</th>
-                                        <th className={styles.col}>Status</th>
+                                        <th className={styles.col2}>Created Date</th>
+                                        <th className={styles.col2}>From</th>
+                                        <th className={styles.col2}>To</th>
+                                        <th className={styles.col2}>Type</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -89,7 +88,6 @@ const OrderDetailsPage = () => {
                                         <td>{orderDetails.from}</td>
                                         <td>{orderDetails.to}</td>
                                         <td>{orderDetails.kind}</td>
-                                        <td><span className={styles.status}>Process</span></td>
                                     </tr>
                                     </tbody>
                                 </table>
