@@ -26,11 +26,6 @@ CREATE TABLE orders
     created_date TIMESTAMP(6) NOT NULL,
     delivery_address VARCHAR(255),
     download_address VARCHAR(255),
-    height VARCHAR(255),
-    length VARCHAR(255),
-    name VARCHAR(255),
-    weight VARCHAR(255),
-    width VARCHAR(255),
     kind VARCHAR(4),
     user_id BIGINT NOT NULL REFERENCES users(id)
 );
