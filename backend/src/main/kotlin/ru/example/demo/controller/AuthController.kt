@@ -8,7 +8,7 @@ import ru.example.demo.dto.request.LoginUserRequest
 import ru.example.demo.dto.request.RegisterManagerRequest
 import ru.example.demo.dto.response.AuthResponse
 
-@CrossOrigin(origins = ["http://Localhost:3000"])
+@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/api/v1")
 class AuthController(

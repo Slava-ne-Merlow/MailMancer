@@ -1,5 +1,6 @@
 # MailMancer
 
+# DDL
 ```sql
 CREATE TABLE user_companies 
 (

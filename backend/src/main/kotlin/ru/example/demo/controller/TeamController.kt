@@ -7,7 +7,7 @@ import ru.example.demo.dto.response.SuccessResponse
 import ru.example.demo.service.TeamService
 import ru.example.demo.util.Loggable
 
-@CrossOrigin(origins = ["http://Localhost:3000"])
+@CrossOrigin(origins = ["http://localhost:3000"])
 @RestController
 @RequestMapping("/api/v1/team")
 class TeamController(

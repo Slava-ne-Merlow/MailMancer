@@ -11,8 +11,11 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydatabase
       SPRING_DATASOURCE_USERNAME: service_user_application
       SPRING_DATASOURCE_PASSWORD: service_user_password
+      APP_UPLOAD_DIR: /uploads
     ports:
       - "8080:8080"
+    volumes:
+      - ./uploads:/uploads
   frontend:
     image: mailmancer-frontend
     build:

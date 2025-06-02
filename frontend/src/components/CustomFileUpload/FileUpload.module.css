@@ -1,0 +1,50 @@
+.inputFile {
+    width: 100%;
+    padding: 15px 10px 15px 10px;
+    background-color: #ffffff;
+    border: 2px dashed #000000;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: border 0.2s;
+}
+
+.inputFile.selected {
+    border: 2px solid #000000;
+}
+
+.text {
+    font-size: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80%; /* или 100%, если родитель ограничен */
+}
+
+.icon {
+    height: 20px;
+    width: 20px;
+}
+.input {
+    align-items: flex-start;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 0;
+}
+.inputLabel {
+    text-wrap: nowrap;
+    background: transparent;
+    border: none;
+    color: #7f7f7f;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: normal;
+    padding: 0;
+    width: fit-content;
+}

@@ -21,3 +21,7 @@ databaseChangeLog:
       file: db/changelog/changes/010_alter_users.sql
   - include:
       file: db/changelog/changes/011_create_cargo_spaces.sql
+  - include:
+      file: db/changelog/changes/012_alter_carrier_representative.sql
+  - include:
+      file: db/changelog/changes/013_alter_carrier_companies.sql
