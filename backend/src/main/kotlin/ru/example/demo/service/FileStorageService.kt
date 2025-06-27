@@ -17,9 +17,9 @@ import ru.example.demo.exception.type.StorageException
 
 @Service
 class FileStorageService(
-    val fileStorageProperties: FileStorageProperties
+    fileStorageProperties: FileStorageProperties
 ) {
-    private val root: Path = TODO()
+    private val root: Path
 
     init {
         root = Paths.get(fileStorageProperties.uploadDir)

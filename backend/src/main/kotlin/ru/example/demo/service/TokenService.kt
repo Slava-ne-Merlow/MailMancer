@@ -39,11 +39,10 @@ class TokenService(
     fun validateToken(token: String): Boolean {
         logger.debug("Валидация JWT токена")
         try {
-            // Only check for token expiration, as username is validated by other methods when needed
             val expiration = jwtUtil.extractExpiration(token)
             return !expiration.before(Date())
         } catch (e: Exception) {
-            logger.error("Ошибка при валидации токена", e)
+            logger.warn("Ошибка при валидации токена", e)
             return false
         }
     }
